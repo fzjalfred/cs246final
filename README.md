@@ -20,8 +20,11 @@ git clone git@github.com:fzjalfred\cs246final.git
 创建+切换分支：git checkout –b name
 
 合并某分支到当前分支：git merge name
+
 ##Example##
+
 git checkout master #从当前分支dev回到主分支
+
 git merge –no-ff -m “这次改动的注释” dev   # 把dev合并到master上。 no fastforward
 
 删除分支：git branch –d name
