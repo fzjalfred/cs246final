@@ -3,6 +3,13 @@
 #include <vector>
 #include <algorithm>
 #include <memory>
+#include "builder.h"
+#include "tile.h"
+#include "observer.h"
+#include "element.h"
+#include "subject.h"
+#include "textdisplay.h
+
 using namespace std;
 
 class TextDisplay;
