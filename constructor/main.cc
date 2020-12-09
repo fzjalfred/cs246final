@@ -10,9 +10,15 @@ int main() {
 
     try {
         while (std::cin>>cmd) {
-            if (cmd == "load") {}
-            else if (cmd == "") {}
-            else if (cmd == "") {}
+            if (cmd == "load") {
+                board.setLoad(diceNum);
+            }
+            else if (cmd == "fair") {
+                board.setFair();
+            }
+            else if (cmd == "roll") {
+                board.roll();
+            }
             else if (cmd == "board") {}
             else if (cmd == "status") {}
             else if (cmd == "residences") {}
