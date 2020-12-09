@@ -3,12 +3,14 @@
 #include <vector>
 #include <algorithm>
 #include <memory>
+#include <string>
 #include "builder.h"
 #include "tile.h"
 #include "observer.h"
 #include "element.h"
 #include "subject.h"
-#include "textdisplay.h
+#include "textdisplay.h"
+#include "resource.h"
 
 using namespace std;
 
@@ -22,21 +24,22 @@ class Edge;
 class Board {
     shared_ptr<TextDisplay> td;
     shared_ptr<Dice> dice;
-    curPlayer: &Builder;
+    Builder & curPlayer;
+    vector<shared_ptr<Tile>> tiles;
     vector<shared_ptr<Vertex>> vertices;
     vector<shared_ptr<Edge>> edges;
     vector<shared_ptr<Builder>> builders;
-    geese& Tile;
+    Tile & geese;
 
     public:
-    void init() noexcept;
+    void init(string commandLineOptions) noexcept;
     void printBoard();
     void printStatus();
     void printRes();
     void buildRoad(int);
     void buildRes(int);
     void improve();
-    void trade(stirng colour, Resource give, Resource take);
+    void trade(string colour, Resource give, Resource take);
     void setGeese(int);
     void stealGeese();
     void next();
@@ -44,16 +47,6 @@ class Board {
     void setLoad();
     void setFair();
     int roll();
-}
-
-
-
-
-
-
-
-
-
+};
 
 #endif
-

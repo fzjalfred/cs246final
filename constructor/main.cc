@@ -4,16 +4,23 @@
 using namespace std;
 
 
-int main() {
+int main(int argc, char* argv[]) {
+    cin.exceptions(ios::eofbit|ios::failbit);
     string cmd;
-    Board board;
+    Board b;
 
+    // commmand-line arguments
+    if (argc < 2) {
+
+    }
     try {
         while (std::cin>>cmd) {
             if (cmd == "load") {}
             else if (cmd == "") {}
             else if (cmd == "") {}
-            else if (cmd == "board") {}
+            else if (cmd == "board") {
+
+            }
             else if (cmd == "status") {}
             else if (cmd == "residences") {}
             else if (cmd == "build-road") {
@@ -43,5 +50,5 @@ int main() {
                 std::cout<< "Invalid command."<<std::endl;
             }
         }
-    }
+    }catch (ios::failure &) {}  
 }
