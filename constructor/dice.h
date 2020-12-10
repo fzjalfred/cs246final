@@ -7,6 +7,7 @@ class Dice {
     int num;
     public:
     virtual void roll();
+    int getNum();
 };
 
 class INVALID_ROLL: public Dice {};

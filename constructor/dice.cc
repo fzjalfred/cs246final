@@ -3,6 +3,11 @@
 #include <chrono>
 #include "dice.h"
 
+
+int Dice::getNum() {
+    return this->num;
+}
+
 void LoadedDice::roll()
 {
     std::cout << "Input a roll between 2 and 12:" << std::endl;

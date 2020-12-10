@@ -4,14 +4,15 @@
 using namespace std;
 
 
-int main() {
+int main(int argc, char* argv[]) {
+    cin.exceptions(ios::eofbit|ios::failbit);
     string cmd;
     Board board;
 
     try {
         while (std::cin>>cmd) {
             if (cmd == "load") {
-                board.setLoad(diceNum);
+                board.setLoad();
             }
             else if (cmd == "fair") {
                 board.setFair();
@@ -49,5 +50,5 @@ int main() {
                 std::cout<< "Invalid command."<<std::endl;
             }
         }
-    }
+    } catch (ios::failure &) {} 
 }

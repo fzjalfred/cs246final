@@ -1,19 +1,32 @@
 #ifndef _TEXTDISPLAY_H_
 #define _TEXTDISPLAY_H_
 #include <vector>
+#include <string>
+#include <iostream>
+#include "observer.h"
 
 using namespace std;
 
+class Edge;
+class Vertex;
 
-class TextDisplay {
-    vector<char> theDisplay;
-    vector<int> posTile;
-    vector<int> posVer;
-    vector<int> posEdge;
+class TextDisplay: public Observer{
+    vector<string> theDisplay;
+    vector<string> posTile;
+    vector<string> v;
+    vector<string> e;
+    vector<string> tRes;
+    vector<string> tVal;
+
     public:
-    void vist(Edge&);
-    void vist(Vertex&);
+    explicit TextDisplay( string, string);
+    void visit(Edge&);
+    void visit(Vertex&);
+
+    friend std::ostream &operator<<(std::ostream &out, const TextDisplay &td);
 };
+
+std::ostream &operator<<(std::ostream &out, const TextDisplay &td);
 
 
 #endif

@@ -43,7 +43,8 @@ class Board {
     void save(string);
     void setLoad();
     void setFair();
-    int roll();
+    void roll();
+    int getDiceNum() {};
 };
 
 
