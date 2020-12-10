@@ -7,8 +7,12 @@ using namespace std;
 int main(int argc, char* argv[]) {
     cin.exceptions(ios::eofbit|ios::failbit);
     string cmd;
-    Board board;
+    Board b;
 
+    // commmand-line arguments
+    if (argc < 2) {
+
+    }
     try {
         while (std::cin>>cmd) {
             if (cmd == "load") {

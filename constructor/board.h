@@ -29,7 +29,7 @@ class Board {
     Tile& geese;
 
     public:
-    void init() noexcept;
+    void init(string commandLineOptions) noexcept;
     void printBoard();
     void printStatus();
     void printRes();
@@ -57,4 +57,3 @@ class Board {
 
 
 #endif
-
