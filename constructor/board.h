@@ -8,7 +8,6 @@
 #include "subject.h"
 #include "textdisplay.h"
 #include "dice.h"
-#include "dice.cc"
 
 using namespace std;
 
@@ -19,17 +18,29 @@ class Tile;
 class Vertex;
 class Edge;
 
+const int NUM_VERTEX = 53;
+const int NUM_EDGE = 70;
+
+enum class Colour { Blue, Red, Orange, Yellow };
+
+const int NUM_PLAYER = 4;
+
 class Board {
     shared_ptr<TextDisplay> td;
     shared_ptr<Dice> dice;
-    Builder& curPlayer;
+    shared_ptr<Builder> curPlayer;
     vector<shared_ptr<Vertex>> vertices;
     vector<shared_ptr<Edge>> edges;
     vector<shared_ptr<Builder>> builders;
-    Tile& geese;
+    shared_ptr<Tile> geese;
 
     public:
+<<<<<<< HEAD
     void init(string commandLineOptions) noexcept;
+=======
+    Board();
+    void init() noexcept;
+>>>>>>> b8bbd6e2300f0161ade89f91592c54be6fcaaa99
     void printBoard();
     void printStatus();
     void printRes();
@@ -44,7 +55,7 @@ class Board {
     void setLoad();
     void setFair();
     void roll();
-    int getDiceNum() {};
+    int getDiceNum();
 };
 
 

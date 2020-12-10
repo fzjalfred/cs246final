@@ -8,14 +8,16 @@ int Dice::getNum() {
     return this->num;
 }
 
+
 void LoadedDice::roll()
 {
+    int dice;
     std::cout << "Input a roll between 2 and 12:" << std::endl;
     try
     {
-        int dice;
+        
         std::cin >> dice;
-        if (dice < 2 || dice > 12 || cin.fail() == true)
+        if (dice < 2 || dice > 12 || std::cin.fail() == true)
             throw INVALID_ROLL{};
     }
     catch (INVALID_ROLL)
@@ -23,6 +25,7 @@ void LoadedDice::roll()
         std::cout << "Invalid roll." << std::endl;
         return;
     }
+    this->num = dice;
 };
 
 void FairDice::roll() {

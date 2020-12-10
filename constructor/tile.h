@@ -4,7 +4,12 @@
 #include "observer.h"
 #include "subject.h"
 
+
 using namespace std;
+
+class Vertex;
+class Edge;
+
 
 class Tile : public Observer, public Subject {
     int num;
