@@ -19,14 +19,21 @@ class Tile;
 class Vertex;
 class Edge;
 
+const int NUM_VERTEX = 53;
+const int NUM_EDGE = 70;
+
+enum class Colour { Blue, Red, Orange, Yellow };
+
+const int NUM_PLAYER = 4;
+
 class Board {
     shared_ptr<TextDisplay> td;
     shared_ptr<Dice> dice;
-    Builder& curPlayer;
+    shared_ptr<Builder> curPlayer;
     vector<shared_ptr<Vertex>> vertices;
     vector<shared_ptr<Edge>> edges;
     vector<shared_ptr<Builder>> builders;
-    Tile& geese;
+    shared_ptr<Tile> geese;
 
     public:
     void init() noexcept;
