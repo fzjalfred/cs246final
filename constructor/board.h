@@ -8,7 +8,6 @@
 #include "subject.h"
 #include "textdisplay.h"
 #include "dice.h"
-#include "dice.cc"
 
 using namespace std;
 
@@ -36,6 +35,7 @@ class Board {
     shared_ptr<Tile> geese;
 
     public:
+    Board();
     void init() noexcept;
     void printBoard();
     void printStatus();
@@ -51,7 +51,7 @@ class Board {
     void setLoad();
     void setFair();
     void roll();
-    int getDiceNum() {};
+    int getDiceNum();
 };
 
 

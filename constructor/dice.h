@@ -4,22 +4,22 @@
 
 class Dice {
     protected:
-    int num;
+    int num = -1;
     public:
-    virtual void roll();
+    virtual void roll() = 0;
     int getNum();
 };
 
-class INVALID_ROLL: public Dice {};
+class INVALID_ROLL {};
 
 class LoadedDice: public Dice {
     public:
-    void roll();
+    void roll() override;
 };
 
 class FairDice: public Dice {
     public:
-    void roll() {};
+    void roll() override;
 };
 
 #endif

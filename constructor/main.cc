@@ -11,6 +11,7 @@ using namespace std;
 class UnrecognizedArg : public exception {
     string arg;
     public:
+    explicit UnrecognizedArg(string arg): arg(arg) {};
     const char* what() const noexcept {string t="ERROR: unrecognized argument "+arg; return t.c_str();}
 };
 
@@ -18,54 +19,55 @@ class MultiArg : public exception {
     string cmd_use;
     string cmd_abd;
     public:
+    explicit MultiArg(string a, string b): cmd_use(a), cmd_abd(b) {};
     const char* what() const noexcept {string t = "ERROR: already specified " + cmd_use + ", can't also specify "+ cmd_abd; return t.c_str();}
 };
 
 class InvalidOpen : public exception {
     string path;
     public:
+    explicit InvalidOpen(string path): path(path) {};
     const char* what() const noexcept {string t = "ERROR: Unable to open file " + path + "for board layout."; return t.c_str();}
 };
 
 class InvalidFormat : public exception {
     string file;
     public:
+    explicit InvalidFormat(string file): file(file) {};
     const char* what() const noexcept {string t = "ERROR: "+ file +" has an invalid format."; return t.c_str();}
 };
 
 //==============================================================================================================
 
 
-void cmdLoadInit(std::ifstream& in, string& layout, int& curTurn, string& curData, int& geese) {
-    while (!in.eof()) {
+void cmdLoadInit(std::ifstream& fin, string& layout, int& curTurn, string& curData, int& geese) {
+    while (!fin.eof()) {
         string s;
-        getline(in, s);
+        getline(fin, s);
         int tmp;
         //curTurn
         try {
             tmp = stoi(s);
             if (curTurn < 0 ) throw;
-        } catch (exception& e) {
-            InvalidFormat e;
-            throw e;
+        } catch (invalid_argument& e) {
+            throw;
         }
         curTurn = tmp;
         
         //curData
         for (int i = 1; i < NUM_PLAYER; i++) {
-            getline(in, s);
+            getline(fin, s);
             curData+=s;
         }
         //board
-        getline(in, layout);
+        getline(fin, layout);
         //geese
-        getline(in, s);
+        getline(fin, s);
         try {
             tmp = stoi(s);
             if (curTurn < 0 ) throw;
-        } catch (exception& e) {
-            InvalidFormat e();
-            throw e;
+        } catch (invalid_argument& e) {
+            throw;
         }
 
     }
@@ -73,12 +75,12 @@ void cmdLoadInit(std::ifstream& in, string& layout, int& curTurn, string& curDat
 
 
 void argsInitial(int len, char**& args, string& layout, int& curTurn, string& curData, int& geese) {
-    std::ifstream fin;
+    int i;
     try
     {
         string firstCom; // used in MultiArg exception
         string secondCom; // ...
-        for (int i = 1; i < len; i++)
+        for (i = 1; i < len; i++)
         {
             string s = args[i];
             if (s == "-seed")
@@ -87,25 +89,27 @@ void argsInitial(int len, char**& args, string& layout, int& curTurn, string& cu
             else if (s == "-load")
             {
 
-                fin(args[i++], ios::in); // open file
+                ifstream fin(args[i++], ios::in); // open file
 
                 if (fin.is_open()) {
-                    cmdLoadInit(in, layout, curTurn, curData, geese);
+                    cmdLoadInit(fin, layout, curTurn, curData, geese);
                 } else 
                 {
-                    InvalidOpen e(args[i]);
+                    string err = args[i];
+                    InvalidOpen e(err);
                     throw e;
                 }
 
             }
             else if (s == "-board")
             {
-                fin(args[i++], ios::in); // open file
+                ifstream fin(args[i++], ios::in); // open file
 
                 if (fin.is_open()) {
-                    fin.getline(layout);
+                    getline(fin, layout);
                 } else {
-                    InvalidOpen e(args[i]);
+                    string err = args[i];
+                    InvalidOpen e(err);
                     throw e;
                 }
             }
@@ -119,8 +123,10 @@ void argsInitial(int len, char**& args, string& layout, int& curTurn, string& cu
             }
         }
     }
-    catch (InvalidFormat &e) {
-
+    catch (invalid_argument &e) {
+        string err = args[i];
+        InvalidOpen a(err);
+        throw a;
     }
     catch (exception &e)
     {

@@ -4,6 +4,8 @@
 #include <vector>
 #include "observer.h"
 #include "subject.h"
+
+
 using namespace std;
 
 class Resource {
@@ -13,7 +15,7 @@ class Resource {
     void print();
 };
 
-class colour;
+enum class Colour;
 
 
 class Builder : public Observer, public Subject {

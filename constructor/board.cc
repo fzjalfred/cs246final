@@ -3,10 +3,6 @@
 #include <algorithm>
 #include <memory>
 #include "board.h"
-#include "tile.h"
-#include "element.h"
-#include "dice.h"
-
 
 using namespace std;
 
@@ -23,15 +19,15 @@ Board::Board() {
 }
 
 void Board::setLoad() {
-    dice = make_shared<Dice> (new LoadedDice());
+    this->dice = make_shared<LoadedDice>();
 }
 
 void Board::setFair() {
-    dice = make_shared<Dice> (new FairDice());
+    this->dice = make_shared<FairDice>();
 }
 
 void Board::roll() {
-    dice->roll();
+    this->dice->roll();
 }
 
 int Board::getDiceNum() {
