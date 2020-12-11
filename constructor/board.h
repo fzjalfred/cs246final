@@ -20,6 +20,7 @@ class Edge;
 
 const int NUM_VERTEX = 53;
 const int NUM_EDGE = 70;
+const int NUM_TILE = 18;
 
 enum class Colour { Blue, Red, Orange, Yellow };
 

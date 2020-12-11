@@ -14,7 +14,7 @@ Board::Board() {
         if (i <= NUM_EDGE)
         this->edges.emplace_back(i);
         if (i < NUM_PLAYER)
-        this->builders.emplace_back(Builder {i});
+        this->builders.emplace_back(i);
     }
     curPlayer = this->builders.front();
 

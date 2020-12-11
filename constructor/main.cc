@@ -1,98 +1,101 @@
 #include <iostream>
 #include <string>
-#include <stdexcept>
 #include <fstream>
+#include <chrono>
+#include <algorithm>
+#include <random>
 #include "board.h"
+#include "exceptions.h"
 
 using namespace std;
 
 
-//==========================================Exceptions==========================================================
-class UnrecognizedArg : public exception {
-    string arg;
-    public:
-    explicit UnrecognizedArg(string arg): arg(arg) {};
-    const char* what() const noexcept {string t="ERROR: unrecognized argument "+arg; return t.c_str();}
-};
+void layoutInit(string& out, vector<pair<int, int>>& layout, string& file) {
+    try {
+        vector<pair<int, int>> tmp;
+        for (int i = 1; i <= 2 * (NUM_TILE + 1); i += 2)
+        {
+            tmp.emplace_back(out[i], out[i + 1]);
+        }
+    } catch (exception &e) {
+        throw InvalidFormat(file);
+    }
+}
 
-class MultiArg : public exception {
-    string cmd_use;
-    string cmd_abd;
-    public:
-    explicit MultiArg(string a, string b): cmd_use(a), cmd_abd(b) {};
-    const char* what() const noexcept {string t = "ERROR: already specified " + cmd_use + ", can't also specify "+ cmd_abd; return t.c_str();}
-};
-
-class InvalidOpen : public exception {
-    string path;
-    public:
-    explicit InvalidOpen(string path): path(path) {};
-    const char* what() const noexcept {string t = "ERROR: Unable to open file " + path + "for board layout."; return t.c_str();}
-};
-
-class InvalidFormat : public exception {
-    string file;
-    public:
-    explicit InvalidFormat(string file): file(file) {};
-    const char* what() const noexcept {string t = "ERROR: "+ file +" has an invalid format."; return t.c_str();}
-};
-
-//==============================================================================================================
-
-
-void cmdLoadInit(std::ifstream& fin, string& layout, int& curTurn, string& curData, int& geese) {
+void cmdLoadInit(std::ifstream& fin,  vector<pair<int, int>>& layout, int& curTurn, string& curData, int& geese, string& file) {
     while (!fin.eof()) {
         string s;
+        string out;
         getline(fin, s);
         int tmp;
-        //curTurn
         try {
+            //curTurn
             tmp = stoi(s);
-            if (curTurn < 0 ) throw;
-        } catch (invalid_argument& e) {
-            throw;
-        }
-        curTurn = tmp;
-        
-        //curData
-        for (int i = 1; i < NUM_PLAYER; i++) {
+            if (curTurn < 0)
+                throw;
+            curTurn = tmp;
+            //curData
+            for (int i = 1; i < NUM_PLAYER; i++)
+            {
+                getline(fin, s);
+                curData += s;
+            }
+            //board
+            getline(fin, out);
+            layoutInit(out, layout, file);
+            //geese
             getline(fin, s);
-            curData+=s;
-        }
-        //board
-        getline(fin, layout);
-        //geese
-        getline(fin, s);
-        try {
             tmp = stoi(s);
             if (curTurn < 0 ) throw;
-        } catch (invalid_argument& e) {
-            throw;
+            geese = tmp;
+        } catch (exception& any) {
+            throw InvalidFormat(file);
         }
-
     }
 }
 
 
-void argsInitial(int len, char**& args, string& layout, int& curTurn, string& curData, int& geese) {
+void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& curTurn, string& curData, int& geese) {
     int i;
+    unsigned seed;
+    string out;
     try
     {
-        string firstCom; // used in MultiArg exception
-        string secondCom; // ...
+        string preCmd = ""; // used in MultiArg exception
+
+        // default cmd
+        if ( len == 1) {
+            ifstream fin(args[++i], ios::in); // open file
+            if (fin.is_open())
+            {
+                getline(fin, out);
+                string file = args[i];
+                layoutInit(out, layout, file); //transfer string of layout into numbers we use for next board intialization.
+            }
+            else
+            {
+                InvalidOpenDefault e();
+                throw e;
+            }
+        }
+
+        // user give cmds
         for (i = 1; i < len; i++)
         {
             string s = args[i];
-            if (s == "-seed")
+            if (s == "-seed") 
             {
+                seed = stoi(args[++i]);
             }
             else if (s == "-load")
             {
-
-                ifstream fin(args[i++], ios::in); // open file
-
+                if (preCmd == "") {
+                    preCmd = s;
+                } else throw MultiArg(preCmd, s);
+                ifstream fin(args[++i], ios::in); // open file
                 if (fin.is_open()) {
-                    cmdLoadInit(fin, layout, curTurn, curData, geese);
+                    string file = args[i];
+                    cmdLoadInit(fin, layout, curTurn, curData, geese, file); // intiliaze everything with cmd -load
                 } else 
                 {
                     string err = args[i];
@@ -102,11 +105,15 @@ void argsInitial(int len, char**& args, string& layout, int& curTurn, string& cu
 
             }
             else if (s == "-board")
-            {
-                ifstream fin(args[i++], ios::in); // open file
-
+            {   
+                if (preCmd == "") {
+                    preCmd = s;
+                } else throw MultiArg(preCmd, s);
+                ifstream fin(args[++i], ios::in); // open file
                 if (fin.is_open()) {
-                    getline(fin, layout);
+                    getline(fin, out);
+                    string file = args[i];
+                    layoutInit(out, layout, file); //transfer string of layout into numbers we use for next board intialization.
                 } else {
                     string err = args[i];
                     InvalidOpen e(err);
@@ -114,7 +121,21 @@ void argsInitial(int len, char**& args, string& layout, int& curTurn, string& cu
                 }
             }
             else if (s == "-random-board")
-            {
+            {   
+                if (preCmd == "") {
+                    preCmd = s;
+                } else throw MultiArg(preCmd, s);
+                std::default_random_engine rng{seed};        // random generator
+                vector<int> resources = {0,1,2,3,4,5};
+                vector<int> tiles;
+                for(int i=0; i<= NUM_TILE;i++) {
+                    tiles.emplace_back(i);
+                }
+                shuffle(tiles.begin(), tiles.end(), rng);
+                for(int i=0; i <= NUM_TILE;i++) {
+                    shuffle(resources.begin(), resources.end(), rng);
+                    layout.emplace_back(resources[0],tiles[i]);
+                }
             }
             else
             {
@@ -122,6 +143,11 @@ void argsInitial(int len, char**& args, string& layout, int& curTurn, string& cu
                 throw e;
             }
         }
+    }
+    catch (out_of_range &e) {
+        string err = args[--i];
+        MissingArg a (err);
+        throw a;
     }
     catch (invalid_argument &e) {
         string err = args[i];
@@ -135,7 +161,7 @@ void argsInitial(int len, char**& args, string& layout, int& curTurn, string& cu
 } 
 
 int main(int argc, char* argv[]) {
-    string layout;
+    vector< pair<int, int> > layout;
     int curTurn = -1;
     string curData = "";
     int geese = -1;
@@ -151,12 +177,15 @@ int main(int argc, char* argv[]) {
 
     cin.exceptions(ios::eofbit|ios::failbit);
     string cmd;
-    Board board;
-
-    // commmand-line arguments
-    if (argc < 2) {
-
+    Board board();
+    try {
+        board.init(layout, curTurn, curData, geese);
+    } catch (InvalidFormat& e) {
+        cout<<e.what()<<endl;
+        return 1;
     }
+    
+    
     try {
 
         // command-line options
