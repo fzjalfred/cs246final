@@ -13,17 +13,17 @@ class Element {
 class Edge : public Element {
     int num;
     bool road;
-    std::string owner;
+    int owner;
     public:
-    Edge(int num);
+    Edge(int, int);
 };
 
 class Vertex : public Element {
     int num;
-    std::string type;
-    std::string owner;
+    char type;
+    int owner;
     public:
-    Vertex(int num);
+    Vertex(int, char, int);
 };
 
 #endif 

@@ -8,17 +8,21 @@ using namespace std;
 
 Board::Board() {
 
+    for(int i = 0; i < 4; i++){
+        builders.emplace_back(i);
+    }
+
+    curPlayer = builders.at(0);
+
     for(int i = 0; i <= NUM_VERTEX || i <= NUM_EDGE; i++) {
         if (i <= NUM_VERTEX)
         this->vertices.emplace_back(i);
         if (i <= NUM_EDGE)
         this->edges.emplace_back(i);
         if (i < NUM_PLAYER)
-        this->builders.emplace_back(Builder {i});
+        this->builders.emplace_back(i);
     }
     curPlayer = this->builders.front();
-
-    td = make_shared<TextDisplay>(new TextDisplay{});
 
     // initialize tiles
     vector<vector<int>> tileV = {{0,1,4,9,8,3}, {2,3,8,14,13,7}, {4,5,10,16,15,9}, {6,7,13,19,18,12}, {8,9,15,21,20,14}, 
@@ -34,13 +38,20 @@ Board::Board() {
         tiles.emplace_back(make_shared<Tile>(new Tile{i, tileV.at(i), tileE.at(i)}));
     }
 
-
-
-
 }
 
-void Board::init() noexcept {
+void Board::init( int curTurn, vector<string> builderData, vector<int> board, int geese) {
+
+    shared_ptr<Dice> dice;
+    shared_ptr<Builder> curPlayer;
+    vector<shared_ptr<Vertex>> vertices;
+    vector<shared_ptr<Edge>> edges;
+    vector<shared_ptr<Tile>> tiles;
+    vector<shared_ptr<Builder>> builders;
+    shared_ptr<Tile> geese;
+
     
+    td = new TextDisplay();
 
 }
 

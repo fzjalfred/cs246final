@@ -5,38 +5,23 @@
 #include "observer.h"
 #include "subject.h"
 
+enum class Colour;
 
 using namespace std;
-
-class Resource {
-    std::string colour;
-    int num;
-    public:
-    void print();
-};
-
-enum class Colour;
 
 class Builder : public Observer, public Subject {
     Colour colour;
     int points;
-    Resource brick;
-    Resource energy;
-    Resource glass;
-    Resource heat;
-    Resource wifi;
-    Resource park;
-    std::vector<int> roads;
-    std::vector<pair<int, std::string>> housing;
+    vector<int> resource = {5, 0};
+    vector<int> roads;
+    vector<pair<int, string>> housing;
     public:
-    Builder(int);
+    Builder(Colour, string = "0 0 0 0 0 r h ");
     void notifyRoad(int num);
     void notifyRes(int num);
     void builderObtain(Resource);
     void notifyImprove(int);
-    void trade(Resource& give, Resource take, Builder& other);
-
-
+    void trade(int give, int take, Builder& other);
 };
 
 

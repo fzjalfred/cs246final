@@ -153,10 +153,6 @@ int main(int argc, char* argv[]) {
     string cmd;
     Board board;
 
-    // commmand-line arguments
-    if (argc < 2) {
-
-    }
     try {
 
         // command-line options

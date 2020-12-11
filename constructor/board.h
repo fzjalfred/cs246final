@@ -37,7 +37,7 @@ class Board {
 
     public:
     Board();
-    void init() noexcept;
+    void init(int, vector<string>, vector<int>, int);
     void printBoard();
     void printStatus();
     void printRes();
