@@ -19,7 +19,7 @@ class TextDisplay: public Observer{
     vector<string> tVal;
 
     public:
-    explicit TextDisplay( string, string);
+    TextDisplay();
     void visit(Edge&);
     void visit(Vertex&);
 

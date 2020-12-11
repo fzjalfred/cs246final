@@ -31,16 +31,13 @@ class Board {
     shared_ptr<Builder> curPlayer;
     vector<shared_ptr<Vertex>> vertices;
     vector<shared_ptr<Edge>> edges;
+    vector<shared_ptr<Tile>> tiles;
     vector<shared_ptr<Builder>> builders;
     shared_ptr<Tile> geese;
 
     public:
-<<<<<<< HEAD
-    void init(string commandLineOptions) noexcept;
-=======
     Board();
     void init() noexcept;
->>>>>>> b8bbd6e2300f0161ade89f91592c54be6fcaaa99
     void printBoard();
     void printStatus();
     void printRes();

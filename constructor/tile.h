@@ -10,7 +10,6 @@ using namespace std;
 class Vertex;
 class Edge;
 
-
 class Tile : public Observer, public Subject {
     int num;
     int value;
@@ -18,6 +17,9 @@ class Tile : public Observer, public Subject {
     bool isGeese;
     vector<shared_ptr<Vertex>> vertices;
     vector<shared_ptr<Edge>> edges;
+
+    public:
+    Tile(int, vector<int>, vector<int> );
 };
 
 #endif

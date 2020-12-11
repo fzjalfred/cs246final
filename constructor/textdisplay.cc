@@ -1,8 +1,21 @@
 #include "textdisplay.h"
 
-TextDisplay::TextDisplay( string command, string file) {
-    if ( command == "-board") {
-
+TextDisplay::TextDisplay() {
+    // init v
+    for(int i = 0; i <= 53; i++){
+        if ( i < 0) {
+            v.emplace_back(" " + to_string(i));
+        } else {
+            v.emplace_back(to_string(i));
+        }
+    }
+    // init e
+    for(int i = 0; i <= 71; i++){
+        if ( i < 0) {
+            e.emplace_back(" " + to_string(i));
+        } else {
+            e.emplace_back(to_string(i));
+        }
     }
 
 }

@@ -13,6 +13,17 @@ class Subject {
     vector<shared_ptr<Observer>>& tiles_ptr;
     vector<shared_ptr<Observer>>& builders_ptr;
     shared_ptr<TextDisplay> td;
+
+    public:
+    virtual void AttachRoad( Observer );
+    virtual void AttachRes( int );
+    virtual void AttachImprove( int );
+    virtual void AttachBuilder( Builder);
+    virtual void notifyRoad( int );
+    virtual void notifyRes( int );
+    virtual void notifyImprove( int );
+    virtual void notifyBuilder( Builder);
+
 };
 
 
