@@ -10,6 +10,50 @@
 using namespace std;
 
 
+//==========================================Exceptions==========================================================
+class MissingArg : public exception {
+    string t;
+    public:
+    explicit MissingArg(string arg, string cmd) {t = "ERROR: "+arg+ " missing "+ cmd +" argument";};
+    const char* what() const noexcept override {return t.c_str();}
+};
+
+class UnrecognizedArg : public exception {
+    string t;
+    public:
+    explicit UnrecognizedArg(string arg) {t = "ERROR: unrecognized argument "+arg;};
+    const char* what() const noexcept override {return t.c_str();}
+};
+
+class MultiArg : public exception {
+    string t;
+    public:
+    explicit MultiArg(string cmd_use, string cmd_abd) {t = "ERROR: already specified " + cmd_use + " , can't also specify "+ cmd_abd;};
+    const char* what() const noexcept override {return t.c_str();}
+};
+
+class InvalidOpen : public exception {
+    string t;
+    public:
+    explicit InvalidOpen(string path) {t = "ERROR: Unable to open file " + path + " for board layout.";};
+    const char* what() const noexcept override {return t.c_str();}
+};
+
+class InvalidOpenDefault : public exception {
+    public:
+    const char* what() const noexcept override {return "ERROR: Unable to open file layout.txt for default board layout.";}
+};
+
+class InvalidFormat : public exception {
+    string t;
+    public:
+    explicit InvalidFormat(string file) {t = "ERROR: "+ file +" has an invalid format.";};
+    const char* what() const noexcept override {return t.c_str();}
+};
+
+//==============================================================================================================
+
+
 void layoutInit(string& out, vector<pair<int, int>>& layout, string& file) {
     try {
         vector<pair<int, int>> tmp;
@@ -55,7 +99,7 @@ void cmdLoadInit(std::ifstream& fin,  vector<pair<int, int>>& layout, int& curTu
 }
 
 
-void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& curTurn, string& curData, int& geese) {
+void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& curTurn, string& curData, int& geese, string& file) {
     int i;
     unsigned seed;
     string out;
@@ -65,16 +109,16 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
 
         // default cmd
         if ( len == 1) {
-            ifstream fin(args[++i], ios::in); // open file
+            ifstream fin("layout.txt", ios::in); // open file
             if (fin.is_open())
             {
                 getline(fin, out);
-                string file = args[i];
+                file = args[i];
                 layoutInit(out, layout, file); //transfer string of layout into numbers we use for next board intialization.
             }
             else
             {
-                InvalidOpenDefault e();
+                InvalidOpenDefault e;
                 throw e;
             }
         }
@@ -85,16 +129,25 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
             string s = args[i];
             if (s == "-seed") 
             {
-                seed = stoi(args[++i]);
+                if (++i == len){
+                    throw MissingArg(s, "seed");
+                }
+                seed = stoi(args[i]);
             }
             else if (s == "-load")
-            {
+            {   
+                
                 if (preCmd == "") {
                     preCmd = s;
                 } else throw MultiArg(preCmd, s);
-                ifstream fin(args[++i], ios::in); // open file
+                cout<<"run -board3"<<endl;
+                if (++i == len){
+                    throw MissingArg(s, "filename");
+                }
+                
+                ifstream fin(args[i], ios::in); // open file
                 if (fin.is_open()) {
-                    string file = args[i];
+                    file = args[i];
                     cmdLoadInit(fin, layout, curTurn, curData, geese, file); // intiliaze everything with cmd -load
                 } else 
                 {
@@ -109,10 +162,14 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
                 if (preCmd == "") {
                     preCmd = s;
                 } else throw MultiArg(preCmd, s);
-                ifstream fin(args[++i], ios::in); // open file
+                if (++i == len)
+                {
+                throw MissingArg(s, "filename");
+                }
+                ifstream fin(args[i], ios::in); // open file
                 if (fin.is_open()) {
                     getline(fin, out);
-                    string file = args[i];
+                    file = args[i];
                     layoutInit(out, layout, file); //transfer string of layout into numbers we use for next board intialization.
                 } else {
                     string err = args[i];
@@ -144,31 +201,27 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
             }
         }
     }
-    catch (out_of_range &e) {
-        string err = args[--i];
-        MissingArg a (err);
-        throw a;
-    }
     catch (invalid_argument &e) {
-        string err = args[i];
-        InvalidOpen a(err);
+        InvalidFormat a(file);
         throw a;
     }
     catch (exception &e)
     {
-        throw e;
+        cout<<e.what()<<endl;
+        throw;
     }
 } 
 
 int main(int argc, char* argv[]) {
-    vector< pair<int, int> > layout;
+    vector< pair<int, int> > layout(2*NUM_TILE+2);
     int curTurn = -1;
     string curData = "";
     int geese = -1;
+    string file = "";
 
     // argument passing
     try {
-        argsInitial(argc, argv, layout, curTurn, curData, geese);
+        argsInitial(argc, argv, layout, curTurn, curData, geese, file);
     } catch (exception& e) {
         cout << e.what() <<endl;
         return 1;
@@ -180,8 +233,9 @@ int main(int argc, char* argv[]) {
     Board board();
     try {
         board.init(layout, curTurn, curData, geese);
-    } catch (InvalidFormat& e) {
-        cout<<e.what()<<endl;
+    } catch (exception& e) {
+        InvalidFormat a(file);
+        cout<<a.what()<<endl;
         return 1;
     }
     
