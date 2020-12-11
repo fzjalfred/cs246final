@@ -207,7 +207,6 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
     }
     catch (exception &e)
     {
-        cout<<e.what()<<endl;
         throw;
     }
 } 
