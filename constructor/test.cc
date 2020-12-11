@@ -17,14 +17,13 @@ int main(int argc, char* argv[]){
         std::string tempType;
         std::string tempVal;
         if (infile.fail()) break; 
-        switch(r){
-            case BRICK : tempType = "  BRICK  ";
-            case ENERGY: tempType = "  ENERGY ";
-            case GLASS : tempType = "  GLASS  ";
-            case HEAT  : tempType = "  HEAT   ";
-            case WIFI  : tempType = "  WIFI   ";
-            case PARK  : tempType = "  PARK   ";
-        }
+        if ( r == 0) {tempType = "  BRICK  ";}
+        else if (r == 1) {tempType = "  ENERGY ";}
+        else if (r == 2) {tempType = "  GLASS  ";}
+        else if (r == 3) {tempType = "  HEAT   ";}
+        else if (r == 4) {tempType = "  WIFI   ";}
+        else { tempType = "  PARK   ";}
+
         if ( v < 10 ) {
             tempVal = " " + std::to_string(v);
         } else {
