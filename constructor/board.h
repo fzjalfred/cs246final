@@ -37,8 +37,7 @@ class Board {
     shared_ptr<Tile> geese;
 
     public:
-    Board();
-    void init(int, vector<string>, vector<int>, int, string);
+    void init(int, vector<string>, vector< pair<int, int> >, int);
     void printBoard();
     void printStatus();
     void printRes();

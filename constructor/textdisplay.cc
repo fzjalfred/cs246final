@@ -1,6 +1,6 @@
 #include "textdisplay.h"
 
-TextDisplay::TextDisplay() {
+TextDisplay::TextDisplay( vector< pair<int, int> > board) {
     // init v
     for(int i = 0; i <= 53; i++){
         if ( i < 0) {
@@ -15,6 +15,20 @@ TextDisplay::TextDisplay() {
             e.emplace_back(" " + to_string(i));
         } else {
             e.emplace_back(to_string(i));
+        }
+    }
+
+    for ( auto i: board) {
+        if ( i.first == 0) { tRes.emplace_back("  BRICK  ");}
+        else if ( i.first == 1) { tRes.emplace_back("  ENERGY ");}
+        else if ( i.first == 2) { tRes.emplace_back("  GLASS  ");}
+        else if ( i.first == 3) { tRes.emplace_back("  HEAT   ");}
+        else if (i.first == 4) { tRes.emplace_back("  WIFI   ");}
+        else { tRes.emplace_back("  PARK   ");}
+        if ( i.second < 10 ) {
+            tVal.emplace_back("   " + to_string(i.second) + "  ");
+        } else {
+            tVal.emplace_back("  " + to_string(i.second) + "  ");
         }
     }
 
