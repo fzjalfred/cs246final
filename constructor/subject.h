@@ -10,8 +10,8 @@ class TextDisplay;
 class Resource;
 
 class Subject {
-    vector<shared_ptr<Observer>>& tiles_ptr;
-    vector<shared_ptr<Observer>>& builders_ptr;
+    vector<shared_ptr<Observer>>* tiles_ptr;
+    vector<shared_ptr<Observer>>* builders_ptr;
     shared_ptr<TextDisplay> td;
 
     public:

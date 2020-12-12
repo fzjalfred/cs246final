@@ -76,6 +76,4 @@ Builder::Builder(Colour c, string data) {
         }
     }
 
-
-
 }

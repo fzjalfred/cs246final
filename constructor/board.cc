@@ -29,7 +29,13 @@ void Board::init( int curTurn, vector<string> builderData, vector< pair<int, int
                                     {45,51,59,62,58,50}, {52,56,64,67,63,55}, {53,58,66,68,65,57}, {61,65,70,71,69,64}};
     
     for ( int i = 0; i <= 18; i++) {
-        tiles.emplace_back(new Tile(i, board.at(i).first, board.at(i).second, tileV.at(i), tileE.at(i)));
+        tiles.emplace_back(new Tile(i, board.at(i).first, board.at(i).second));
+        for ( auto v: tileV.at(i) ) {
+            tiles.at(i)->attachV(vertices.at(i));
+        }
+        for ( auto e: tileE.at(i) ) {
+            tiles.at(i)->attachE(edges.at(i));
+        }
     }
 
     // init builders
@@ -47,7 +53,7 @@ void Board::init( int curTurn, vector<string> builderData, vector< pair<int, int
     dice = nullptr;
 
     // init td
-    td = new TextDisplay(board);
+    td = make_shared<TextDisplay>(new TextDisplay(board));
 
 }
 
