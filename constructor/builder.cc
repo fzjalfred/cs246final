@@ -1,7 +1,6 @@
 #include <iostream>
 #include <sstream>
 #include "builder.h"
-#include "exceptions.h"
 
 Builder::Builder(Colour c, string data) {
 

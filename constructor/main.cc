@@ -65,7 +65,7 @@ void layoutInit(string& out, vector<pair<int, int>>& layout, string& file) {
     }
 }
 
-void cmdLoadInit(std::ifstream& fin,  vector<pair<int, int>>& layout, int& curTurn, string& curData, int& geese, string& file) {
+void cmdLoadInit(std::ifstream& fin,  vector<pair<int, int>>& layout, int& curTurn, vector<string>& curData, int& geese, string& file) {
     while (!fin.eof()) {
         string s;
         string out;
@@ -81,7 +81,7 @@ void cmdLoadInit(std::ifstream& fin,  vector<pair<int, int>>& layout, int& curTu
             for (int i = 1; i < NUM_PLAYER; i++)
             {
                 getline(fin, s);
-                curData += s;
+                curData.emplace_back(s);
             }
             //board
             getline(fin, out);
@@ -98,7 +98,7 @@ void cmdLoadInit(std::ifstream& fin,  vector<pair<int, int>>& layout, int& curTu
 }
 
 
-void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& curTurn, string& curData, int& geese, string& file) {
+void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& curTurn, vector<string>& curData, int& geese, string& file) {
     int i;
     unsigned seed;
     string out;
@@ -211,9 +211,9 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
 } 
 
 int main(int argc, char* argv[]) {
-    vector< pair<int, int> > layout(2*NUM_TILE+2);
+    vector< pair<int, int> > layout(0);
     int curTurn = -1;
-    string curData = "";
+    vector<string> curData(0);
     int geese = -1;
     string file = "";
 
