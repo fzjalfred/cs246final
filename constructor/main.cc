@@ -110,7 +110,7 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
             if (fin.is_open())
             {
                 getline(fin, out);
-                file = args[i];
+                file = "layout.txt";
                 layoutInit(out, layout, file); //transfer string of layout into numbers we use for next board intialization.
             }
             else
@@ -120,7 +120,7 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
             }
         }
 
-        // user give cmds
+        // user give arguments
         for (i = 1; i < len; i++)
         {
             string s = args[i];
@@ -208,6 +208,23 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
     }
 } 
 
+inline int readInt(int a, int b) {
+    cin.exceptions(ios::eofbit|ios::failbit);
+    unsigned int m;
+    while (true) {
+        try {
+            cin>>m;
+            if (m<a || m> b) throw out_of_range("Error: integer out of range");
+            return m;
+        } catch (out_of_range &r) {
+            cout<<r.what()<<endl;
+        }
+        catch (exception& e) {
+            cout<<"Error: isn't a valid integer"<<endl;
+        }
+    }
+}
+
 int main(int argc, char* argv[]) {
     vector< pair<int, int> > layout(0);
     int curTurn = -1;
@@ -236,52 +253,158 @@ int main(int argc, char* argv[]) {
     }
     
     // Player base select
-    string prompt1 = "Builder <colour>, where do you want to build a basement?";
+    for( int i = 0; i < NUM_PLAYER;) {
+        string prompt = "Builder <"+board.getPlayerColour(i);+">, where do you want to build a basement?";
+        cout<<prompt<<endl;
+        string reply;
+        cin>>reply;
+        try {
+            int pos = stoi(reply);
+            board.buildRes(pos, i);
+            i++;
+        } catch (exception& e) {
+            cout<< prompt << " isn't a valid integer." <<endl;
+        }
+    }
+
+    for( int i = NUM_PLAYER - 1; i >= 0;) {
+        string prompt = "Builder <"+board.getPlayerColour(i);+">, where do you want to build a basement?";
+        cout<<prompt<<endl;
+        string reply;
+        cin>>reply;
+        try {
+            int pos = stoi(reply);
+            board.buildRes(pos, i);
+            i--;
+        } catch (exception& e) {
+            cout<<"Error"<< prompt << " isn't a valid integer." <<endl;
+        }
+    }
 
     // Game start
-    try {
 
-        // command-line options
-        
-        while (std::cin>>cmd) {
-            if (cmd == "load") {
-                board.setLoad();
+    while (!board.checkWinner())
+    {
+        for (int i = 0; i < NUM_PLAYER; i++)
+        {
+            cout << "builder " + board.getPlayerColour(i) + "'s turn." << endl;
+            try
+            {
+
+                // roll the dice
+                while (std::cin >> cmd)
+                {
+                    if (cmd == "help" )
+                    {
+                        cout<<"Valid commands:"<<endl;
+                        cout<<"~ load : changes current builder's dice type to 'loaded'"<<endl;
+                        cout<<"~ fair : changes current builder's dice type to 'fair'"<<endl;
+                        cout<<"~ roll : rolls the dice and distributes resources."<<endl;
+                        cout<<"~ status : prints the current status of all builders in order from builder 0 to 3."<<endl;
+                        cout<<"~ help : prints out the list of commands."<<endl;
+                    }
+                    else if (cmd == "load")
+                    {
+                        board.setLoad();
+                    }
+                    else if (cmd == "fair")
+                    {
+                        board.setFair();
+                    }
+                    else if (cmd == "roll")
+                    {
+                        board.roll();
+                        break;
+                    }
+                }
+
+                // actions
+                cout<<"Enter a command"<<endl;
+                while (std::cin >> cmd)
+                {
+                    if (cmd == "help" )
+                    {
+                        cout<<"Valid commands:"<<endl;
+                        cout<<"~ board : prints the current board."<<endl;
+                        cout<<"~ status : prints the current status of all builders in order from builder 0 to 3."<<endl;
+                        cout<<"~ residences : prints the residences the current builder has currently completed."<<endl;
+                        cout<<"~ build - road <road#> : attempts to builds the road at <road#>."<<endl;
+                        cout<<"~ build - res <housing#> : attempts to builds a basement at <housing#>."<<endl;
+                        cout<<"~ improve <housing#> : attempts to improve the residence at <housing#>."<<endl;
+                        cout<<"~ trade <colour> <give> <take> : attempts to trade with builder <colour>, giving one resource of type <give> and receiving one resource of type <take>."<<endl;
+                        cout<<"~ market <sell> <buy> : attempts to sell resources on the market, giving four resource of type <sell> and receiving one resource of type <buy>."<<endl;
+                        cout<<"~ next : passes control onto the next builder in the game."<<endl;
+                        cout<<"~ save <file> : saves the current game state to <file>."<<endl;
+                        cout<<"~ help : prints out the list of commands."<<endl;
+                    }
+                    else if (cmd == "load")
+                    {
+                        board.setLoad();
+                    }
+                    else if (cmd == "fair")
+                    {
+                        board.setFair();
+                    }
+                    else if (cmd == "roll")
+                    {
+                        board.roll();
+                    }
+                    else if (cmd == "board")
+                    {
+                        board.printBoard();
+                    }
+                    else if (cmd == "status")
+                    {
+                        board.printStatus();
+                    }
+                    else if (cmd == "residences")
+                    {
+                        board.printRes();
+                    }
+                    else if (cmd == "build-road")
+                    {
+                        int pos = readInt(0, NUM_EDGE);
+                        board.buildRoad(pos, i);
+                    }
+                    else if (cmd == "build-res")
+                    {
+                        int pos = readInt(0, NUM_VERTEX);
+                        board.buildRes(pos, i);
+                    }
+                    else if (cmd == "improve")
+                    {
+                        int pos = readInt(0, NUM_VERTEX);
+                        board.improve(pos, i);
+                    }
+                    else if (cmd == "trade")
+                    {
+                        int who;
+                        string give, take;
+                        std::cin >> give >> take;
+                    }
+                    else if (cmd == "next")
+                    {
+                        break;
+                    }
+                    else if (cmd == "save")
+                    {   
+                        string saveFile;
+                        try {
+                            cin>>saveFile;
+                        } catch (exception& e) {
+                            saveFile = "backup.sv";
+                        }
+                        board.save(saveFile);
+                    }
+                    else
+                    {
+                        std::cout << "Invalid command." << std::endl;
+                    }
+                }
             }
-            else if (cmd == "fair") {
-                board.setFair();
-            }
-            else if (cmd == "roll") {
-                board.roll();
-            }
-            else if (cmd == "board") {}
-            else if (cmd == "status") {}
-            else if (cmd == "residences") {}
-            else if (cmd == "build-road") {
-                int pos;
-                std::cin>>pos;
-            } 
-            else if (cmd == "build-res") {
-                int pos;
-                std::cin>>pos;
-            }
-            else if (cmd == "improve") {
-                int pos;
-                std::cin>>pos;
-            }
-            else if (cmd == "trade") {
-                int pos;
-                string give, take;
-                std::cin>>pos>>give>>take;
-            }
-            else if (cmd == "next") {}
-            else if (cmd == "save") {
-                string file;
-                std::cin>>file;
-            }
-            else if (cmd == "help") {}
-            else {
-                std::cout<< "Invalid command."<<std::endl;
+            catch (ios::failure &)
+            {
             }
         }
-    } catch (ios::failure &) {} 
+    }
 }

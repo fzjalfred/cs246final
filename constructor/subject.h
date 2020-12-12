@@ -11,7 +11,7 @@ class TextDisplay;
 class Subject {
     vector<shared_ptr<Observer>>* tiles_ptr;
     vector<shared_ptr<Observer>>* builders_ptr;
-    shared_ptr<TextDisplay> td;
+    shared_ptr<Observer> td;
 
     public:
     virtual void AttachRoad( Observer *);

@@ -1,7 +1,9 @@
 #include <algorithm>
 #include <random>
 #include <chrono>
+#include <string>
 #include "dice.h"
+#include "settings.h"
 
 
 int Dice::getNum() {
@@ -12,12 +14,12 @@ int Dice::getNum() {
 void LoadedDice::roll()
 {
     int dice;
-    std::cout << "Input a roll between 2 and 12:" << std::endl;
+    std::cout << "Input a roll between "+std::to_string(DICE_MIN)+" and "+std::to_string(DICE_MAX)+":" << std::endl;
     try
     {
         
         std::cin >> dice;
-        if (dice < 2 || dice > 12 || std::cin.fail() == true)
+        if (dice < DICE_MIN || dice > DICE_MAX || std::cin.fail() == true)
             throw INVALID_ROLL{};
     }
     catch (INVALID_ROLL)
@@ -29,7 +31,8 @@ void LoadedDice::roll()
 };
 
 void FairDice::roll() {
-    std::vector<int> v = { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+    std::vector<int> v;
+    for (int i = DICE_MIN; i <= DICE_MAX; i++) v.emplace_back(i);
     // use a time-based seed for the default seed value
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine rng{seed};

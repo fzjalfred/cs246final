@@ -38,9 +38,9 @@ class Board {
     void printBoard();
     void printStatus();
     void printRes();
-    void buildRoad(int);
-    void buildRes(int);
-    void improve();
+    void buildRoad(int pos, int player);
+    void buildRes(int pos, int player);
+    void improve(int pos, int player);
     void trade(string colour, Resource give, Resource take);
     void setGeese(int);
     void stealGeese();
@@ -49,7 +49,8 @@ class Board {
     void setLoad();
     void setFair();
     void roll();
-    Colour getPlayer(int num);
+    string getPlayerColour(int i);
+    bool checkWinner();
     int getDiceNum();
 };
 
