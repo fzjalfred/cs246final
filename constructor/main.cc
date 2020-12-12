@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <random>
 #include "board.h"
-#include "exceptions.h"
 
 using namespace std;
 

@@ -15,14 +15,14 @@ class Subject {
     shared_ptr<TextDisplay> td;
 
     public:
-    virtual void AttachRoad( Observer );
-    virtual void AttachRes( int );
-    virtual void AttachImprove( int );
-    virtual void AttachBuilder( Builder);
-    virtual void notifyRoad( int );
-    virtual void notifyRes( int );
-    virtual void notifyImprove( int );
-    virtual void notifyBuilder( Builder);
+    virtual void AttachRoad( Observer *);
+    virtual void AttachRes( Observer *);
+    virtual void AttachImprove( Observer *);
+    virtual void AttachBuilder( Observer *);
+    virtual void notifyRoad( );
+    virtual void notifyRes( );
+    virtual void notifyImprove( );
+    virtual void notifyBuilder( );
 
 };
 

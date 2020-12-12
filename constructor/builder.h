@@ -2,6 +2,7 @@
 #define __BUILDER_H__
 #include <string>
 #include <vector>
+#include <exception>
 #include "observer.h"
 #include "subject.h"
 
@@ -12,9 +13,9 @@ using namespace std;
 class Builder : public Observer, public Subject {
     Colour colour;
     int points;
-    vector<int> resource = {5, 0};
+    vector<int> resource;
     vector<int> roads;
-    vector<pair<int, string>> housing;
+    vector<pair<int, char>> housing;
     public:
     Builder(Colour, string = "0 0 0 0 0 r h ");
     void notifyRoad(int num);

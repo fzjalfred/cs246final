@@ -38,7 +38,7 @@ class Board {
 
     public:
     Board();
-    void init(int, vector<string>, vector<int>, int);
+    void init(int, vector<string>, vector<int>, int, string);
     void printBoard();
     void printStatus();
     void printRes();
