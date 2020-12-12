@@ -96,7 +96,7 @@ void cmdLoadInit(std::ifstream& fin,  vector<pair<int, int>>& layout, int& curTu
 }
 
 
-void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& curTurn, vector<string>& curData, int& geese, string& file) {
+void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& curTurn, vector<string>& curData, int& geese, string& file, bool& isload) {
     int i;
     unsigned seed = 0;
     string out;
@@ -152,7 +152,7 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
                     InvalidOpen e(err);
                     throw e;
                 }
-
+                isload = 1;
             }
             else if (s == "-board")
             {   
@@ -210,7 +210,7 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
 
 inline int readInt(int a, int b) {
     cin.exceptions(ios::eofbit|ios::failbit);
-    unsigned int m;
+    int m;
     while (true) {
         try {
             cin>>m;
@@ -232,15 +232,16 @@ int main(int argc, char* argv[]) {
     int geese = -1;
     string file = "";
 
+    bool isload = 0;
     // argument passing
     try {
-        argsInitial(argc, argv, layout, curTurn, curData, geese, file);
+        argsInitial(argc, argv, layout, curTurn, curData, geese, file, isload);
     } catch (exception& e) {
         cout << e.what() <<endl;
         return 1;
     }
     
-
+    //initialize board by mutating the blank board.
     cin.exceptions(ios::eofbit|ios::failbit);
     string cmd;
     Board board;
@@ -252,31 +253,40 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    // Player base select
-    for( int i = 0; i < NUM_PLAYER;) {
+    
+    for( int i = 0; i < NUM_PLAYER && isload == 0;) {
         string prompt = "Builder <"+board.getPlayerColour(i);+">, where do you want to build a basement?";
         cout<<prompt<<endl;
-        string reply;
-        cin>>reply;
         try {
-            int pos = stoi(reply);
+            int pos;
+            cin>>pos;
+            if (pos<0||pos>NUM_VERTEX) throw out_of_range("pos");
             board.buildRes(pos, i);
             i++;
-        } catch (exception& e) {
-            cout<< prompt << " isn't a valid integer." <<endl;
+        }
+        catch (exception& e) {
+            if (cin.eof()) {
+                cout<<"End of file reached."<<endl;
+                return;
+            } else
+            cout<<"Error"<< prompt << " isn't a valid integer." <<endl;
         }
     }
 
-    for( int i = NUM_PLAYER - 1; i >= 0;) {
+    for( int i = NUM_PLAYER - 1; i >= 0 && isload == 0;) {
         string prompt = "Builder <"+board.getPlayerColour(i);+">, where do you want to build a basement?";
         cout<<prompt<<endl;
-        string reply;
-        cin>>reply;
         try {
-            int pos = stoi(reply);
+            int pos;
+            cin>>pos;
+            if (pos<0||pos>NUM_VERTEX) throw out_of_range("pos");
             board.buildRes(pos, i);
             i--;
         } catch (exception& e) {
+            if (cin.eof()) {
+                cout<<"End of file reached."<<endl;
+                return;
+            }
             cout<<"Error"<< prompt << " isn't a valid integer." <<endl;
         }
     }
@@ -315,6 +325,10 @@ int main(int argc, char* argv[]) {
                     {
                         board.roll();
                         break;
+                    }
+                    else
+                    {
+                        std::cout << "Invalid command." << std::endl;
                     }
                 }
 
@@ -378,7 +392,20 @@ int main(int argc, char* argv[]) {
                     }
                     else if (cmd == "trade")
                     {
-                        int who;
+                        
+                        int pos = -1;
+                        while(pos == -1) {
+                            string who;
+                            cin>>who;
+                            for(int i = 0; i<NUM_PLAYER; i++) {
+                                if (who.compare(board.getPlayerColour(i)) == 0) {
+                                    pos = i;
+                                    break;
+                                }
+                            }
+                            cout<<"Invalid colour"<<endl;
+                        }
+                        
                         string give, take;
                         std::cin >> give >> take;
                     }
@@ -389,11 +416,7 @@ int main(int argc, char* argv[]) {
                     else if (cmd == "save")
                     {   
                         string saveFile;
-                        try {
-                            cin>>saveFile;
-                        } catch (exception& e) {
-                            saveFile = "backup.sv";
-                        }
+                        cin>>saveFile;
                         board.save(saveFile);
                     }
                     else
@@ -404,6 +427,9 @@ int main(int argc, char* argv[]) {
             }
             catch (ios::failure &)
             {
+                cout<<"End of file reached."<<endl;
+                board.save("backup.sv");
+                return 1;
             }
         }
     }
