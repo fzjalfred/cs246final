@@ -1,1 +1,1 @@
-dice.o: dice.cc dice.h settings.h
+dice.o: dice.cc dice.h

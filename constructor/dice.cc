@@ -3,8 +3,10 @@
 #include <chrono>
 #include <string>
 #include "dice.h"
-#include "settings.h"
 
+extern const int DICE_MIN;
+
+extern const int DICE_MAX;
 
 int Dice::getNum() {
     return this->num;

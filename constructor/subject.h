@@ -9,19 +9,18 @@ class TextDisplay;
 class Observer;
 
 class Subject {
-    vector<shared_ptr<Observer>>* tiles_ptr;
-    vector<shared_ptr<Observer>>* builders_ptr;
+    shared_ptr< vector<shared_ptr<Observer>> > vertices;
+    shared_ptr< vector<shared_ptr<Observer>> > edges;
     shared_ptr<Observer> td;
 
     public:
-    virtual void AttachRoad( Observer *);
-    virtual void AttachRes( Observer *);
-    virtual void AttachImprove( Observer *);
-    virtual void AttachBuilder( Observer *);
-    virtual void notifyRoad( );
-    virtual void notifyRes( );
-    virtual void notifyImprove( );
-    virtual void notifyBuilder( );
+    virtual void attach(shared_ptr< vector<shared_ptr<Observer>> > vertices,
+    shared_ptr< vector<shared_ptr<Observer>> > edges,
+    shared_ptr<Observer> td);
+    void notifyRoad(int n, int p);
+    void notifyRes(int n, int p);
+    void notifyImprove( int n, int p);
+    void notifyBuilder( );
 
 };
 

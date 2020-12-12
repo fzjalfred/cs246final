@@ -20,11 +20,11 @@ class Builder : public Observer, public Subject {
     Builder(Colour, string = "0 0 0 0 0 r h ");
     vector<int> & getRoads();
     vector< pair<int, char> > & getHousing();
-    void notifyRoad(int num);
-    void notifyRes(int num);
-    void builderObtain(enum Resource type, int num);
-    void notifyImprove(int);
-    void trade(int give, int take, Builder& other);
+    void buyRoad(int n, int p);
+    void buyRes(int n, int p);
+    //void builderObtain(enum Resource type, int num);
+    void buyImprove(int n, int p);
+    //void trade(int give, int take, Builder& other);
 };
 
 

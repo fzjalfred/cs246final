@@ -8,49 +8,13 @@
 
 using namespace std;
 
-//==========================================Exceptions==========================================================
-class MissingArg : public exception {
-    string t;
-    public:
-    explicit MissingArg(string arg, string cmd) {t = "ERROR: "+arg+ " missing "+ cmd +" argument";};
-    const char* what() const noexcept override {return t.c_str();}
-};
+extern const int NUM_TILE;
 
-class UnrecognizedArg : public exception {
-    string t;
-    public:
-    explicit UnrecognizedArg(string arg) {t = "ERROR: unrecognized argument "+arg;};
-    const char* what() const noexcept override {return t.c_str();}
-};
+extern const int NUM_VERTEX;
 
-class MultiArg : public exception {
-    string t;
-    public:
-    explicit MultiArg(string cmd_use, string cmd_abd) {t = "ERROR: already specified " + cmd_use + " , can't also specify "+ cmd_abd;};
-    const char* what() const noexcept override {return t.c_str();}
-};
+extern const int NUM_EDGE;
 
-class InvalidOpen : public exception {
-    string t;
-    public:
-    explicit InvalidOpen(string path) {t = "ERROR: Unable to open file " + path + " for board layout.";};
-    const char* what() const noexcept override {return t.c_str();}
-};
-
-class InvalidOpenDefault : public exception {
-    public:
-    const char* what() const noexcept override {return "ERROR: Unable to open file layout.txt for default board layout.";}
-};
-
-class InvalidFormat : public exception {
-    string t;
-    public:
-    explicit InvalidFormat(string file) {t = "ERROR: "+ file +" has an invalid format.";};
-    const char* what() const noexcept override {return t.c_str();}
-};
-
-//==============================================================================================================
-
+extern const int NUM_PLAYER;
 
 void layoutInit(string& out, vector<pair<int, int>>& layout, string& file) {
     try {
@@ -286,7 +250,7 @@ int main(int argc, char* argv[]) {
             if (cin.eof()) {
                 cout<<"End of file reached."<<endl;
                 return 1;
-            }
+            } else if (cin.fail())
             cout<<"Error"<< prompt << " isn't a valid integer." <<endl;
         }
     }
@@ -377,18 +341,40 @@ int main(int argc, char* argv[]) {
                     }
                     else if (cmd == "build-road")
                     {
-                        int pos = readInt(0, NUM_EDGE);
-                        board.buildRoad(pos, i);
+                        while (true) {
+                            try {
+                                int pos = readInt(0, NUM_EDGE);
+                                board.buildRoad(pos, i);
+                            } catch (exception& e) {
+                                cout<<e.what()<<endl;
+                            }
+                            break;
+                        }
                     }
                     else if (cmd == "build-res")
                     {
-                        int pos = readInt(0, NUM_VERTEX);
-                        board.buildRes(pos, i);
+                        while (true) {
+                            try {
+                                int pos = readInt(0, NUM_VERTEX);
+                                board.buildRes(pos, i);
+                            } catch (exception& e) {
+                                cout<<e.what()<<endl;
+                            }
+                            break;
+                        }
+                        
                     }
                     else if (cmd == "improve")
                     {
-                        int pos = readInt(0, NUM_VERTEX);
-                        board.improve(pos, i);
+                        while (true) {
+                            try {
+                                int pos = readInt(0, NUM_VERTEX);
+                                board.improve(pos, i);
+                            } catch (exception& e) {
+                                cout<<e.what()<<endl;
+                            }
+                            break;
+                        }
                     }
                     else if (cmd == "trade")
                     {
@@ -425,11 +411,14 @@ int main(int argc, char* argv[]) {
                     }
                 }
             }
-            catch (ios::failure &)
+            catch (exception& e)
             {
-                cout<<"End of file reached."<<endl;
-                board.save("backup.sv");
-                return 1;
+                if (cin.eof()) {
+                    cout<<"End of file reached."<<endl;
+                    board.save("backup.sv");
+                    return 1;
+                }
+
             }
         }
     }

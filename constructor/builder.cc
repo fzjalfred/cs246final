@@ -1,6 +1,11 @@
 #include <iostream>
 #include <sstream>
+#include <exception>
 #include "builder.h"
+#include "info.h"
+
+using namespace std;
+
 
 Builder::Builder(Colour c, string data) {
 
@@ -76,4 +81,16 @@ Builder::Builder(Colour c, string data) {
         }
     }
 
+}
+
+void Builder::buyRes(int n, int p) {
+    int& brick = this->resource[static_cast<int>(Resource::BRICK)];
+    int& energy = this->resource[static_cast<int>(Resource::ENERGY)];
+    int& glass = this->resource[static_cast<int>(Resource::GLASS)];
+    int& wifi = this->resource[static_cast<int>(Resource::WIFI)];
+    if (brick >= 1 && energy >= 1 && glass >=1 && wifi >= 1) {
+        this->notifyRes(n, p);
+    } else {
+        cout<<"You do not have enough resources."<<endl;
+    }
 }

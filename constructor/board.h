@@ -13,14 +13,59 @@
 
 using namespace std;
 
-class TextDisplay;
-class Dice;
-class Builder;
-class Tile;
-class Vertex;
-class Edge;
+const int NUM_VERTEX = 53;
+const int NUM_EDGE = 70;
+const int NUM_TILE = 18;
+
+const int NUM_PLAYER = 4;
+
+const int DICE_MIN = 2;
+
+const int DICE_MAX = 12;
 
 
+//==========================================Exceptions==========================================================
+class MissingArg : public exception {
+    string t;
+    public:
+    explicit MissingArg(string arg, string cmd) {t = "ERROR: "+arg+ " missing "+ cmd +" argument";};
+    const char* what() const noexcept override {return t.c_str();}
+};
+
+class UnrecognizedArg : public exception {
+    string t;
+    public:
+    explicit UnrecognizedArg(string arg) {t = "ERROR: unrecognized argument "+arg;};
+    const char* what() const noexcept override {return t.c_str();}
+};
+
+class MultiArg : public exception {
+    string t;
+    public:
+    explicit MultiArg(string cmd_use, string cmd_abd) {t = "ERROR: already specified " + cmd_use + " , can't also specify "+ cmd_abd;};
+    const char* what() const noexcept override {return t.c_str();}
+};
+
+class InvalidOpen : public exception {
+    string t;
+    public:
+    explicit InvalidOpen(string path) {t = "ERROR: Unable to open file " + path + " for board layout.";};
+    const char* what() const noexcept override {return t.c_str();}
+};
+
+class InvalidOpenDefault : public exception {
+    public:
+    const char* what() const noexcept override {return "ERROR: Unable to open file layout.txt for default board layout.";}
+};
+
+class InvalidFormat : public exception {
+    string t;
+    public:
+    explicit InvalidFormat(string file) {t = "ERROR: "+ file +" has an invalid format.";};
+    const char* what() const noexcept override {return t.c_str();}
+};
+
+//==============================================================================================================
 
 class Board {
     shared_ptr<TextDisplay> td;

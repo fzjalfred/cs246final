@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <memory>
 #include "board.h"
+#include "info.h"
 
 using namespace std;
 
@@ -72,3 +73,35 @@ void Board::roll() {
 int Board::getDiceNum() {
     return dice->getNum();
 };
+
+
+void Board::buildRes(int pos, int player) {
+    auto builder = builders.at(player);
+    builder -> buyRes(pos, player);
+}
+
+void Board::buildRoad(int pos, int player) {
+    auto builder = builders.at(player);
+    builder -> buyRoad(pos, player);
+}
+
+void Board::improve(int pos, int player) {
+    auto builder =builders.at(player);
+    builder -> buyImprove(pos, player);
+}
+
+string getPlayerColour(int i) {
+    Colour c = static_cast<Colour>(i);
+    switch (c) {
+        case Colour::Blue:
+        return "Blue";
+        case Colour::Orange:
+        return "Orange";
+        case Colour::Red:
+        return "Red";
+        case Colour::Yellow:
+        return "Yellow";
+    } 
+    return "";
+}
+

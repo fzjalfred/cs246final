@@ -18,8 +18,8 @@ class TextDisplay: public Observer{
 
     public:
     TextDisplay(vector< pair<int, int> > &);
-    void visit(Edge&);
-    void visit(Vertex&);
+    //void visit(Edge&);
+    //void visit(Vertex&);
 
     friend std::ostream &operator<<(std::ostream &out, const TextDisplay &td);
 };
