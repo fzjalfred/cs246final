@@ -7,8 +7,6 @@
 using namespace std;
 
 
-
-
 void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, int> >& board, int geese ) {
 
     // init edges
@@ -34,10 +32,10 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
     for ( int i = 0; i <= 18; i++) {
         tiles.emplace_back(new Tile(i, board.at(i).first, board.at(i).second));
         for ( auto v: tileV.at(i) ) {
-            tiles.at(i)->attachV(vertices.at(i));
+            tiles.at(i)->attachV(vertices.at(v));
         }
         for ( auto e: tileE.at(i) ) {
-            tiles.at(i)->attachE(edges.at(i));
+            tiles.at(i)->attachE(edges.at(e));
         }
     }
 
@@ -56,8 +54,7 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
     dice = nullptr;
 
     // init td
-    td = make_shared<TextDisplay>(new TextDisplay(board));
-
+    td = make_shared<TextDisplay>(board);
 }
 
 void Board::setLoad() {

@@ -1,5 +1,6 @@
 #ifndef _OBSERVER_H_
 #define _OBSERVER_H_
+#include "settings.h"
 
 class Subject;
 

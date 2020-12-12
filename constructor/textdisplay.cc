@@ -1,6 +1,6 @@
 #include "textdisplay.h"
 
-TextDisplay::TextDisplay( vector< pair<int, int> > board) {
+TextDisplay::TextDisplay( vector< pair<int, int> > & board) : Observer() {
     // init v
     for(int i = 0; i <= 53; i++){
         if ( i < 0) {

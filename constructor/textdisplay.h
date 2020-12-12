@@ -17,7 +17,7 @@ class TextDisplay: public Observer{
     vector<string> tVal;
 
     public:
-    TextDisplay(vector< pair<int, int> >);
+    TextDisplay(vector< pair<int, int> > &);
     void visit(Edge&);
     void visit(Vertex&);
 
