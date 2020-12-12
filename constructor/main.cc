@@ -255,7 +255,7 @@ int main(int argc, char* argv[]) {
     
     
     for( int i = 0; i < NUM_PLAYER && isload == 0;) {
-        string prompt = "Builder <"+board.getPlayerColour(i);+">, where do you want to build a basement?";
+        string prompt = "Builder <"+board.getPlayerColour(i)+">, where do you want to build a basement?";
         cout<<prompt<<endl;
         try {
             int pos;
@@ -274,7 +274,7 @@ int main(int argc, char* argv[]) {
     }
 
     for( int i = NUM_PLAYER - 1; i >= 0 && isload == 0;) {
-        string prompt = "Builder <"+board.getPlayerColour(i);+">, where do you want to build a basement?";
+        string prompt = "Builder <"+board.getPlayerColour(i)+">, where do you want to build a basement?";
         cout<<prompt<<endl;
         try {
             int pos;

@@ -8,8 +8,8 @@ Builder::Builder(Colour c, string data) {
     colour = c;
 
 
-    int rPos = data.find("r");
-    int hPos = data.find("h");
+    unsigned int rPos = data.find("r");
+    unsigned int hPos = data.find("h");
     if ( rPos == string::npos || hPos == string::npos || rPos >= hPos) throw exception();
     string resourceData = data.substr(0, rPos);
     string roadData = data.substr(rPos, hPos-rPos);
