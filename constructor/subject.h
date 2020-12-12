@@ -6,7 +6,7 @@
 using namespace std;
 
 class TextDisplay;
-
+class Observer;
 
 class Subject {
     vector<shared_ptr<Observer>>* tiles_ptr;

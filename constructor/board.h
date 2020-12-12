@@ -3,7 +3,6 @@
 #include <vector>
 #include <memory>
 #include <string>
-#include "settings.h"
 #include "builder.h"
 #include "tile.h"
 #include "observer.h"
