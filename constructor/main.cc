@@ -228,7 +228,7 @@ int main(int argc, char* argv[]) {
 
     cin.exceptions(ios::eofbit|ios::failbit);
     string cmd;
-    Board board();
+    Board board;
     try {
         board.init(curTurn, curData, layout, geese);
     } catch (exception& e) {
