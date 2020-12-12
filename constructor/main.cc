@@ -267,7 +267,7 @@ int main(int argc, char* argv[]) {
         catch (exception& e) {
             if (cin.eof()) {
                 cout<<"End of file reached."<<endl;
-                return;
+                return 1;
             } else
             cout<<"Error"<< prompt << " isn't a valid integer." <<endl;
         }
@@ -285,7 +285,7 @@ int main(int argc, char* argv[]) {
         } catch (exception& e) {
             if (cin.eof()) {
                 cout<<"End of file reached."<<endl;
-                return;
+                return 1;
             }
             cout<<"Error"<< prompt << " isn't a valid integer." <<endl;
         }
