@@ -2,15 +2,14 @@
 #define _OBSERVER_H_
 
 class Subject;
-class Resource;
 
 class Observer {
     public:
     virtual void buildRes(int num, Subject& who);
     virtual void buildRoad(int num, Subject& who);
-    virtual void builderObtain(Resource);
+    virtual void builderObtain(enum Resource type, int num);
     virtual void builderImprove(int);
-    virtual void mutator(Resource&); 
+    virtual void mutator(enum Resource type, int num); 
 };
 
 #endif

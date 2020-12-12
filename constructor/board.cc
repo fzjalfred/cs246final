@@ -6,7 +6,10 @@
 
 using namespace std;
 
-void Board::init( int curTurn, vector<string> builderData, vector< pair<int, int> > board, int geese ) {
+
+
+
+void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, int> >& board, int geese ) {
 
     // init edges
     for ( int i = 0; i <= 71; i++) {

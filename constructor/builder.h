@@ -22,7 +22,7 @@ class Builder : public Observer, public Subject {
     vector< pair<int, char> > & getHousing();
     void notifyRoad(int num);
     void notifyRes(int num);
-    void builderObtain(Resource);
+    void builderObtain(enum Resource type, int num);
     void notifyImprove(int);
     void trade(int give, int take, Builder& other);
 };

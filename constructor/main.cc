@@ -8,7 +8,6 @@
 
 using namespace std;
 
-
 //==========================================Exceptions==========================================================
 class MissingArg : public exception {
     string t;
@@ -70,13 +69,12 @@ void cmdLoadInit(std::ifstream& fin,  vector<pair<int, int>>& layout, int& curTu
         string s;
         string out;
         getline(fin, s);
-        int tmp;
         try {
             //curTurn
-            tmp = stoi(s);
-            if (curTurn < 0)
+            int tmp1 = stoi(s);
+            if (tmp1 < 0)
                 throw;
-            curTurn = tmp;
+            curTurn = tmp1;
             //curData
             for (int i = 1; i < NUM_PLAYER; i++)
             {
@@ -88,9 +86,9 @@ void cmdLoadInit(std::ifstream& fin,  vector<pair<int, int>>& layout, int& curTu
             layoutInit(out, layout, file);
             //geese
             getline(fin, s);
-            tmp = stoi(s);
-            if (curTurn < 0 ) throw;
-            geese = tmp;
+            int tmp2 = stoi(s);
+            if (tmp2 < 0 ) throw;
+            geese = tmp2;
         } catch (exception& any) {
             throw InvalidFormat(file);
         }
@@ -100,7 +98,7 @@ void cmdLoadInit(std::ifstream& fin,  vector<pair<int, int>>& layout, int& curTu
 
 void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& curTurn, vector<string>& curData, int& geese, string& file) {
     int i;
-    unsigned seed;
+    unsigned seed = 0;
     string out;
     try
     {
@@ -237,7 +235,10 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    
+    // Player base select
+    string prompt1 = "Builder <colour>, where do you want to build a basement?";
+
+    // Game start
     try {
 
         // command-line options

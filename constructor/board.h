@@ -1,6 +1,9 @@
 #ifndef __BOARD_H__
 #define __BOARD_H__
 #include <vector>
+#include <memory>
+#include <string>
+#include "settings.h"
 #include "builder.h"
 #include "tile.h"
 #include "observer.h"
@@ -18,13 +21,7 @@ class Tile;
 class Vertex;
 class Edge;
 
-const int NUM_VERTEX = 53;
-const int NUM_EDGE = 70;
-const int NUM_TILE = 18;
 
-enum class Colour { Blue, Red, Orange, Yellow };
-
-const int NUM_PLAYER = 4;
 
 class Board {
     shared_ptr<TextDisplay> td;
@@ -37,7 +34,7 @@ class Board {
     shared_ptr<Tile> geese;
 
     public:
-    void init(int, vector<string>, vector< pair<int, int> >, int);
+    void init(int, vector<string>&, vector< pair<int, int> >&, int);
     void printBoard();
     void printStatus();
     void printRes();
@@ -52,6 +49,7 @@ class Board {
     void setLoad();
     void setFair();
     void roll();
+    Colour getPlayer(int num);
     int getDiceNum();
 };
 

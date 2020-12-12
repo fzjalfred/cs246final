@@ -7,7 +7,6 @@ using namespace std;
 
 class TextDisplay;
 
-class Resource;
 
 class Subject {
     vector<shared_ptr<Observer>>* tiles_ptr;
