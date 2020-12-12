@@ -230,7 +230,7 @@ int main(int argc, char* argv[]) {
     string cmd;
     Board board();
     try {
-        board.init(layout, curTurn, curData, geese);
+        board.init(curTurn, curData, layout, geese);
     } catch (exception& e) {
         InvalidFormat a(file);
         cout<<a.what()<<endl;

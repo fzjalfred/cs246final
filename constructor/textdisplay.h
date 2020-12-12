@@ -11,15 +11,13 @@ class Edge;
 class Vertex;
 
 class TextDisplay: public Observer{
-    vector<string> theDisplay;
-    vector<string> posTile;
     vector<string> v;
     vector<string> e;
     vector<string> tRes;
     vector<string> tVal;
 
     public:
-    TextDisplay();
+    TextDisplay(vector< pair<int, int> >);
     void visit(Edge&);
     void visit(Vertex&);
 

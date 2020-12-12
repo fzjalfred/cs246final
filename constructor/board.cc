@@ -6,12 +6,7 @@
 
 using namespace std;
 
-void Board::init( int curTurn, vector<string> builderData, vector<int> board, int geese, string file) {
-
-    // init builders
-    for ( int i = 0; i < 4; i++) {
-        builders.emplace_back(new Builder( static_cast<Colour>(i), builderData.at(i)));
-    }
+void Board::init( int curTurn, vector<string> builderData, vector< pair<int, int> > board, int geese ) {
 
     // init edges
     for ( int i = 0; i <= 71; i++) {
@@ -34,7 +29,12 @@ void Board::init( int curTurn, vector<string> builderData, vector<int> board, in
                                     {45,51,59,62,58,50}, {52,56,64,67,63,55}, {53,58,66,68,65,57}, {61,65,70,71,69,64}};
     
     for ( int i = 0; i <= 18; i++) {
-        tiles.emplace_back(new Tile(i, tileV.at(i), tileE.at(i)));
+        tiles.emplace_back(new Tile(i, board.at(i).first, board.at(i).second, tileV.at(i), tileE.at(i)));
+    }
+
+    // init builders
+    for ( int i = 0; i < 4; i++) {
+        builders.emplace_back(new Builder( static_cast<Colour>(i), builderData.at(i)));
     }
 
     // init curPlay
@@ -47,7 +47,7 @@ void Board::init( int curTurn, vector<string> builderData, vector<int> board, in
     dice = nullptr;
 
     // init td
-    td = new TextDisplay();
+    td = new TextDisplay(board);
 
 }
 

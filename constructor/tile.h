@@ -19,7 +19,7 @@ class Tile : public Observer, public Subject {
     vector<shared_ptr<Edge>> edges;
 
     public:
-    Tile(int, vector<int>, vector<int> );
+    Tile(int num, int value, int resource, vector<int>, vector<int>, bool isGeese = false);
 };
 
 #endif
