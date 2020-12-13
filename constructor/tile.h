@@ -11,7 +11,7 @@ using namespace std;
 class Vertex;
 class Edge;
 
-class Tile : public Observer, public Subject {
+class Tile : public Subject {
     int num;
     int value;
     int resource;

@@ -5,7 +5,7 @@
 
 class Observer {
     public:
-    virtual int getOwner() = 0;
+    
 };
 
 #endif

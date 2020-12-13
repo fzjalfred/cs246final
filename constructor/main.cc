@@ -23,6 +23,7 @@ void layoutInit(string& out, vector<pair<int, int>>& layout, string& file) {
         {
             tmp.emplace_back(out[i], out[i + 1]);
         }
+        layout = tmp;
     } catch (exception &e) {
         throw InvalidFormat(file);
     }
@@ -71,6 +72,7 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
         // default cmd
         if ( len == 1) {
             ifstream fin("layout.txt", ios::in); // open file
+            cout<<"FLAG 1"<<endl;
             if (fin.is_open())
             {
                 getline(fin, out);
@@ -163,11 +165,13 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
         }
     }
     catch (invalid_argument &e) {
+        cout<<"FLAG 3"<<endl;
         InvalidFormat a(file);
         throw a;
     }
     catch (exception &e)
     {
+        cout<<"FLAG 4"<<endl;
         throw;
     }
 } 
@@ -262,8 +266,9 @@ int main(int argc, char* argv[]) {
     try {
         board.init(curTurn, curData, layout, geese);
     } catch (exception& e) {
-        InvalidFormat a(file);
-        cout<<a.what()<<endl;
+        cout<<e.what()<<endl;
+        //InvalidFormat a(file);
+        //cout<<a.what()<<endl;
         return 1;
     }
     

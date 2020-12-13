@@ -1,2 +1,2 @@
-board.o: board.cc board.h builder.h observer.h settings.h info.h \
- subject.h tile.h element.h textdisplay.h dice.h
+board.o: board.cc tile.h builder.h observer.h info.h subject.h board.h \
+ textdisplay.h element.h dice.h

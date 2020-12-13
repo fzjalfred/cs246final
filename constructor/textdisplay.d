@@ -1,1 +1,1 @@
-textdisplay.o: textdisplay.cc textdisplay.h observer.h settings.h info.h
+textdisplay.o: textdisplay.cc textdisplay.h observer.h info.h
