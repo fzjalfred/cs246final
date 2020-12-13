@@ -15,16 +15,15 @@ void Subject::attach (shared_ptr< vector<shared_ptr<Vertex>> > vertices,
     }
 
 void Subject::notifyRes(int n, int p) {
-    cout<<"flag 3"<<endl;
     vertices->at(n)->buildRes(p);
 }
 
 void Subject::notifyRoad(int n, int p) {
-    
+    edges->at(n)->buildRoad(p);
 }
 
 void Subject::notifyImprove(int n, int p) {
-
+    vertices->at(n)->buildImprove();
 }
 
 void Subject::notifyBuilder() {

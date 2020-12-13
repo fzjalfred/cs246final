@@ -18,20 +18,24 @@ void LoadedDice::roll()
 {
     int dice;
     std::cout << "Input a roll between "+std::to_string(DICE_MIN)+" and "+std::to_string(DICE_MAX)+":" << std::endl;
-    try
+    while (true)
     {
-        
-        std::cin >> dice;
-        if (dice < DICE_MIN || dice > DICE_MAX || std::cin.fail() == true)
-            throw INVALID_ROLL{};
+        try
+        {
+
+            std::cin >> dice;
+            if (dice < DICE_MIN || dice > DICE_MAX || std::cin.fail() == true)
+                throw INVALID_ROLL{};
+            this->num = dice;
+            return;
+        }
+        catch (INVALID_ROLL)
+        {
+            std::cout << "Invalid roll."<< dice << std::endl;
+            return;
+        }
     }
-    catch (INVALID_ROLL)
-    {
-        std::cout << "Invalid roll." << std::endl;
-        return;
-    }
-    this->num = dice;
-};
+}
 
 void FairDice::roll() {
     std::vector<int> v;
@@ -41,5 +45,5 @@ void FairDice::roll() {
     std::default_random_engine rng{seed};
     std::shuffle( v.begin(), v.end(), rng );
     this->num = v[0];
-};
+}
 

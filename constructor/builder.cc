@@ -144,17 +144,75 @@ void Builder::buyRes(int n, int p, bool init) {
     int& wifi = this->resource[static_cast<int>(Resource::WIFI)];
     if (brick >= 1 && energy >= 1 && glass >=1 && wifi >= 1) {
         this->notifyRes(n, p);
+        housing.emplace_back(n,'B');
+        brick--;
+        energy--;
+        glass--;
+        wifi--;
     } else {
         cout<<"You do not have enough resources."<<endl;
     }
 }
 
 void Builder::buyRoad(int n, int p) {
-    
+    int& heat = this->resource[static_cast<int>(Resource::HEAT)];
+    int& wifi = this->resource[static_cast<int>(Resource::WIFI)];
+    if (heat>=1 && wifi >= 1) {
+        this->notifyRoad(n, p);
+        roads.emplace_back(n);
+    } else {
+        cout<<"You do not have enough resources."<<endl;
+    }
 }
 
 
 void Builder::buyImprove(int n, int p) {
+    vector< pair<int, char> >::iterator f = find_if(housing.begin(), housing.end(),[n](auto i) { 
+        if(get<0>(i) == n) return true;
+        else return false;
+    });
+    char& cur = get<1>(*f);
+    int& brick = this->resource[static_cast<int>(Resource::BRICK)];
+    int& energy = this->resource[static_cast<int>(Resource::ENERGY)];
+    int& glass = this->resource[static_cast<int>(Resource::GLASS)];
+    int& wifi = this->resource[static_cast<int>(Resource::WIFI)];
+    int& heat = this->resource[static_cast<int>(Resource::HEAT)];
+    if (f == housing.end()) {
+        cout<<"Invalid residence."<<endl;
+    } else if (cur == 'T') {
+        cout<< "You can't improve that building."<<endl;
+    } else if (cur == 'H') {
+        if (glass>=2 && heat >= 3) {
+            this->notifyImprove(n, p);
+            glass-=2;
+            heat-=3;
+        } else {
+            cout<<"You do not have enough resources."<<endl;
+            cout<<endl<<"The cost to improve a Basement to a House is two GLASS and three HEAT resource."<<endl;
+            cout<<"The cost to improve a House to a Tower is three BRICK, two ENERGY, two GLASS, one WIFI, and two HEAT."<<endl;
+        }
+        
+    } else if (cur == 'B') {
+        if (brick >= 3 && energy >=2 && glass >= 2 && wifi>=1 && heat >=2) {
+            this->notifyImprove(n, p);
+            brick -=3;
+            energy -=2;
+            glass -=2;
+            wifi -=1;
+            heat -=2;
+        } else {
+            cout<<"You do not have enough resources."<<endl;
+            cout<<endl<<"The cost to improve a Basement to a House is two GLASS and three HEAT resource."<<endl;
+            cout<<"The cost to improve a House to a Tower is three BRICK, two ENERGY, two GLASS, one WIFI, and two HEAT."<<endl;
+        }
+    }
+}
 
+
+void Builder::printStatus(){
+    string text = "Builder " +getPlayerColour(static_cast<int>(colour)) +
+    "    has "+to_string(points)+" building points, "+to_string(resource.at(0))+
+    " BRICK, "+to_string(resource.at(1))+" ENERGY, "+to_string(resource.at(2))+" GLASS, "+to_string(resource.at(3))+" HEAT, "+to_string(resource.at(4))+" WIFI.";
+    cout<<text<<endl;
 }
 

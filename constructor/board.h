@@ -86,6 +86,7 @@ class Board {
     void printStatus();
     void printRes();
     void save(string);
+
 };
 
 string getPlayerColour(int i);

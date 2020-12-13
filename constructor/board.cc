@@ -61,7 +61,7 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
     this->geese = geese;
 
     // init dice
-    dice = make_shared<FairDice> ();
+    this->dice = make_shared<LoadedDice> ();
 
     // init td
     td = make_shared<TextDisplay>(board);
@@ -85,7 +85,6 @@ int Board::getDiceNum() {
 
 
 void Board::buildRes(int pos, int player, bool init) {
-    cout<<"flag 2"<<endl;
     auto builder = builders.at(player);
     builder -> buyRes(pos, player, init);
 }
@@ -149,11 +148,13 @@ void Board::trade(int player, int give, int take) {
 }
 
 void Board::printBoard() {
-
+    cout<<*td<<endl;
 }
 
 void Board::printStatus() {
-
+    for (auto i: builders) {
+        i->printStatus();
+    }
 }
 
 void Board::printRes() {

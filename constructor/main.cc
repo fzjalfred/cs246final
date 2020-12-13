@@ -72,7 +72,6 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
         // default cmd
         if ( len == 1) {
             ifstream fin("layout.txt", ios::in); // open file
-            cout<<"FLAG 1"<<endl;
             if (fin.is_open())
             {
                 getline(fin, out);
@@ -331,7 +330,7 @@ int main(int argc, char* argv[]) {
     {
         for (int i = 0; i < NUM_PLAYER; i++)
         {
-            cout << "builder "<<getPlayerColour(i)<<"'s turn." << endl;
+            cout << "Builder "<<getPlayerColour(i)<<"'s turn." << endl;
             try
             {
 
@@ -350,10 +349,12 @@ int main(int argc, char* argv[]) {
                     else if (cmd == "load")
                     {
                         board.setLoad();
+                        cout<<"Builder <<"<<getPlayerColour(i)<<"<< now has loaded Dice."<<endl;
                     }
                     else if (cmd == "fair")
                     {
                         board.setFair();
+                        cout<<"Builder <<"<<getPlayerColour(i)<<"<< now has fair Dice."<<endl;
                     }
                     else if (cmd == "roll")
                     {

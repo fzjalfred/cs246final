@@ -34,6 +34,8 @@ class Builder : public Observer, public Subject {
     const vector<int> resourcelist();
     void losehalf();
     void steal(shared_ptr<Builder>);
+
+    void printStatus();
 };
 
 

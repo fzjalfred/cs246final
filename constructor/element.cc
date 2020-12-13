@@ -16,22 +16,29 @@ void Vertex::buildRes(int p) {
     if (owner != -1) {
         throw base_exist(this->num);
     }
-    cout<<"flag 4"<<endl;
     this->owner = p;
     this->type = 'B';
-    cout<<"flag 5"<<endl;
 }
 
 Edge::Edge(int num, int owner): Subject(), Observer(), num(num), road(false), owner(owner) {}
 
 
-void Vertex::buildImprove(int p) {
-
+void Vertex::buildImprove() {
+    switch (this->type) {
+        case 'B':
+        this->type = 'H';
+        break;
+        case 'H':
+        this->type = 'T';
+        break;
+    }
+    return;
 }
 
 
 void Edge::buildRoad(int p) {
-
+    road = true;
+    owner = p;
 }
 
 int Vertex::getOwner(){
