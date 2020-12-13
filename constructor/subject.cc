@@ -4,6 +4,8 @@
 #include <vector>
 #include <algorithm>
 
+#include <iostream>
+
 void Subject::attach (shared_ptr< vector<shared_ptr<Vertex>> > vertices,
     shared_ptr< vector<shared_ptr<Edge>> > edges,
     shared_ptr<Observer> td) {
@@ -13,6 +15,7 @@ void Subject::attach (shared_ptr< vector<shared_ptr<Vertex>> > vertices,
     }
 
 void Subject::notifyRes(int n, int p) {
+    cout<<"flag 3"<<endl;
     vertices->at(n)->buildRes(p);
 }
 

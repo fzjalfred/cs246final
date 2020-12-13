@@ -12,21 +12,18 @@ extern int getPlayerNum(shared_ptr<Builder>);
 
 
 void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, int> >& board, int geese ) {
-    cout<<"FLAG 2"<<endl;
     // init edges
     for ( int i = 0; i <= 71; i++) {
         edges.emplace_back(new Edge(i, -1)); // -1 represent no owner
         edges.at(i)->attach(make_shared<vector<shared_ptr<Vertex>>> (vertices),
         make_shared<vector<shared_ptr<Edge>>> (edges), td);
     }
-    cout<<"FLAG 3"<<endl;
     // init vertices
     for ( int i = 0; i <=53; i++) {
         vertices.emplace_back(new Vertex(i, 'N', -1)); // 'N' represent no residence, -1 represent no owner
         edges.at(i)->attach(make_shared<vector<shared_ptr<Vertex>>> (vertices),
         make_shared<vector<shared_ptr<Edge>>> (edges), td);
     }
-    cout<<"FLAG 4"<<endl;
     // init tiles
     vector<vector<int>> tileV = {{0,1,4,9,8,3}, {2,3,8,14,13,7}, {4,5,10,16,15,9}, {6,7,13,19,18,12}, {8,9,15,21,20,14}, 
                                     {10,11,17,23,22,16}, {13,14,20,26,25,19}, {15,16,22,28,27,21}, {18,19,25,31,30,24}, {20,21,27,33,32,26}, 
@@ -45,13 +42,16 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
         for ( auto e: tileE.at(i) ) {
             tiles.at(i)->attachE(edges.at(e));
         }
-        cout<<"FLAG 4.5"<<endl;
         tiles.at(i)->attachB(make_shared<vector<shared_ptr<Builder>>> (builders));
     }
-cout<<"FLAG 5"<<endl;
     // init builders
     for ( int i = 0; i < 4; i++) {
+        if (builderData.empty()) 
+        builders.emplace_back(new Builder( static_cast<Colour>(i)));
+        else
         builders.emplace_back(new Builder( static_cast<Colour>(i), builderData.at(i)));
+        builders.back()->attach(make_shared<vector<shared_ptr<Vertex>>> (vertices),
+        make_shared<vector<shared_ptr<Edge>>> (edges), td);
     }
 
     // init curPlay
@@ -61,11 +61,10 @@ cout<<"FLAG 5"<<endl;
     this->geese = geese;
 
     // init dice
-    dice = nullptr;
+    dice = make_shared<FairDice> ();
 
     // init td
     td = make_shared<TextDisplay>(board);
-    cout<<"FLAG 6"<<endl;
 }
 
 void Board::setLoad() {
@@ -85,9 +84,10 @@ int Board::getDiceNum() {
 };
 
 
-void Board::buildRes(int pos, int player) {
+void Board::buildRes(int pos, int player, bool init) {
+    cout<<"flag 2"<<endl;
     auto builder = builders.at(player);
-    builder -> buyRes(pos, player);
+    builder -> buyRes(pos, player, init);
 }
 
 void Board::buildRoad(int pos, int player) {

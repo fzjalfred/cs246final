@@ -25,7 +25,6 @@ Builder::Builder(Colour c, string data) {
     string resourceData = data.substr(0, rPos);
     string roadData = data.substr(rPos, hPos-rPos);
     string houseData = data.substr(hPos);
-    cout << "|" << resourceData << "|" << roadData << "|" << houseData << "|" << endl;
 
     // init resource
     int resourceDataCounter = 0;
@@ -134,7 +133,11 @@ void Builder::steal(shared_ptr<Builder> who) {
     <<"> from builder <"<<getPlayerColour(who->getPlayerNum())<<">."<<endl;
 }
 
-void Builder::buyRes(int n, int p) {
+void Builder::buyRes(int n, int p, bool init) {
+    if (init) {
+        this->notifyRes(n, p);
+        return;
+    } //initialization
     int& brick = this->resource[static_cast<int>(Resource::BRICK)];
     int& energy = this->resource[static_cast<int>(Resource::ENERGY)];
     int& glass = this->resource[static_cast<int>(Resource::GLASS)];

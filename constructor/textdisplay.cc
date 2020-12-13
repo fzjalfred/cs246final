@@ -3,7 +3,7 @@
 TextDisplay::TextDisplay( vector< pair<int, int> > & board) : Observer() {
     // init v
     for(int i = 0; i <= 53; i++){
-        if ( i < 0) {
+        if ( i < 10) {
             v.emplace_back(" " + to_string(i));
         } else {
             v.emplace_back(to_string(i));
@@ -11,7 +11,7 @@ TextDisplay::TextDisplay( vector< pair<int, int> > & board) : Observer() {
     }
     // init e
     for(int i = 0; i <= 71; i++){
-        if ( i < 0) {
+        if ( i < 10) {
             e.emplace_back(" " + to_string(i));
         } else {
             e.emplace_back(to_string(i));

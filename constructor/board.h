@@ -70,7 +70,7 @@ class Board {
     public:
     void init(int, vector<string>&, vector< pair<int, int> >&, int);
     void buildRoad(int pos, int player);
-    void buildRes(int pos, int player);
+    void buildRes(int pos, int player, bool init = 0);
     void improve(int pos, int player);
     void setLoad();
     void setFair();
@@ -79,6 +79,7 @@ class Board {
     bool checkWinner(int &winner);
     void geeseSteal();
     void setGeese(int n, int p);
+    TextDisplay& getTD() {return *td;};
     
     void trade(int player, int give, int take);
     void printBoard();

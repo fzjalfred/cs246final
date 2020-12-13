@@ -1,6 +1,6 @@
 #include <exception>
 #include "element.h"
-
+#include <iostream>
 using namespace std;
 
 class base_exist : public exception {
@@ -13,11 +13,13 @@ class base_exist : public exception {
 Vertex::Vertex(int num, char type, int owner): Subject(), Observer(), num(num), type(type), owner(owner) {}
 
 void Vertex::buildRes(int p) {
-    if (owner == -1) {
+    if (owner != -1) {
         throw base_exist(this->num);
     }
+    cout<<"flag 4"<<endl;
     this->owner = p;
     this->type = 'B';
+    cout<<"flag 5"<<endl;
 }
 
 Edge::Edge(int num, int owner): Subject(), Observer(), num(num), road(false), owner(owner) {}

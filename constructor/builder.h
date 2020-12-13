@@ -21,7 +21,7 @@ class Builder : public Observer, public Subject {
     vector<int> & getRoads();
     vector< pair<int, char> > & getHousing();
     void buyRoad(int n, int p);
-    void buyRes(int n, int p);
+    void buyRes(int n, int p, bool init = 0);
     //void builderObtain(enum Resource type, int num);
     void buyImprove(int n, int p);
     //void trade(int give, int take, Builder& other);
