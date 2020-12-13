@@ -189,12 +189,62 @@ inline int readInt(int a, int b) {
     }
 }
 
+inline void to_lowercase(string &who) {
+    for_each(who.begin(), who.end(), [](auto &i){
+        if ('A'<= i && i<= 'Z')
+        i += ('a'-'A');
+    });
+}
+
+inline void readPlayer(int& pos) {
+    pos = -1;
+    while (pos == -1)
+    {
+        string who;
+        cin >> who;
+        for (int i = 0; i < NUM_PLAYER; i++)
+        {
+            to_lowercase(who);
+            if (who.compare(getPlayerColour(i)) == 0)
+            {
+                pos = i;
+                break;
+            }
+        }
+        if (pos == -1)
+            cout << "Invalid colour" << endl;
+        else
+            break;
+    }
+}
+
+inline void readResource(int& pos) {
+    pos = -1;
+    while (pos == -1)
+    {
+        string who;
+        cin >> who;
+        to_lowercase(who);
+        if (who == "brick") pos = 0;
+        else if (who == "energy") pos = 1;
+        else if (who == "glass") pos = 2;
+        else if (who == "heat") pos = 3;
+        else if (who == "wifi") pos = 4;
+        if (pos == -1)
+            cout << "Invalid colour" << endl;
+        else
+            break;
+    }
+}
+
 int main(int argc, char* argv[]) {
     vector< pair<int, int> > layout(0);
     int curTurn = -1;
     vector<string> curData(0);
     int geese = -1;
+    
     string file = "";
+    int winner = -1;
 
     bool isload = 0;
     // argument passing
@@ -219,7 +269,7 @@ int main(int argc, char* argv[]) {
     
     
     for( int i = 0; i < NUM_PLAYER && isload == 0;) {
-        string prompt = "Builder <"+board.getPlayerColour(i)+">, where do you want to build a basement?";
+        string prompt = "Builder <"+getPlayerColour(i)+">, where do you want to build a basement?";
         cout<<prompt<<endl;
         try {
             int pos;
@@ -238,7 +288,7 @@ int main(int argc, char* argv[]) {
     }
 
     for( int i = NUM_PLAYER - 1; i >= 0 && isload == 0;) {
-        string prompt = "Builder <"+board.getPlayerColour(i)+">, where do you want to build a basement?";
+        string prompt = "Builder <"+getPlayerColour(i)+">, where do you want to build a basement?";
         cout<<prompt<<endl;
         try {
             int pos;
@@ -257,11 +307,11 @@ int main(int argc, char* argv[]) {
 
     // Game start
 
-    while (!board.checkWinner())
+    while (!board.checkWinner(winner))
     {
         for (int i = 0; i < NUM_PLAYER; i++)
         {
-            cout << "builder " + board.getPlayerColour(i) + "'s turn." << endl;
+            cout << "builder "<<getPlayerColour(i)<<"'s turn." << endl;
             try
             {
 
@@ -294,6 +344,14 @@ int main(int argc, char* argv[]) {
                     {
                         std::cout << "Invalid command." << std::endl;
                     }
+                }
+
+                int dice = board.getDiceNum();
+                if (dice == 7) {
+                    board.geeseSteal();
+                    cout<<"Choose where to place the GEESE."<<endl;
+                    int n = readInt(0, 18);
+                    board.setGeese(n, i);
                 }
 
                 // actions
@@ -380,20 +438,12 @@ int main(int argc, char* argv[]) {
                     {
                         
                         int pos = -1;
-                        while(pos == -1) {
-                            string who;
-                            cin>>who;
-                            for(int i = 0; i<NUM_PLAYER; i++) {
-                                if (who.compare(board.getPlayerColour(i)) == 0) {
-                                    pos = i;
-                                    break;
-                                }
-                            }
-                            cout<<"Invalid colour"<<endl;
-                        }
-                        
-                        string give, take;
-                        std::cin >> give >> take;
+                        int give;
+                        int take;
+                        readPlayer(pos);
+                        readResource(give);
+                        readResource(take);
+                        board.trade(pos,give,take);
                     }
                     else if (cmd == "next")
                     {

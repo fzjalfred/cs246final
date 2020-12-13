@@ -25,6 +25,15 @@ class Builder : public Observer, public Subject {
     //void builderObtain(enum Resource type, int num);
     void buyImprove(int n, int p);
     //void trade(int give, int take, Builder& other);
+    int getPlayerNum() {
+        return static_cast<int> (colour);
+    };
+    int getPoint() {
+        return this->points;
+    }
+    const vector<int> resourcelist();
+    void losehalf();
+    void steal(shared_ptr<Builder>);
 };
 
 

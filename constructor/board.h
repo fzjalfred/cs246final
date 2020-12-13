@@ -9,19 +9,10 @@
 #include "element.h"
 #include "subject.h"
 #include "textdisplay.h"
+#include "info.h"
 #include "dice.h"
 
 using namespace std;
-
-const int NUM_VERTEX = 53;
-const int NUM_EDGE = 70;
-const int NUM_TILE = 18;
-
-const int NUM_PLAYER = 4;
-
-const int DICE_MIN = 2;
-
-const int DICE_MAX = 12;
 
 
 //==========================================Exceptions==========================================================
@@ -75,28 +66,29 @@ class Board {
     vector<shared_ptr<Edge>> edges;
     vector<shared_ptr<Tile>> tiles;
     vector<shared_ptr<Builder>> builders;
-    shared_ptr<Tile> geese;
+    int geese;
 
     public:
     void init(int, vector<string>&, vector< pair<int, int> >&, int);
-    void printBoard();
-    void printStatus();
-    void printRes();
     void buildRoad(int pos, int player);
     void buildRes(int pos, int player);
     void improve(int pos, int player);
-    void trade(string colour, Resource give, Resource take);
-    void setGeese(int);
-    void stealGeese();
-    void next();
-    void save(string);
     void setLoad();
     void setFair();
     void roll();
-    string getPlayerColour(int i);
-    bool checkWinner();
     int getDiceNum();
+    bool checkWinner(int &winner);
+    void setGeese(int n, int p);
+    void geeseSteal();
+    void trade(int player, int give, int take);
+
+    void printBoard();
+    void printStatus();
+    void printRes();
+    void next();
+    void save(string);
 };
 
+string getPlayerColour(int i);
 
 #endif

@@ -2,6 +2,7 @@
 #include <random>
 #include <chrono>
 #include <string>
+#include "info.h"
 #include "dice.h"
 
 extern const int DICE_MIN;

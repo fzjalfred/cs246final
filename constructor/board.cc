@@ -7,6 +7,8 @@
 
 using namespace std;
 
+extern int getPlayerNum(shared_ptr<Builder>);
+
 
 void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, int> >& board, int geese ) {
 
@@ -49,7 +51,7 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
     curPlayer = builders.front();
 
     // init geese
-    this->geese = tiles.at(geese);
+    this->geese = geese;
 
     // init dice
     dice = nullptr;
@@ -105,3 +107,56 @@ string getPlayerColour(int i) {
     return "";
 }
 
+string getResource(int i) {
+    Resource c = static_cast<Resource>(i);
+    switch (c) {
+        case Resource::BRICK:
+        return "BRICK";
+        case Resource::ENERGY:
+        return "ENERGY";
+        case Resource::GLASS:
+        return "GLASS";
+        case Resource::HEAT:
+        return "HEAT";
+         case Resource::WIFI:
+        return "WIFI";
+        case Resource::PARK:
+        return "PARK";
+    } 
+    return "";
+}
+
+bool Board::checkWinner(int& winner) {
+    for (auto i: builders) {
+        if (i->getPoint() >= SCORE_TO_WIN) {
+            winner = i->getPlayerNum();
+            return true;
+        }
+    }
+    return false;
+}
+
+void Board::trade(int player, int give, int take) {
+
+}
+
+void Board::printBoard() {
+
+}
+
+void Board::printStatus() {
+
+}
+
+void Board::printRes() {
+
+}
+
+void Board::setGeese(int n, int p) {
+    tiles.at(geese)->geeseMove(p);
+    tiles.at(n)->geeseMove(p);
+}
+
+void Board::geeseSteal() {
+
+}

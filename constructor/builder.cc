@@ -1,11 +1,17 @@
 #include <iostream>
 #include <sstream>
 #include <exception>
+#include <random>
+#include <algorithm>
+#include <chrono>
 #include "builder.h"
 #include "info.h"
 
 using namespace std;
 
+extern string getPlayerColour(int);
+extern int getPlayerNum(shared_ptr<Builder>);
+extern string getResource(int);
 
 Builder::Builder(Colour c, string data) {
 
@@ -81,6 +87,51 @@ Builder::Builder(Colour c, string data) {
         }
     }
 
+}
+
+void Builder::losehalf() {
+    std::vector<int> v;
+    for(int i = 0; i < 5; i++) { // 5 types of resources
+        for (int n = this->resource[i]; n != 0; n--) { // number of each type.
+            v.emplace_back(i); 
+        }
+    }
+	// use a time-based seed for the default seed value
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine rng{seed};
+    std::shuffle(v.begin(), v.end(), rng);
+    int half = v.size()/2;
+    vector<int> lost (5);
+    for (int i = 0; i < half; i++) {
+        lost.at(v.at(i)) += 1;
+    }
+    for (int i = 0; i < 5; i++) {
+        this->resource.at(i) -= lost.at(i);
+        cout<<"<"<<lost.at(i)<<"> <"<<getResource(i)<<">"<<endl;
+    }
+
+}
+
+const vector<int> Builder::resourcelist() {
+    return this->resource;
+}
+
+void Builder::steal(shared_ptr<Builder> who) {
+    std::vector<int> v;
+    for(int i = 0; i < 5; i++) { // 5 types of resources
+        for (int n = who->resource[i]; n != 0; n--) { // number of each type.
+            v.emplace_back(i); 
+        }
+    }
+
+	// use a time-based seed for the default seed value
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine rng{seed};
+    std::shuffle(v.begin(), v.end(), rng);
+    who->resource[v[0]] -= 1;
+    this->resource[v[0]] += 1;
+    cout<<"Builder <"<<getPlayerColour(this->getPlayerNum())<<"> steals <"<<getResource(v[0])
+    <<"> from builder <"<<getPlayerColour(who->getPlayerNum())<<">."<<endl;
 }
 
 void Builder::buyRes(int n, int p) {

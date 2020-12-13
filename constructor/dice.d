@@ -1,1 +1,1 @@
-dice.o: dice.cc dice.h
+dice.o: dice.cc info.h dice.h
