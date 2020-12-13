@@ -22,7 +22,9 @@ class Tile : public Observer, public Subject {
 
     public:
     Tile(int num, int value, int resource, bool isGeese = false);
+    vector<shared_ptr<Builder>> ownerlist();
     void geeseMove(int p);
+    void geeseSteal();
     void attachV(shared_ptr<Vertex>);
     void attachE(shared_ptr<Edge>);
     void attachB(shared_ptr< vector<shared_ptr<Builder>> > builders);

@@ -4,11 +4,10 @@
 #include <memory>
 #include <string>
 #include "builder.h"
-#include "tile.h"
-#include "observer.h"
-#include "element.h"
 #include "subject.h"
+#include "tile.h"
 #include "textdisplay.h"
+#include "element.h"
 #include "info.h"
 #include "dice.h"
 
@@ -78,14 +77,13 @@ class Board {
     void roll();
     int getDiceNum();
     bool checkWinner(int &winner);
-    void setGeese(int n, int p);
     void geeseSteal();
+    void setGeese(int n, int p);
+    
     void trade(int player, int give, int take);
-
     void printBoard();
     void printStatus();
     void printRes();
-    void next();
     void save(string);
 };
 

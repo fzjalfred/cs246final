@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include "element.h"
 #include "tile.h"
 
 extern string getPlayerColour(int);
@@ -13,23 +14,40 @@ using namespace std;
 Tile::Tile(int num, int value, int resource, bool isGeese ) : 
     num{num}, value{value}, resource{resource}, isGeese{isGeese} {}
 
+vector<shared_ptr<Builder>> Tile::ownerlist() {
+    vector<shared_ptr<Builder>> v;
+    for(auto i: vertices) {
+        int p = i->getOwner();
+        if (p != -1){
+            v.emplace_back(builders->at(p));
+        }
+        
+    }
+    return v;
+}
+
+void Tile::geeseSteal() {
+    // geese steal
+    for_each(builders->begin(), builders->end(), [](auto i) {
+        int total = 0;
+        for (auto k : i->resourcelist())
+        {
+            total += k;
+        }
+        if (total >= 10)
+        {
+            i->losehalf();
+        }
+    });
+}
+
 void Tile::geeseMove(int p) {
         if (isGeese == false) {
             isGeese = true;
-            // geese steal
-            for_each(builders->begin(), builders->end(), [](auto i){
-                int total = 0;
-                for (auto k: i->resourcelist()){
-                    total+=k;
-                }
-                if (total >= 10) {
-                    i->losehalf();
-                }
-            });
-
             // player steal
             vector<shared_ptr<Builder>> stealist(0);
-            for (auto &i: *builders){
+            auto owners = this->ownerlist();
+            for (auto &i: owners){
                 int total = 0;
                 for (auto k: i->resourcelist()){
                     total+=k;

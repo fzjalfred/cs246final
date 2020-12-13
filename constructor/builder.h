@@ -27,7 +27,7 @@ class Builder : public Observer, public Subject {
     //void trade(int give, int take, Builder& other);
     int getPlayerNum() {
         return static_cast<int> (colour);
-    };
+    }
     int getPoint() {
         return this->points;
     }

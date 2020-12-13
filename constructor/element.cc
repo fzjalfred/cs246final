@@ -21,3 +21,21 @@ void Vertex::buildRes(int p) {
 }
 
 Edge::Edge(int num, int owner): Subject(), Observer(), num(num), road(false), owner(owner) {}
+
+
+void Vertex::buildImprove(int p) {
+
+}
+
+
+void Edge::buildRoad(int p) {
+
+}
+
+int Vertex::getOwner(){
+    return owner;
+}
+
+int Edge::getOwner(){
+    return owner;
+}

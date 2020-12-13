@@ -2,6 +2,7 @@
 #include <string>
 #include <algorithm>
 #include <memory>
+
 #include "board.h"
 #include "info.h"
 
@@ -157,11 +158,16 @@ void Board::printRes() {
 
 }
 
+void Board::geeseSteal() {
+    tiles.at(geese)->geeseSteal();
+}
+
 void Board::setGeese(int n, int p) {
     tiles.at(geese)->geeseMove(p);
     tiles.at(n)->geeseMove(p);
 }
 
-void Board::geeseSteal() {
+void Board::save(string) {
 
 }
+

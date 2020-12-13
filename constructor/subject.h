@@ -2,6 +2,7 @@
 #define _SUBJECT_H_
 #include <memory>
 #include <vector>
+#include "element.h"
 
 class Observer;
 

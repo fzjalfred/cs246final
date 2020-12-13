@@ -145,3 +145,13 @@ void Builder::buyRes(int n, int p) {
         cout<<"You do not have enough resources."<<endl;
     }
 }
+
+void Builder::buyRoad(int n, int p) {
+    
+}
+
+
+void Builder::buyImprove(int n, int p) {
+
+}
+
