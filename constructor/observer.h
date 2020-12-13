@@ -3,7 +3,6 @@
 #include "settings.h"
 #include "info.h"
 
-class Subject;
 
 class Observer {
     public:

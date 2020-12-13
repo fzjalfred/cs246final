@@ -3,19 +3,24 @@
 #include <memory>
 #include <vector>
 
+class Observer;
+
+class Vertex;
+
+class Edge;
+
 using namespace std;
 
 class TextDisplay;
-class Observer;
 
 class Subject {
-    shared_ptr< vector<shared_ptr<Observer>> > vertices;
-    shared_ptr< vector<shared_ptr<Observer>> > edges;
-    shared_ptr<Observer> td;
+    shared_ptr< vector<shared_ptr<Vertex>> > vertices = nullptr;
+    shared_ptr< vector<shared_ptr<Edge>> > edges = nullptr;
+    shared_ptr<Observer> td = nullptr;
 
     public:
-    virtual void attach(shared_ptr< vector<shared_ptr<Observer>> > vertices,
-    shared_ptr< vector<shared_ptr<Observer>> > edges,
+    void attach(shared_ptr< vector<shared_ptr<Vertex>> > vertices,
+    shared_ptr< vector<shared_ptr<Edge>> > edges,
     shared_ptr<Observer> td);
     void notifyRoad(int n, int p);
     void notifyRes(int n, int p);

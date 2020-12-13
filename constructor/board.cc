@@ -15,11 +15,15 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
     // init edges
     for ( int i = 0; i <= 71; i++) {
         edges.emplace_back(new Edge(i, -1)); // -1 represent no owner
+        edges.at(i)->attach(make_shared<vector<shared_ptr<Vertex>>> (vertices),
+        make_shared<vector<shared_ptr<Edge>>> (edges), td);
     }
 
     // init vertices
     for ( int i = 0; i <=53; i++) {
         vertices.emplace_back(new Vertex(i, 'N', -1)); // 'N' represent no residence, -1 represent no owner
+        edges.at(i)->attach(make_shared<vector<shared_ptr<Vertex>>> (vertices),
+        make_shared<vector<shared_ptr<Edge>>> (edges), td);
     }
 
     // init tiles
@@ -40,6 +44,7 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
         for ( auto e: tileE.at(i) ) {
             tiles.at(i)->attachE(edges.at(e));
         }
+        tiles.at(i)->attachB(make_shared<vector<shared_ptr<Builder>>> (builders));
     }
 
     // init builders

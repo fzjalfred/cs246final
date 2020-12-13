@@ -10,7 +10,7 @@ class base_exist : public exception {
     const char* what() const noexcept override {return t.c_str();}
 };
 
-Vertex::Vertex(int num, char type, int owner): num(num), type(type), owner(owner) {}
+Vertex::Vertex(int num, char type, int owner): Subject(), Observer(), num(num), type(type), owner(owner) {}
 
 void Vertex::buildRes(int p) {
     if (owner == -1) {
@@ -20,4 +20,4 @@ void Vertex::buildRes(int p) {
     this->type = 'B';
 }
 
-Edge::Edge(int num, int owner): num(num), road(false), owner(owner) {}
+Edge::Edge(int num, int owner): Subject(), Observer(), num(num), road(false), owner(owner) {}

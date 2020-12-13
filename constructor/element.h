@@ -3,6 +3,8 @@
 #include <memory>
 #include <exception>
 #include <string>
+#include "observer.h"
+#include "subject.h"
 
 class TextDisplay;
 
@@ -11,7 +13,7 @@ class Element {
     virtual void accept(std::shared_ptr<TextDisplay>);
 };
 
-class Edge : public Element {
+class Edge : public Element, public Subject, public Observer {
     int num;
     bool road;
     int owner = -1;
@@ -20,7 +22,7 @@ class Edge : public Element {
     void buildRoad(int p);
 };
 
-class Vertex : public Element {
+class Vertex : public Element, public Subject, public Observer {
     int num;
     char type;
     int owner = -1;
