@@ -4,6 +4,7 @@
 #include <chrono>
 #include <algorithm>
 #include <random>
+#include <sstream>
 #include "board.h"
 
 using namespace std;
@@ -19,9 +20,16 @@ extern const int NUM_PLAYER;
 void layoutInit(string& out, vector<pair<int, int>>& layout, string& file) {
     try {
         vector<pair<int, int>> tmp;
-        for (int i = 1; i <= 2 * (NUM_TILE + 1); i += 2)
-        {
-            tmp.emplace_back(out[i], out[i + 1]);
+        int counter = 0;
+        istringstream iss(out);
+        int currFirst;
+        int currSecond;
+        while ( iss >> currFirst && iss >> currSecond) {
+            tmp.emplace_back(currFirst, currSecond);
+            counter ++;
+        } 
+        if ( counter < 19) {
+            throw exception();
         }
         layout = tmp;
     } catch (exception &e) {
@@ -59,7 +67,6 @@ void cmdLoadInit(std::ifstream& fin,  vector<pair<int, int>>& layout, int& curTu
         }
     }
 }
-
 
 void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& curTurn, vector<string>& curData, int& geese, string& file, bool& isload) {
     int i;
@@ -268,7 +275,7 @@ int main(int argc, char* argv[]) {
     Board board;
     try {
         board.init(curTurn, curData, layout, geese);
-        cout<<board.getTD()<<endl;
+        cout<<board.getTD();
     } catch (exception& e) {
         InvalidFormat a(file);
         cout<<a.what()<<endl;
