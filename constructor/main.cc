@@ -302,7 +302,7 @@ int main(int argc, char* argv[]) {
             } else {
                 string a;
                 getline(cin,a);
-                cout<<"Error"<< prompt << " isn't a valid integer." <<endl;
+                cout<<"Error: "<< prompt << " isn't a valid integer." <<endl;
             }
             
         }
@@ -325,7 +325,7 @@ int main(int argc, char* argv[]) {
             } else if (cin.fail()) {
                 string a;
                 getline(cin,a);
-                cout<<"Error"<< prompt << " isn't a valid integer." <<endl;
+                cout<<"Error: "<< prompt << " isn't a valid integer." <<endl;
             }
             
         }
