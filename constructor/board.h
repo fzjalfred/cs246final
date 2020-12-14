@@ -40,7 +40,7 @@ class Board {
     TextDisplay& getTD() {return *td;};
     void resourceProduce(int dice);
     void printCurbuilt();
-    void trade(int player, int give, int take);
+    void trade(int i, int who, int give, int take);
     void printBoard();
     void printStatus();
     void printRes(int player);

@@ -177,7 +177,28 @@ void Board::resourceProduce(int dice) {
     }
 }
 
-void Board::trade(int player, int give, int take) {
+void Board::trade(int i, int who, int give, int take) {
+    cin.exceptions(ios::eofbit|ios::failbit);
+    if(checkResource(i, give) == false) {
+
+    } else if (checkResource(who, take) == false) {
+
+    } else {
+        string colour1 = getPlayerColour(i);
+        string colour2 = getPlayerColour(who);
+        string resource1 = getResource(give);
+        string resource2 = getResource(take);
+        cout<<colour1<< "offers "<<colour2<<" one "<<resource1<<" for one "<<resource2
+        <<".Does "<<colour2<<" accept this offer?"<<endl;
+        string reply;
+        cin>>reply;
+        to_lowercase(reply);
+        if (reply == "yes") {
+            builders.at(i).trade(buidlers.at(who), give, take);
+        } else {
+            cout<<colour2<<" declined the trade."<<endl;
+        }
+    }
     
 }
 

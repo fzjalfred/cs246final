@@ -291,13 +291,26 @@ void Builder::buyImprove(int n, int p) {
     }
 }
 
+void Builder::trade(shared_ptr<Builder>& who, int give, int take) {
+    string colour1 = getPlayerColour(static_cast<int>(colour));
+    string colour2 = getPlayerColour(static_cast<int>(who->colour));
+    string resource1 = getResource(give);
+    string resource2 = getResource(take);
+    this->resource.at(give) -= 1;
+    this->resource.at(take) += 1;
+    who->resource.at(give) += 1;
+    who->resource.at(take) -=1;
+    cout<<colour1<<"gains one "<<resource2<<" and loses one "<<resource1<<","<<endl;
+    cout<<colour2<<"gains one "<<resource1<<" and loses one "<<resource2<<""<<endl;
+}
+
 
 int Builder::getPlayerNum() {
-        return static_cast<int> (colour);
+    return static_cast<int> (colour);
 }
 
 int Builder::getPoint() {
-        return this->points;
+    return this->points;
 }
 
 void Builder::gain(int r, int num) {

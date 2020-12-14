@@ -63,7 +63,7 @@ void readResource(int& pos) {
         else if (who == "heat") pos = 3;
         else if (who == "wifi") pos = 4;
         if (pos == -1)
-            cout << "Invalid colour" << endl;
+            cout << "Invalid item." << endl;
         else
             break;
     }

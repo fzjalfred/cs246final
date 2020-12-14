@@ -230,7 +230,7 @@ int main(int argc, char* argv[]) {
                         readPlayer(pos);
                         readResource(give);
                         readResource(take);
-                        board.trade(pos,give,take);
+                        board.trade(i,pos,give,take);
                     }
                     else if (cmd == "next")
                     {
