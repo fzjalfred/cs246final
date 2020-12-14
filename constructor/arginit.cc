@@ -37,7 +37,9 @@ void readPlayer(int& pos) {
         for (int i = 0; i < NUM_PLAYER; i++)
         {
             to_lowercase(who);
-            if (who.compare(getPlayerColour(i)) == 0)
+            string tocomp = getPlayerColour(i);
+            to_lowercase(tocomp);
+            if (who.compare(tocomp) == 0)
             {
                 pos = i;
                 break;
@@ -63,7 +65,7 @@ void readResource(int& pos) {
         else if (who == "heat") pos = 3;
         else if (who == "wifi") pos = 4;
         if (pos == -1)
-            cout << "Invalid colour" << endl;
+            cout << "Invalid item." << endl;
         else
             break;
     }
@@ -253,10 +255,6 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
                 }
                 shuffle(resources.begin(), resources.end(), rng );
                 shuffle(tiles.begin(), tiles.end(), rng);
-                for (auto n: resources){
-                    cout << "R:" << n << " ";
-                }
-                cout << endl;
                 for(int i=0; i<=18; i++) {
                     layout.emplace_back(resources.at(i), tiles.at(i));
                 }  
@@ -274,8 +272,9 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
         throw a;
     }
     catch (exception &e)
-    {
+    {   
         cout<<"FLAG 4"<<endl;
+        cout<<e.what()<<endl;
         throw;
     }
 } 

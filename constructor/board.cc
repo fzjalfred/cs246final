@@ -8,7 +8,8 @@ using namespace std;
 
 
 void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, int> >& board, int geese ) {
-    cout << "init geese: " << geese << endl;
+    // init td
+    td = make_shared<TextDisplay>(board);
     // init edges
     for ( int i = 0; i <= 71; i++) {
         edges.emplace_back(new Edge(i, -1)); // -1 represent no owner
@@ -21,6 +22,17 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
         edges.at(i)->attach(make_shared<vector<shared_ptr<Vertex>>> (vertices),
         make_shared<vector<shared_ptr<Edge>>> (edges), td);
     }
+
+    // init builders
+    for ( int i = 0; i < 4; i++) {
+        if (builderData.empty()) 
+        builders.emplace_back(new Builder( static_cast<Colour>(i), td));
+        else
+        builders.emplace_back(new Builder( static_cast<Colour>(i), td, builderData.at(i)));
+        builders.back()->attach(make_shared<vector<shared_ptr<Vertex>>> (vertices),
+        make_shared<vector<shared_ptr<Edge>>> (edges), td);
+    }
+
     // init tiles
     vector<vector<int>> tileV = {{0,1,4,9,8,3}, {2,3,8,14,13,7}, {4,5,10,16,15,9}, {6,7,13,19,18,12}, {8,9,15,21,20,14}, 
                                     {10,11,17,23,22,16}, {13,14,20,26,25,19}, {15,16,22,28,27,21}, {18,19,25,31,30,24}, {20,21,27,33,32,26}, 
@@ -42,22 +54,6 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
         tiles.at(i)->attachB(make_shared<vector<shared_ptr<Builder>>> (builders));
     }
 
-    // init td
-    cout << "before td" << endl;
-    td = make_shared<TextDisplay>(board, geese);
-    cout << "after td" << endl;
-
-    cout << "init f1" << endl;
-    // init builders
-    for ( int i = 0; i < 4; i++) {
-        if (builderData.empty()) 
-        builders.emplace_back(new Builder( static_cast<Colour>(i), td));
-        else
-        builders.emplace_back(new Builder( static_cast<Colour>(i), td, builderData.at(i)));
-        builders.back()->attach(make_shared<vector<shared_ptr<Vertex>>> (vertices),
-        make_shared<vector<shared_ptr<Edge>>> (edges), td);
-    }
-
     cout << "init f2" << endl;
     // set owner for edge and vetice
     for ( int i = 0; i < 4; i++) {
@@ -74,6 +70,7 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
     cout << "init f3" << endl;
     // init geese
     this->geese = geese;
+    tiles.at(geese)->initGeese();
 
     cout << "init f4" << endl;
     // init dice
@@ -175,16 +172,60 @@ bool Board::checkWinner(int& winner) {
 }
 
 void Board::resourceProduce(int dice) {
-    cout << "Board resProduce: " << dice << endl;
+    vector<pair<bool, vector<int>>> sum(NUM_PLAYER);
+    for (auto &i: sum) {
+        i.first = false;
+        i.second = vector<int> (NUM_RESOURCE, 0);
+    }
+    bool nogain = 1;
     for (auto i: tiles) {
         if (dice == i->getTileValue()) {
-            i->giveResource();
+            i->giveResource(sum, nogain);
+        }
+    }
+    if (nogain == 1) {
+        cout<<"No builders gained resources."<<endl;
+    } else {
+        for (int i = 0; i < NUM_PLAYER; i++) {
+            if (sum.at(i).first == true) {
+                cout<<"Builder "<<getPlayerColour(i)<<" gained:"<<endl;
+                for (int c = 0; c < NUM_RESOURCE; c++) {
+                    int num = sum.at(i).second.at(c);
+                    string type = getResource(c);
+                    builders.at(i)->gain(c, num);
+                    if (num != 0) {
+                        cout<< num;
+                        cout<<" "<< type << endl;
+                    }
+                }
+            }
         }
     }
 }
 
-void Board::trade(int player, int give, int take) {
+void Board::trade(int i, int who, int give, int take) {
+    cin.exceptions(ios::eofbit|ios::failbit);
+    if(builders.at(i)->checkResource(give) == false) {
 
+    } else if (builders.at(who)->checkResource(take) == false) {
+
+    } else {
+        string colour1 = getPlayerColour(i);
+        string colour2 = getPlayerColour(who);
+        string resource1 = getResource(give);
+        string resource2 = getResource(take);
+        cout<<colour1<< "offers "<<colour2<<" one "<<resource1<<" for one "<<resource2
+        <<".Does "<<colour2<<" accept this offer?"<<endl;
+        string reply;
+        cin>>reply;
+        to_lowercase(reply);
+        if (reply == "yes") {
+            builders.at(i)->trade(builders.at(who), give, take);
+        } else {
+            cout<<colour2<<" declined the trade."<<endl;
+        }
+    }
+    
 }
 
 void Board::printBoard() {
@@ -208,9 +249,32 @@ void Board::geeseSteal() {
 void Board::setGeese(int n, int p) {
     tiles.at(geese)->geeseMove(p);
     tiles.at(n)->geeseMove(p);
+    geese = n;
 }
 
-void Board::save(string) {
-
+void Board::save(int i, string sv) {
+    ofstream out(sv);
+    if (out.is_open()){
+        string cur = to_string(i) + "\n";
+        out<<cur;
+        string p1;
+        for (auto i: builders) {
+            p1 += i->saveBuilder();
+        }
+        out<<p1;
+        
+        string layout;
+        for (auto i: tiles) {
+            layout += to_string(i->getTileResource());
+            layout += " ";
+            layout += to_string(i->getTileValue());
+            layout += " ";
+        }
+        layout[layout.size() - 1] = '\n';
+        out<<layout;
+        out<<to_string(geese);
+        out<<"\n";
+        out.close();
+    }
 }
 

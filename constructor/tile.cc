@@ -32,9 +32,14 @@ void Tile::geeseSteal() {
         }
         if (total >= 10)
         {
+            cout<<"Builder "<<getPlayerColour(i->getPlayerNum())<<" loses "<<total<<" resources to the geese. They lose:"<<endl;
             i->losehalf();
         }
     });
+}
+
+void Tile::initGeese() {
+    this->isGeese = true;
 }
 
 void Tile::geeseMove(int p) {
@@ -44,8 +49,9 @@ void Tile::geeseMove(int p) {
         // player steal
         vector<shared_ptr<Builder>> stealist(0);
         auto owners = this->ownerlist();
-        for (auto &i : owners)
+        for (auto i : owners)
         {
+            if (i->getPlayerNum() == p) continue;
             int total = 0;
             for (auto k : i->resourcelist())
             {
@@ -58,28 +64,35 @@ void Tile::geeseMove(int p) {
         }
         if (stealist.empty())
         {
-            cout << "Builder <" << getPlayerColour(p) << "> has no builders to steal from.";
+            cout << "Builder <" << getPlayerColour(p) << "> has no builders to steal from."<<endl;
         }
         else
         {
             string strlist = "";
             for_each(stealist.begin(), stealist.end(), [&strlist](auto i) {
+                strlist += " ";
                 strlist += getPlayerColour(i->getPlayerNum());
             });
-            cout << "Builder <" << getPlayerColour(p) << "> can choose to steal from [" << strlist << "].";
+            cout << "Builder " << getPlayerColour(p) << " can choose to steal from" << strlist << "."<<endl;
             cout << "Choose a builder to steal from." << endl;
             int who = -1;
-            while (find_if(stealist.begin(), stealist.end(), [who](auto i) {
-                       return i->getPlayerNum() == who;
-                   }) != stealist.end())
+            auto pos = stealist.end();
+            while (pos == stealist.end())
             {
                 readPlayer(who);
+                pos = find_if(stealist.begin(), stealist.end(), [who](auto i) {
+                       return i->getPlayerNum() == who;
+                   });
             }
-            builders->at(p)->steal(stealist.at(who));
+            builders->at(p)->steal(*pos);
         }
     }
     else
         isGeese = false;
+}
+
+int Tile::getTileResource() {
+    return resource;
 }
 
 int Tile::getTileValue() {
@@ -94,23 +107,17 @@ void Tile::attachE(shared_ptr<Edge> ptr) {
     edges.emplace_back(ptr);
 }
 
-void Tile::attachB(shared_ptr< vector<shared_ptr<Builder>> > builders) {
-    this->builders = builders;
+void Tile::attachB(shared_ptr< vector<shared_ptr<Builder>> > b) {
+    this->builders = b;
 }
 
-void Tile::giveResource() {
-    cout << "Tile giveRes" << endl;
-    vector<pair<bool, vector<int>>> sum(NUM_PLAYER);
-    for (auto i: sum) {
-        i.first = false;
-        i.second = vector<int> (NUM_RESOURCE, 0);
-    }
-    bool nogain = 0;
-    for (auto i: vertices) {
+void Tile::giveResource(vector<pair<bool, vector<int>>>& sum, bool& nogain) {
+    
+    for (auto &i: vertices) {
         int owner = i->getOwner();
         cout << "check owner: " << owner << endl; 
         if (owner == -1) continue;
-        else nogain = 1;
+        else nogain = 0;
         char type = i->getResType();
         switch (type) {
             case 'B':
@@ -127,6 +134,7 @@ void Tile::giveResource() {
             break;
         }
     }
+<<<<<<< HEAD
     if (nogain == 0) {
         cout<<"No builders gained resources."<<endl;
     } else {
@@ -142,6 +150,8 @@ void Tile::giveResource() {
             }
         }
     }
+=======
+>>>>>>> c8240bae710fa816df118339d533475020b74030
 }
 
 int Tile::checkVertex(int p) {
