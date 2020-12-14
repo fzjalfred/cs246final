@@ -26,10 +26,12 @@ class Tile {
     public:
     Tile(int num, int value, int resource, bool isGeese = false);
     vector<shared_ptr<Builder>> ownerlist();
+    int getTileResource();
     int getTileValue();
-    void giveResource();
+    void giveResource(vector<pair<bool, vector<int>>>& sum, bool& nogain);
     void geeseMove(int p);
     void geeseSteal();
+    void initGeese();
     int checkVertex(int p);
     int checkEdge(int p);
     bool checkAdjRes(int v);

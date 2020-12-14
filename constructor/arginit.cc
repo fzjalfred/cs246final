@@ -37,7 +37,9 @@ void readPlayer(int& pos) {
         for (int i = 0; i < NUM_PLAYER; i++)
         {
             to_lowercase(who);
-            if (who.compare(getPlayerColour(i)) == 0)
+            string tocomp = getPlayerColour(i);
+            to_lowercase(tocomp);
+            if (who.compare(tocomp) == 0)
             {
                 pos = i;
                 break;

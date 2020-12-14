@@ -110,8 +110,8 @@ int main(int argc, char* argv[]) {
             {
 
                 // roll the dice
-                while (std::cin >> cmd)
-                {
+                while (true)
+                {   std::cin >> cmd;
                     if (cmd == "help" )
                     {
                         cout<<"Valid commands:"<<endl;
@@ -154,9 +154,12 @@ int main(int argc, char* argv[]) {
                 }
 
                 // actions
-                cout<<"Enter a command"<<endl;
-                while (std::cin >> cmd)
+                
+                while (true)
                 {
+                    cin.exceptions(ios::failbit|ios::eofbit);
+                    cout<<"Enter a command"<<endl;
+                    std::cin >> cmd;
                     if (cmd == "help" )
                     {
                         cout<<"Valid commands:"<<endl;
@@ -240,7 +243,7 @@ int main(int argc, char* argv[]) {
                     {   
                         string saveFile;
                         cin>>saveFile;
-                        board.save(saveFile);
+                        board.save(i, saveFile);
                     }
                     else
                     {
@@ -252,9 +255,10 @@ int main(int argc, char* argv[]) {
             {
                 if (cin.eof()) {
                     cout<<"End of file reached."<<endl;
-                    board.save("backup.sv");
+                    board.save(i, "backup.sv");
                     return 1;
                 }
+                cout<<e.what()<<endl;
 
             }
         }

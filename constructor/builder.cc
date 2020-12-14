@@ -116,7 +116,7 @@ void Builder::losehalf() {
     }
     for (int i = 0; i < 5; i++) {
         this->resource.at(i) -= lost.at(i);
-        cout<<"<"<<lost.at(i)<<"> <"<<getResource(i)<<">"<<endl;
+        cout<<lost.at(i)<<" "<<getResource(i)<<endl;
     }
 
 }
@@ -139,8 +139,8 @@ void Builder::steal(shared_ptr<Builder> who) {
     std::shuffle(v.begin(), v.end(), rng);
     who->resource[v[0]] -= 1;
     this->resource[v[0]] += 1;
-    cout<<"Builder <"<<getPlayerColour(this->getPlayerNum())<<"> steals <"<<getResource(v[0])
-    <<"> from builder <"<<getPlayerColour(who->getPlayerNum())<<">."<<endl;
+    cout<<"Builder "<<getPlayerColour(this->getPlayerNum())<<" steals "<<getResource(v[0])
+    <<" from builder "<<getPlayerColour(who->getPlayerNum())<<"."<<endl;
 }
 
 class no_enough_resources : public exception {
@@ -332,9 +332,37 @@ void Builder::printRes() {
     }
 }
 
+string Builder::saveBuilder() {
+    string tmp;
+    for(auto i: resource) {
+        tmp+= to_string(i);
+        tmp+=" ";
+    }
+    tmp += "r";
+    tmp +=" ";
+    for(auto i: roads) {
+        tmp+= to_string(i);
+        tmp+=" ";
+    } 
+    tmp += "h";
+    tmp +=" ";
+    for (auto i: housing) {
+        tmp+=to_string(i.first);
+        tmp+= " ";
+        tmp+=i.second;
+        tmp+= " ";
+    }
+    tmp[tmp.size() - 1] = '\n';
+    return tmp;
+}
+
 vector<int> & Builder::getRoads(){
     return this->roads;
 }
 vector<pair<int,char>> & Builder::getHousing(){
     return this->housing;
+}
+
+bool Builder::checkResource(int type){
+    return this->resource.at(type) > 0; 
 }

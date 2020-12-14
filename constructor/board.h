@@ -37,6 +37,7 @@ class Board {
     bool checkWinner(int &winner);
     void geeseSteal();
     void setGeese(int n, int p);
+    
     TextDisplay& getTD() {return *td;};
     void resourceProduce(int dice);
     void printCurbuilt();
@@ -44,7 +45,7 @@ class Board {
     void printBoard();
     void printStatus();
     void printRes(int player);
-    void save(string);
+    void save(int i, string sv);
     
 };
 
