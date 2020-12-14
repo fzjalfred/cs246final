@@ -282,52 +282,46 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    
-    for( int i = 0; i < NUM_PLAYER && isload == 0;) {
-        string prompt = "Builder <"+getPlayerColour(i)+">, where do you want to build a basement?";
-        cout<<prompt<<endl;
-        try {
-            cin.exceptions(ios::eofbit|ios::failbit);
-            int pos;
-            cin>>pos;
-            if (pos<0||pos>NUM_VERTEX) throw out_of_range("pos");
-            board.buildRes(pos, i, true);
-            i++;
-        }
-        catch (exception& e) {
-            cin.clear();
-            if (cin.eof()) {
-                cout<<"End of file reached."<<endl;
-                return 1;
-            } else {
-                string a;
-                getline(cin,a);
-                cout<<"Error"<< prompt << " isn't a valid integer." <<endl;
+    for( int i = 0; i < NUM_PLAYER && isload == 0; i++) {
+        string prompt = "Builder "+getPlayerColour(i)+" where do you want to build a basement?";
+        while ( true ) {
+            cout << prompt << endl;
+            cout << "> ";  
+            int pos = -1;
+            string cur;
+            cin >> cur;
+            istringstream iss(cur); 
+            if ( ! ( iss >> pos ) || pos < 0 || pos > NUM_VERTEX ) { 
+                cout<<"ERROR: "<< prompt << " isn't a valid integer." <<endl;
+                iss.clear();
+                iss.ignore();
+            } 
+            if ( 0 <= pos && pos <= NUM_VERTEX ) {
+                board.buildRes(pos, i, true);
+                break;
             }
-            
         }
     }
 
-    for( int i = NUM_PLAYER - 1; i >= 0 && isload == 0;) {
-        string prompt = "Builder <"+getPlayerColour(i)+">, where do you want to build a basement?";
-        cout<<prompt<<endl;
-        try {
-            int pos;
-            cin>>pos;
-            if (pos<0||pos>NUM_VERTEX) throw out_of_range("pos");
-            board.buildRes(pos, i, true);
-            i--;
-        } catch (exception& e) {
-            cin.clear();
-            if (cin.eof()) {
-                cout<<"End of file reached."<<endl;
-                return 1;
-            } else if (cin.fail()) {
-                string a;
-                getline(cin,a);
-                cout<<"Error"<< prompt << " isn't a valid integer." <<endl;
+
+    for( int i = NUM_PLAYER - 1; i >= 0 && isload == 0; i--) {
+        string prompt = "Builder " + getPlayerColour(i) + " where do you want to build a basement?";
+        while ( true ) {
+            cout << prompt << endl;
+            cout << "> ";  
+            int pos = -1;
+            string cur;
+            cin >> cur;
+            istringstream iss(cur); 
+            if ( ! ( iss >> pos ) || pos < 0 || pos > NUM_VERTEX ) { 
+                cout<<"ERROR: "<< prompt << " isn't a valid integer." <<endl;
+                iss.clear();
+                iss.ignore();
+            } 
+            if ( 0 <= pos && pos <= NUM_VERTEX ) {
+                board.buildRes(pos, i, true);
+                break;
             }
-            
         }
     }
 
