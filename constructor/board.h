@@ -22,6 +22,7 @@ class Board {
     vector<shared_ptr<Edge>> edges;
     vector<shared_ptr<Tile>> tiles;
     vector<shared_ptr<Builder>> builders;
+    vector<int> curbuilt;
     int geese;
 
     public:
@@ -38,13 +39,13 @@ class Board {
     void setGeese(int n, int p);
     TextDisplay& getTD() {return *td;};
     void resourceProduce(int dice);
-    
+    void printCurbuilt();
     void trade(int player, int give, int take);
     void printBoard();
     void printStatus();
     void printRes(int player);
     void save(string);
-
+    
 };
 
 

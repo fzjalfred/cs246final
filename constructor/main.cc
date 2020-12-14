@@ -59,6 +59,9 @@ int main(int argc, char* argv[]) {
             if (pos<0||pos>NUM_VERTEX) throw out_of_range("pos");
             board.buildRes(pos, i, true);
             i++;
+        } catch (invalid_build& e) {
+            cout<<e.what()<<endl;
+            board.printCurbuilt();
         }
         catch (exception& e) {
             cin.clear();
@@ -71,6 +74,7 @@ int main(int argc, char* argv[]) {
                 cout<<"Error: "<< prompt << " isn't a valid integer." <<endl;
             }
         }
+
     }
 
     for( int i = NUM_PLAYER - 1; i >= 0 && isload == 0;) {

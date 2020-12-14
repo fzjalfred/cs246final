@@ -56,6 +56,13 @@ class InvalidFormat : public exception {
     const char* what() const noexcept override {return t.c_str();}
 };
 
+class invalid_build : public exception {
+    public:
+    const char* what() const noexcept override {return "You cannot build here.";}
+};
+
+
+
 //==============================================================================================================
 
 int readInt(int a, int b);

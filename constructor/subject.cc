@@ -4,7 +4,6 @@
 #include <vector>
 #include <exception>
 #include <algorithm>
-
 #include <iostream>
 
 void Subject::attach (shared_ptr< vector<shared_ptr<Vertex>> > vertices,

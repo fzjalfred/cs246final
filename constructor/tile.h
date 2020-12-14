@@ -14,7 +14,7 @@ extern const int NUM_PLAYER;
 class Vertex;
 class Edge;
 
-class Tile : public Subject {
+class Tile {
     int num;
     int value;
     int resource;
@@ -30,6 +30,12 @@ class Tile : public Subject {
     void giveResource();
     void geeseMove(int p);
     void geeseSteal();
+    int checkVertex(int p);
+    int checkEdge(int p);
+    bool checkAdjRes(int v);
+    bool checkAdjRoad(int v, int player);
+    bool checkAdjRes_road(int v, int player);
+    bool checkAdjRoad_road(int v, int player);
     void attachV(shared_ptr<Vertex>);
     void attachE(shared_ptr<Edge>);
     void attachB(shared_ptr< vector<shared_ptr<Builder>> > builders);

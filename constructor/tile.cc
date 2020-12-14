@@ -142,3 +142,98 @@ void Tile::giveResource() {
     }
 }
 
+int Tile::checkVertex(int p) {
+    for (int i= 0; i<6; i++) {
+        if (vertices.at(i)->getPos() == p) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int Tile::checkEdge(int p) {
+    for (int i= 0; i<6; i++) {
+        if (edges.at(i)->getPos() == p) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+bool Tile::checkAdjRes(int v) {
+    int back;
+    int forward;
+    if (v == 0) {
+        back = 5;
+        forward = 1;
+    } else if (v == 5) {
+        back = 4;
+        forward = 0;
+    } else {
+        back = v-1;
+        forward = v+1;
+    }
+    int a1 = vertices.at(back)->getOwner();
+    int a2 = vertices.at(forward)->getOwner();
+    if (a1 == -1 && a2 == -1) {
+        return false;
+    } else return true;
+}
+
+
+bool Tile::checkAdjRoad(int v, int player) {
+    int back;
+    int forward;
+    if (v == 0) {
+        back = 5;
+        forward = 0;
+    } 
+    else {
+        back = v-1;
+        forward = v;
+    }
+    int a1 = edges.at(back)->getOwner();
+    int a2 = edges.at(forward)->getOwner();
+    if (a1 == player || a2 == player) return true;
+    else return false;
+}
+
+bool Tile::checkAdjRes_road(int v, int player) {
+    int back;
+    int forward;
+    if (v == 0) {
+        back = 5;
+        forward = 0;
+    } 
+    else {
+        back = v-1;
+        forward = v;
+    }
+    int a1 = vertices.at(back)->getOwner();
+    int a2 = vertices.at(forward)->getOwner();
+    if (a1 == player || a2 == player) return true;
+    else return false;
+
+}
+
+bool Tile::checkAdjRoad_road(int v, int player){
+    int back;
+    int forward;
+    if (v == 0) {
+        back = 5;
+        forward = 1;
+    } else if (v == 5) {
+        back = 4;
+        forward = 0;
+    } else {
+        back = v-1;
+        forward = v+1;
+    }
+    int a1 = edges.at(back)->getOwner();
+    int a2 = edges.at(forward)->getOwner();
+    if (a1 == player || a2 == player) return true;
+    else return false;
+}
+
+
+

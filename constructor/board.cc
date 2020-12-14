@@ -78,12 +78,52 @@ int Board::getDiceNum() {
 };
 
 
+void Board::printCurbuilt() {
+    string a ="";
+    for (auto i: curbuilt) {
+        a+=to_string(i);
+        a+=" ";
+    }
+    cout<<"Basements already exist as locations: "<<a<<endl;
+}
+
+
 void Board::buildRes(int pos, int player, bool init) {
+    for (auto i: tiles) {
+        int v = i->checkVertex(pos);
+        if (v == -1) continue;
+        if (i->checkAdjRes(v) == true) {
+            if (init == 1) {
+                throw invalid_build();
+            }
+            cout<<invalid_build().what()<<endl;
+            return;
+        } else if (i->checkAdjRoad(v, player) == false && init == 0) {
+            cout <<invalid_build().what()<<endl;
+            return;
+        }
+    }
     auto builder = builders.at(player);
     builder -> buyRes(pos, player, init);
+
+    if (vertices.at(pos)->getOwner() != -1 && init == 1) {
+        curbuilt.emplace_back(pos);
+    }
 }
 
 void Board::buildRoad(int pos, int player) {
+    for (auto i: tiles) {
+        int v = i->checkEdge(pos);
+        if (v == -1) continue;
+        if (i->checkAdjRes_road(v, player) == false) {
+            cout<<invalid_build().what()<<endl;
+            return;
+        } else if (i->checkAdjRoad_road(v, player) == false) {
+            cout <<invalid_build().what()<<endl;
+            return;
+        }
+    }
+
     auto builder = builders.at(player);
     try {
         builder -> buyRoad(pos, player);
