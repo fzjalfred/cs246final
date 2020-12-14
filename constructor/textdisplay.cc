@@ -36,6 +36,21 @@ TextDisplay::TextDisplay( vector< pair<int, int> > & board) : Observer() {
 
 }
 
+void TextDisplay::update(string type, int pos, string builder, string buildingtype) {
+    cout << "TD-Update: " << type << " " << pos << " " << builder << " " << buildingtype << ", " << endl;
+    if ( type == "v") {
+        v.at(pos) = builder+buildingtype;
+        cout << "TD-v:" << v.at(pos) << endl;
+    } 
+    if ( type == "e") {
+        e.at(pos) = builder+buildingtype;
+    } 
+    if ( type == "tVal"){
+        tRes.at(pos) = buildingtype;
+    }
+}
+
+
 std::ostream &operator<<(std::ostream &out, const TextDisplay &td) {
     out << "                    |" + td.v.at(0) + "|--" + td.e.at(0) + "--|" + td.v.at(1) + "|                    " << endl;
     out << "                      |         |                     " << endl;

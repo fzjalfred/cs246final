@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Builder::Builder(Colour c, string data) {
+Builder::Builder(Colour c, shared_ptr<TextDisplay> td, string data) {
 
     // init colour
     colour = c;
@@ -74,6 +74,26 @@ Builder::Builder(Colour c, string data) {
         if ( h.second == 'T' ) {
             points += 3;
         }
+    }
+
+    // textdisplay update
+    this->td = td;
+    // update road
+    string owner;
+    if ( c == Colour::Blue) {
+        owner = "B";
+    } else if ( c == Colour::Red) {
+        owner = "R";
+    } else if ( c == Colour::Orange) {
+        owner = "O";
+    } else {
+        owner = "Y";
+    }
+    for ( auto r: roads) {
+        td->update("e", r, owner, "R");
+    }
+    for ( auto h: housing) {
+        td->update("v", h.first, owner, string(1,h.second));
     }
 
 }
@@ -153,6 +173,17 @@ void Builder::buyRes(int n, int p, bool init) {
         return i<j;
     });
         this->points += 1;
+        string player;
+        if ( p == 0) {
+            player = "B";
+        } else if ( p == 1) {
+            player = "R";
+        } else if ( p == 2) {
+            player = "O";
+        } else {
+            player = "Y";
+        }
+        td->update("v", n, player, "B");
     } else {
         cout<<"You do not have enough resources."<<endl;
     }
@@ -169,6 +200,18 @@ void Builder::buyRoad(int n, int p) {
             return;
         }
         roads.emplace_back(n);
+        this->points += 1;
+        string player;
+        if ( p == 0) {
+            player = "B";
+        } else if ( p == 1) {
+            player = "R";
+        } else if ( p == 2) {
+            player = "O";
+        } else {
+            player = "Y";
+        }
+        td->update("e", n, player, "R");
         sort(roads.begin(), roads.end());
     } else {
         cout<<"You do not have enough resources."<<endl;
@@ -202,6 +245,18 @@ void Builder::buyImprove(int n, int p) {
             glass-=2;
             heat-=3;
             this->points += 2;
+            this->points += 1;
+            string player;
+            if ( p == 0) {
+                player = "B";
+            } else if ( p == 1) {
+                player = "R";
+            } else if ( p == 2) {
+                player = "O";
+            } else {
+                player = "Y";
+            }
+            td->update("v", n, player, "T");
         } else {
             cout<<"You do not have enough resources."<<endl;
             cout<<endl<<"The cost to improve a Basement to a House is two GLASS and three HEAT resource."<<endl;
@@ -217,6 +272,17 @@ void Builder::buyImprove(int n, int p) {
             wifi -=1;
             heat -=2;
             this->points += 3;
+            string player;
+            if ( p == 0) {
+                player = "B";
+            } else if ( p == 1) {
+                player = "R";
+            } else if ( p == 2) {
+                player = "O";
+            } else {
+                player = "Y";
+            }
+            td->update("v", n, player, "H");
         } else {
             cout<<"You do not have enough resources."<<endl;
             cout<<endl<<"The cost to improve a Basement to a House is two GLASS and three HEAT resource."<<endl;

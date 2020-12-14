@@ -131,27 +131,37 @@ void cmdLoadInit(std::ifstream& fin,  vector<pair<int, int>>& layout, int& curTu
         getline(fin, s);
         try {
             //curTurn
-            int tmp1 = stoi(s);
-            if (tmp1 < 0)
+            istringstream iss1{s};
+            int tmp1;
+            iss1 >> tmp1;
+            if (tmp1 < 0){
+                cout << "here1" << endl;
                 throw;
+            }
             curTurn = tmp1;
+            cout << "tmp1: "<<tmp1;
             //curData
-            for (int i = 1; i < NUM_PLAYER; i++)
+            for (int i = 0; i < NUM_PLAYER; i++)
             {
                 getline(fin, s);
                 curData.emplace_back(s);
             }
             //board
             getline(fin, out);
+            cout << "board out: " << out << endl;
             layoutInit(out, layout, file);
             //geese
             getline(fin, s);
             int tmp2 = stoi(s);
-            if (tmp2 < 0 ) throw;
+            cout << "here2: " << s << endl; 
+            if (tmp2 < 0 ) {
+                throw;
+            }
             geese = tmp2;
         } catch (exception& any) {
             throw InvalidFormat(file);
         }
+        break;
     }
 }
 

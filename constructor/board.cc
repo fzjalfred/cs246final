@@ -40,12 +40,16 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
         }
         tiles.at(i)->attachB(make_shared<vector<shared_ptr<Builder>>> (builders));
     }
+
+    // init td
+    td = make_shared<TextDisplay>(board);
+    
     // init builders
     for ( int i = 0; i < 4; i++) {
         if (builderData.empty()) 
-        builders.emplace_back(new Builder( static_cast<Colour>(i)));
+        builders.emplace_back(new Builder( static_cast<Colour>(i), td));
         else
-        builders.emplace_back(new Builder( static_cast<Colour>(i), builderData.at(i)));
+        builders.emplace_back(new Builder( static_cast<Colour>(i), td, builderData.at(i)));
         builders.back()->attach(make_shared<vector<shared_ptr<Vertex>>> (vertices),
         make_shared<vector<shared_ptr<Edge>>> (edges), td);
     }
@@ -57,8 +61,7 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
     // init dice
     this->dice = make_shared<LoadedDice> ();
 
-    // init td
-    td = make_shared<TextDisplay>(board);
+    
 }
 
 void Board::setLoad() {

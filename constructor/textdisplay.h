@@ -21,7 +21,11 @@ class TextDisplay: public Observer{
     //void visit(Edge&);
     //void visit(Vertex&);
 
+    void update(string type, int pos, string builder, string buildingtype);
+
     friend std::ostream &operator<<(std::ostream &out, const TextDisplay &td);
+
+
 };
 
 std::ostream &operator<<(std::ostream &out, const TextDisplay &td);

@@ -9,6 +9,7 @@
 #include "subject.h"
 #include "info.h"
 #include "arginit.h"
+#include "textdisplay.h"
 
 enum class Colour;
 
@@ -20,8 +21,9 @@ class Builder : public Observer, public Subject {
     vector<int> resource;
     vector<int> roads;
     vector< pair<int, char> > housing;
+    shared_ptr<TextDisplay> td;
     public:
-    Builder(Colour, string = "0 0 0 0 0 r h ");
+    Builder(Colour, shared_ptr<TextDisplay>, string = "0 0 0 0 0 r h ");
     vector<int> & getRoads();
     vector< pair<int, char> > & getHousing();
     void buyRoad(int n, int p);
@@ -34,7 +36,7 @@ class Builder : public Observer, public Subject {
     const vector<int> resourcelist();
     void losehalf();
     void steal(shared_ptr<Builder>);
-
+    
     void printStatus();
     void printRes();
 };
