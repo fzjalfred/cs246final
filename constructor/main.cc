@@ -41,7 +41,9 @@ int main(int argc, char* argv[]) {
     Board board;
     try {
         board.init(curTurn, curData, layout, geese);
+        cout << "main init: " << geese << endl; 
         cout<<board.getTD();
+        cout << "td: " << geese << endl;
     } catch (exception& e) {
         InvalidFormat a(file);
         cout<<a.what()<<endl;
@@ -106,6 +108,7 @@ int main(int argc, char* argv[]) {
         for (int i = 0; i < NUM_PLAYER; i++)
         {
             cout << "Builder "<<getPlayerColour(i)<<"'s turn." << endl;
+            cout << "> ";
             try
             {
 
@@ -120,11 +123,13 @@ int main(int argc, char* argv[]) {
                         cout<<"~ roll : rolls the dice and distributes resources."<<endl;
                         cout<<"~ status : prints the current status of all builders in order from builder 0 to 3."<<endl;
                         cout<<"~ help : prints out the list of commands."<<endl;
+                        cout<<"> ";
                     }
                     else if (cmd == "load")
                     {
                         board.setLoad();
-                        cout<<"Builder <<"<<getPlayerColour(i)<<"<< now has loaded Dice."<<endl;
+                        cout<<"Builder "<<getPlayerColour(i)<<" now has loaded Dice."<<endl;
+                        cout << "> ";
                     }
                     else if (cmd == "fair")
                     {

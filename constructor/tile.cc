@@ -108,6 +108,7 @@ void Tile::giveResource() {
     bool nogain = 0;
     for (auto i: vertices) {
         int owner = i->getOwner();
+        cout << "check owner: " << owner << endl; 
         if (owner == -1) continue;
         else nogain = 1;
         char type = i->getResType();
@@ -126,7 +127,7 @@ void Tile::giveResource() {
             break;
         }
     }
-    if (nogain == 1) {
+    if (nogain == 0) {
         cout<<"No builders gained resources."<<endl;
     } else {
         for (int i = 0; i < NUM_PLAYER; i++) {

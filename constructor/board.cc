@@ -8,6 +8,7 @@ using namespace std;
 
 
 void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, int> >& board, int geese ) {
+    cout << "init geese: " << geese << endl;
     // init edges
     for ( int i = 0; i <= 71; i++) {
         edges.emplace_back(new Edge(i, -1)); // -1 represent no owner
@@ -42,8 +43,11 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
     }
 
     // init td
-    td = make_shared<TextDisplay>(board);
+    cout << "before td" << endl;
+    td = make_shared<TextDisplay>(board, geese);
+    cout << "after td" << endl;
 
+    cout << "init f1" << endl;
     // init builders
     for ( int i = 0; i < 4; i++) {
         if (builderData.empty()) 
@@ -54,6 +58,7 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
         make_shared<vector<shared_ptr<Edge>>> (edges), td);
     }
 
+    cout << "init f2" << endl;
     // set owner for edge and vetice
     for ( int i = 0; i < 4; i++) {
         vector<int> & temRoad = builders.at(i)->getRoads();
@@ -66,10 +71,11 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
         }
     }
 
-
+    cout << "init f3" << endl;
     // init geese
     this->geese = geese;
 
+    cout << "init f4" << endl;
     // init dice
     this->dice = make_shared<LoadedDice> ();
 

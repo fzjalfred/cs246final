@@ -18,6 +18,7 @@ void LoadedDice::roll()
 {
     int dice;
     std::cout << "Input a roll between "+std::to_string(DICE_MIN)+" and "+std::to_string(DICE_MAX)+":" << std::endl;
+    std::cout << "> ";
     while (true)
     {
         try

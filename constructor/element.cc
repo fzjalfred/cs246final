@@ -15,8 +15,7 @@ void Vertex::buildRes(int p, char c) {
         this->type = 'B';
     } else {
         this->type = c;
-    }
-    
+    } 
 }
 
 Edge::Edge(int num, int owner): Subject(), Observer(), num(num), owner(owner) {}
@@ -39,7 +38,7 @@ void Edge::buildRoad(int p) {
     if (owner != -1) {
         throw invalid_build();
     }
-    owner = p;
+    owner = p; 
 }
 
 int Vertex::getOwner(){

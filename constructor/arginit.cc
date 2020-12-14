@@ -155,6 +155,7 @@ void cmdLoadInit(std::ifstream& fin,  vector<pair<int, int>>& layout, int& curTu
             }
             geese = tmp2;
         } catch (exception& any) {
+            cout << "here?" << endl;
             throw InvalidFormat(file);
         }
         break;
