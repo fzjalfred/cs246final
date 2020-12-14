@@ -6,12 +6,17 @@ using namespace std;
 
 Vertex::Vertex(int num, char type, int owner): Subject(), Observer(), num(num), type(type), owner(owner) {}
 
-void Vertex::buildRes(int p) {
+void Vertex::buildRes(int p, char c) {
     if (owner != -1) {
         throw invalid_build();
     }
     this->owner = p;
-    this->type = 'B';
+    if ( c == 'N' ){
+        this->type = 'B';
+    } else {
+        this->type = c;
+    }
+    
 }
 
 Edge::Edge(int num, int owner): Subject(), Observer(), num(num), owner(owner) {}

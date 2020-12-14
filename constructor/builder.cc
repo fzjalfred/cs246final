@@ -318,3 +318,10 @@ void Builder::printRes() {
         cout<< i.first <<" "<< i.second;
     }
 }
+
+vector<int> & Builder::getRoads(){
+    return this->roads;
+}
+vector<pair<int,char>> & Builder::getHousing(){
+    return this->housing;
+}

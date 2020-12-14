@@ -99,6 +99,7 @@ void Tile::attachB(shared_ptr< vector<shared_ptr<Builder>> > builders) {
 }
 
 void Tile::giveResource() {
+    cout << "Tile giveRes" << endl;
     vector<pair<bool, vector<int>>> sum(NUM_PLAYER);
     for (auto i: sum) {
         i.first = false;

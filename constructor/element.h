@@ -33,7 +33,7 @@ class Vertex : public Element, public Subject, public Observer {
     int getOwner();
     int getPos();
     char getResType();
-    void buildRes(int p) ;
+    void buildRes(int p, char type = 'N') ;
     void buildImprove() ;
 };
 

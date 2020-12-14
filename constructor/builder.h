@@ -25,7 +25,7 @@ class Builder : public Observer, public Subject {
     public:
     Builder(Colour, shared_ptr<TextDisplay>, string = "0 0 0 0 0 r h ");
     vector<int> & getRoads();
-    vector< pair<int, char> > & getHousing();
+    vector<pair<int,char>> & getHousing();
     void buyRoad(int n, int p);
     void buyRes(int n, int p, bool init = 0);
     void gain(int r, int num);

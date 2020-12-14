@@ -135,11 +135,9 @@ void cmdLoadInit(std::ifstream& fin,  vector<pair<int, int>>& layout, int& curTu
             int tmp1;
             iss1 >> tmp1;
             if (tmp1 < 0){
-                cout << "here1" << endl;
                 throw;
             }
             curTurn = tmp1;
-            cout << "tmp1: "<<tmp1;
             //curData
             for (int i = 0; i < NUM_PLAYER; i++)
             {
@@ -148,12 +146,10 @@ void cmdLoadInit(std::ifstream& fin,  vector<pair<int, int>>& layout, int& curTu
             }
             //board
             getline(fin, out);
-            cout << "board out: " << out << endl;
             layoutInit(out, layout, file);
             //geese
             getline(fin, s);
             int tmp2 = stoi(s);
-            cout << "here2: " << s << endl; 
             if (tmp2 < 0 ) {
                 throw;
             }

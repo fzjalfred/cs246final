@@ -31,7 +31,7 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
                                     {45,51,59,62,58,50}, {52,56,64,67,63,55}, {53,58,66,68,65,57}, {61,65,70,71,69,64}};
     
     for ( int i = 0; i <= 18; i++) {
-        tiles.emplace_back(new Tile(i, board.at(i).first, board.at(i).second));
+        tiles.emplace_back(new Tile(i, board.at(i).second, board.at(i).first));
         for ( auto v: tileV.at(i) ) {
             tiles.at(i)->attachV(vertices.at(v));
         }
@@ -43,7 +43,7 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
 
     // init td
     td = make_shared<TextDisplay>(board);
-    
+
     // init builders
     for ( int i = 0; i < 4; i++) {
         if (builderData.empty()) 
@@ -54,6 +54,18 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
         make_shared<vector<shared_ptr<Edge>>> (edges), td);
     }
 
+    // set owner for edge and vetice
+    for ( int i = 0; i < 4; i++) {
+        vector<int> & temRoad = builders.at(i)->getRoads();
+        for ( auto r: temRoad) {
+            edges.at(r)->buildRoad(i);
+        }
+        vector< pair<int, char> > & tmpRes = builders.at(i)->getHousing();
+        for ( auto r: tmpRes) {
+            vertices.at(r.first)->buildRes(i, r.second);
+        }
+    }
+
 
     // init geese
     this->geese = geese;
@@ -61,7 +73,6 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
     // init dice
     this->dice = make_shared<LoadedDice> ();
 
-    
 }
 
 void Board::setLoad() {
@@ -158,6 +169,7 @@ bool Board::checkWinner(int& winner) {
 }
 
 void Board::resourceProduce(int dice) {
+    cout << "Board resProduce: " << dice << endl;
     for (auto i: tiles) {
         if (dice == i->getTileValue()) {
             i->giveResource();
