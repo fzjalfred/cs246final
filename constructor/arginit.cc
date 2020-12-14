@@ -252,10 +252,6 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
                 }
                 shuffle(resources.begin(), resources.end(), rng );
                 shuffle(tiles.begin(), tiles.end(), rng);
-                for (auto n: resources){
-                    cout << "R:" << n << " ";
-                }
-                cout << endl;
                 for(int i=0; i<=18; i++) {
                     layout.emplace_back(resources.at(i), tiles.at(i));
                 }  
@@ -273,8 +269,9 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
         throw a;
     }
     catch (exception &e)
-    {
+    {   
         cout<<"FLAG 4"<<endl;
+        cout<<e.what()<<endl;
         throw;
     }
 } 

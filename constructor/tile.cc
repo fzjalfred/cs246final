@@ -101,15 +101,16 @@ void Tile::attachB(shared_ptr< vector<shared_ptr<Builder>> > builders) {
 void Tile::giveResource() {
     cout << "Tile giveRes" << endl;
     vector<pair<bool, vector<int>>> sum(NUM_PLAYER);
-    for (auto i: sum) {
+    for (auto &i: sum) {
         i.first = false;
         i.second = vector<int> (NUM_RESOURCE, 0);
     }
-    bool nogain = 0;
-    for (auto i: vertices) {
+    cout<<"flag 2"<<endl;
+    bool nogain = 1;
+    for (auto &i: vertices) {
         int owner = i->getOwner();
         if (owner == -1) continue;
-        else nogain = 1;
+        else nogain = 0;
         char type = i->getResType();
         switch (type) {
             case 'B':
@@ -129,6 +130,7 @@ void Tile::giveResource() {
     if (nogain == 1) {
         cout<<"No builders gained resources."<<endl;
     } else {
+        cout<<"flag 3"<<endl;
         for (int i = 0; i < NUM_PLAYER; i++) {
             if (sum.at(i).first == true) {
                 cout<<"Builder "<<getPlayerColour(i)<<" gained:"<<endl;

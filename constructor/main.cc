@@ -150,7 +150,6 @@ int main(int argc, char* argv[]) {
                     int n = readInt(0, 18);
                     board.setGeese(n, i);
                 } else {
-                    cout<<"flag 1 "<<dice<<endl;
                     board.resourceProduce(dice);
                 }
 

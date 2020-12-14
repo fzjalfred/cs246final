@@ -178,7 +178,7 @@ void Board::resourceProduce(int dice) {
 }
 
 void Board::trade(int player, int give, int take) {
-
+    
 }
 
 void Board::printBoard() {
