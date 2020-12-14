@@ -2,6 +2,7 @@
 #include "observer.h"
 #include "element.h"
 #include <vector>
+#include <exception>
 #include <algorithm>
 
 #include <iostream>

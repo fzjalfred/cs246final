@@ -2,13 +2,9 @@
 #include <string>
 #include <algorithm>
 #include <memory>
-#include "tile.h"
 #include "board.h"
-#include "info.h"
 
 using namespace std;
-
-extern int getPlayerNum(shared_ptr<Builder>);
 
 
 void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, int> >& board, int geese ) {
@@ -54,8 +50,6 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
         make_shared<vector<shared_ptr<Edge>>> (edges), td);
     }
 
-    // init curPlay
-    curPlayer = builders.front();
 
     // init geese
     this->geese = geese;
@@ -91,47 +85,24 @@ void Board::buildRes(int pos, int player, bool init) {
 
 void Board::buildRoad(int pos, int player) {
     auto builder = builders.at(player);
-    builder -> buyRoad(pos, player);
+    try {
+        builder -> buyRoad(pos, player);
+    }
+    catch (exception& e) {
+        cout<< e.what() <<endl;
+    }   
 }
 
 void Board::improve(int pos, int player) {
     auto builder =builders.at(player);
-    builder -> buyImprove(pos, player);
+    try {
+        builder -> buyImprove(pos, player);
+    }
+    catch (exception& e) {
+        cout<< e.what() <<endl;
+    }
 }
 
-string getPlayerColour(int i) {
-    Colour c = static_cast<Colour>(i);
-    switch (c) {
-        case Colour::Blue:
-        return "Blue";
-        case Colour::Orange:
-        return "Orange";
-        case Colour::Red:
-        return "Red";
-        case Colour::Yellow:
-        return "Yellow";
-    } 
-    return "";
-}
-
-string getResource(int i) {
-    Resource c = static_cast<Resource>(i);
-    switch (c) {
-        case Resource::BRICK:
-        return "BRICK";
-        case Resource::ENERGY:
-        return "ENERGY";
-        case Resource::GLASS:
-        return "GLASS";
-        case Resource::HEAT:
-        return "HEAT";
-         case Resource::WIFI:
-        return "WIFI";
-        case Resource::PARK:
-        return "PARK";
-    } 
-    return "";
-}
 
 bool Board::checkWinner(int& winner) {
     for (auto i: builders) {
@@ -141,6 +112,14 @@ bool Board::checkWinner(int& winner) {
         }
     }
     return false;
+}
+
+void Board::resourceProduce(int dice) {
+    for (auto i: tiles) {
+        if (dice == i->getTileValue()) {
+            i->giveResource();
+        }
+    }
 }
 
 void Board::trade(int player, int give, int take) {
@@ -157,8 +136,8 @@ void Board::printStatus() {
     }
 }
 
-void Board::printRes() {
-
+void Board::printRes(int player) {
+    builders.at(player)->printRes();
 }
 
 void Board::geeseSteal() {

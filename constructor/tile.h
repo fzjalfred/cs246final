@@ -4,9 +4,12 @@
 #include "builder.h"
 #include "observer.h"
 #include "subject.h"
+#include "arginit.h"
 
 
 using namespace std;
+
+extern const int NUM_PLAYER;
 
 class Vertex;
 class Edge;
@@ -23,6 +26,8 @@ class Tile : public Subject {
     public:
     Tile(int num, int value, int resource, bool isGeese = false);
     vector<shared_ptr<Builder>> ownerlist();
+    int getTileValue();
+    void giveResource();
     void geeseMove(int p);
     void geeseSteal();
     void attachV(shared_ptr<Vertex>);

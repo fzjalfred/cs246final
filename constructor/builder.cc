@@ -1,17 +1,7 @@
-#include <iostream>
-#include <sstream>
-#include <exception>
-#include <random>
-#include <algorithm>
-#include <chrono>
 #include "builder.h"
-#include "info.h"
+
 
 using namespace std;
-
-extern string getPlayerColour(int);
-extern int getPlayerNum(shared_ptr<Builder>);
-extern string getResource(int);
 
 Builder::Builder(Colour c, string data) {
 
@@ -133,6 +123,11 @@ void Builder::steal(shared_ptr<Builder> who) {
     <<"> from builder <"<<getPlayerColour(who->getPlayerNum())<<">."<<endl;
 }
 
+class no_enough_resources : public exception {
+    public:
+    const char* what() const noexcept override {return "You do not have enough resources.";}
+};
+
 void Builder::buyRes(int n, int p, bool init) {
     if (init) {
         this->notifyRes(n, p);
@@ -143,12 +138,21 @@ void Builder::buyRes(int n, int p, bool init) {
     int& glass = this->resource[static_cast<int>(Resource::GLASS)];
     int& wifi = this->resource[static_cast<int>(Resource::WIFI)];
     if (brick >= 1 && energy >= 1 && glass >=1 && wifi >= 1) {
-        this->notifyRes(n, p);
+        try {
+            this->notifyRes(n, p);
+        } catch (exception &e) {
+            cout<<e.what()<<endl;
+            return;
+        }
         housing.emplace_back(n,'B');
         brick--;
         energy--;
         glass--;
         wifi--;
+        sort(housing.begin(), housing.end(), [](auto i, auto j) {
+        return i<j;
+    });
+        this->points += 1;
     } else {
         cout<<"You do not have enough resources."<<endl;
     }
@@ -158,8 +162,14 @@ void Builder::buyRoad(int n, int p) {
     int& heat = this->resource[static_cast<int>(Resource::HEAT)];
     int& wifi = this->resource[static_cast<int>(Resource::WIFI)];
     if (heat>=1 && wifi >= 1) {
-        this->notifyRoad(n, p);
+        try {
+            this->notifyRoad(n, p);
+        } catch (exception &e) {
+            cout<<e.what()<<endl;
+            return;
+        }
         roads.emplace_back(n);
+        sort(roads.begin(), roads.end());
     } else {
         cout<<"You do not have enough resources."<<endl;
     }
@@ -183,9 +193,15 @@ void Builder::buyImprove(int n, int p) {
         cout<< "You can't improve that building."<<endl;
     } else if (cur == 'H') {
         if (glass>=2 && heat >= 3) {
-            this->notifyImprove(n, p);
+            try {
+                this->notifyImprove(n, p);
+            } catch (exception &e) {
+              cout<<e.what()<<endl;
+              return;
+            }
             glass-=2;
             heat-=3;
+            this->points += 2;
         } else {
             cout<<"You do not have enough resources."<<endl;
             cout<<endl<<"The cost to improve a Basement to a House is two GLASS and three HEAT resource."<<endl;
@@ -200,12 +216,26 @@ void Builder::buyImprove(int n, int p) {
             glass -=2;
             wifi -=1;
             heat -=2;
+            this->points += 3;
         } else {
             cout<<"You do not have enough resources."<<endl;
             cout<<endl<<"The cost to improve a Basement to a House is two GLASS and three HEAT resource."<<endl;
             cout<<"The cost to improve a House to a Tower is three BRICK, two ENERGY, two GLASS, one WIFI, and two HEAT."<<endl;
         }
     }
+}
+
+
+int Builder::getPlayerNum() {
+        return static_cast<int> (colour);
+}
+
+int Builder::getPoint() {
+        return this->points;
+}
+
+void Builder::gain(int r, int num) {
+    this->resource.at(r) += num;
 }
 
 
@@ -216,3 +246,9 @@ void Builder::printStatus(){
     cout<<text<<endl;
 }
 
+void Builder::printRes() {
+    cout<<getPlayerColour(static_cast<int> (colour))<<" has built: "<<endl;
+    for (auto i: housing) {
+        cout<< i.first <<" "<< i.second;
+    }
+}

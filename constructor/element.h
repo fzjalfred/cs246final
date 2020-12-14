@@ -19,7 +19,7 @@ class Edge : public Element, public Subject, public Observer {
     int owner = -1;
     public:
     Edge(int, int);
-    int getOwner() ;
+    int getOwner();
     void buildRoad(int p) ;
 };
 
@@ -29,7 +29,8 @@ class Vertex : public Element, public Subject, public Observer {
     int owner = -1;
     public:
     Vertex(int, char, int);
-    int getOwner() ;
+    int getOwner();
+    char getResType();
     void buildRes(int p) ;
     void buildImprove() ;
 };

@@ -12,6 +12,8 @@ const int NUM_TILE = 18;
 
 const int NUM_PLAYER = 4;
 
+const int NUM_RESOURCE = 5;
+
 const int DICE_MIN = 2;
 
 const int DICE_MAX = 12;

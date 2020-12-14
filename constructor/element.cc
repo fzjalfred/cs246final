@@ -10,6 +10,13 @@ class base_exist : public exception {
     const char* what() const noexcept override {return t.c_str();}
 };
 
+class road_exist : public exception {
+    string t;
+    public:
+    explicit road_exist(int n) {t = "Roads already exist as locations: " + to_string(n);};
+    const char* what() const noexcept override {return t.c_str();}
+};
+
 Vertex::Vertex(int num, char type, int owner): Subject(), Observer(), num(num), type(type), owner(owner) {}
 
 void Vertex::buildRes(int p) {
@@ -37,6 +44,9 @@ void Vertex::buildImprove() {
 
 
 void Edge::buildRoad(int p) {
+    if (owner != -1) {
+        throw road_exist(this->num);
+    }
     road = true;
     owner = p;
 }
@@ -47,4 +57,8 @@ int Vertex::getOwner(){
 
 int Edge::getOwner(){
     return owner;
+}
+
+char Vertex::getResType() {
+    return type;
 }

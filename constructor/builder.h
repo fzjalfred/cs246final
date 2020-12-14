@@ -2,9 +2,13 @@
 #define __BUILDER_H__
 #include <string>
 #include <vector>
+#include <iostream>
+#include <sstream>
 #include <exception>
 #include "observer.h"
 #include "subject.h"
+#include "info.h"
+#include "arginit.h"
 
 enum class Colour;
 
@@ -22,20 +26,17 @@ class Builder : public Observer, public Subject {
     vector< pair<int, char> > & getHousing();
     void buyRoad(int n, int p);
     void buyRes(int n, int p, bool init = 0);
-    //void builderObtain(enum Resource type, int num);
+    void gain(int r, int num);
     void buyImprove(int n, int p);
     //void trade(int give, int take, Builder& other);
-    int getPlayerNum() {
-        return static_cast<int> (colour);
-    }
-    int getPoint() {
-        return this->points;
-    }
+    int getPlayerNum();
+    int getPoint();
     const vector<int> resourcelist();
     void losehalf();
     void steal(shared_ptr<Builder>);
 
     void printStatus();
+    void printRes();
 };
 
 
