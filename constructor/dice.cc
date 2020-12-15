@@ -47,5 +47,7 @@ void FairDice::roll(bool & valid) {
     std::default_random_engine rng{seed};
     std::shuffle( v.begin(), v.end(), rng );
     this->num = v[0];
+    valid = true;
+    return;
 }
 
