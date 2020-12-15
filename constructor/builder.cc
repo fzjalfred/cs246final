@@ -151,6 +151,18 @@ class no_enough_resources : public exception {
 void Builder::buyRes(int n, int p, bool init) {
     if (init) {
         this->notifyRes(n, p);
+        string b;
+        if ( p == 0) {
+            b = "B";
+        } else if ( p == 1) {
+            b = "R";
+        } else if ( p == 2) {
+            b = "O";
+        } else {
+            b = "Y";
+        }
+            
+        td->update("v",n,b,"B");
         return;
     } //initialization
     int& brick = this->resource[static_cast<int>(Resource::BRICK)];

@@ -51,8 +51,9 @@ int main(int argc, char* argv[]) {
     
     
     for( int i = 0; i < NUM_PLAYER && isload == 0;) {
-        string prompt = "Builder "+getPlayerColour(i)+" where do you want to build a basement?";
+        string prompt = "Builder "+getPlayerColour(i)+" where do you want to build a basement? ";
         cout<<prompt<<endl;
+        cout << "> ";
         try {
             cin.exceptions(ios::eofbit|ios::failbit);
             int pos;
@@ -81,6 +82,7 @@ int main(int argc, char* argv[]) {
     for( int i = NUM_PLAYER - 1; i >= 0 && isload == 0;) {
         string prompt = "Builder "+getPlayerColour(i)+" where do you want to build a basement?";
         cout<<prompt<<endl;
+        cout << "> ";
         try {
             cin.exceptions(ios::eofbit|ios::failbit);
             int pos;
@@ -107,6 +109,8 @@ int main(int argc, char* argv[]) {
     }
 
     // Game start
+
+    cout<<board.getTD();
 
     while (!board.checkWinner(winner))
     {
@@ -139,7 +143,8 @@ int main(int argc, char* argv[]) {
                     else if (cmd == "fair")
                     {
                         board.setFair();
-                        cout<<"Builder <<"<<getPlayerColour(i)<<"<< now has fair Dice."<<endl;
+                        cout<<"Builder "<<getPlayerColour(i)<<" now has fair Dice."<<endl;
+                        cout << "> ";
                     }
                     else if (cmd == "roll")
                     {
