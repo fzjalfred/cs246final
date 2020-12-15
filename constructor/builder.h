@@ -42,6 +42,8 @@ class Builder : public Observer, public Subject {
     void printStatus();
     void printRes();
     string saveBuilder();
+    void notifyImprove( int n, int p);
+    
 };
 
 

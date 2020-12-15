@@ -217,7 +217,23 @@ void Builder::buyRoad(int n, int p) {
         cout<<"You do not have enough resources."<<endl;
     }
 }
-
+void Builder::notifyImprove( int n, int type) {
+    char t;
+    if ( type  == 1) {
+        t = 'B';
+    } else if ( type == 2 ) {
+        t = 'H';
+    } else {
+        t = 'T';
+    }
+    int index = 0;
+    for ( auto i: housing) {
+        if (i.first == n) {
+            housing.at(index).second = t;
+        }
+        index ++;
+    }
+}
 
 void Builder::buyImprove(int n, int p) {
     vector< pair<int, char> >::iterator f = find_if(housing.begin(), housing.end(),[n](auto i) { 
@@ -265,7 +281,7 @@ void Builder::buyImprove(int n, int p) {
         
     } else if (cur == 'B') {
         if (brick >= 3 && energy >=2 && glass >= 2 && wifi>=1 && heat >=2) {
-            this->notifyImprove(n, p);
+            this->notifyImprove(n, 2);
             brick -=3;
             energy -=2;
             glass -=2;
@@ -273,16 +289,22 @@ void Builder::buyImprove(int n, int p) {
             heat -=2;
             this->points += 3;
             string player;
+            string pprintname;
             if ( p == 0) {
                 player = "B";
+                pprintname = "Blue";
             } else if ( p == 1) {
                 player = "R";
+                pprintname = "Red";
             } else if ( p == 2) {
                 player = "O";
+                pprintname = "Orange";
             } else {
                 player = "Y";
+                pprintname = "Yellow";
             }
             td->update("v", n, player, "H");
+            cout << "Builder " << pprintname << " successfully built a House at " << n << "." << endl;
         } else {
             cout<<"You do not have enough resources."<<endl;
             cout<<endl<<"The cost to improve a Basement to a House is two GLASS and three HEAT resource."<<endl;
@@ -319,16 +341,39 @@ void Builder::gain(int r, int num) {
 
 
 void Builder::printStatus(){
-    string text = "Builder " +getPlayerColour(static_cast<int>(colour)) +
-    "    has "+to_string(points)+" building points, "+to_string(resource.at(0))+
+    string pName;
+    if ( colour == Colour::Blue) {
+        pName = "Blue    ";
+    } else if ( colour == Colour::Red ) {
+        pName = "Red     ";
+    } else if ( colour == Colour::Orange ) {
+        pName = "Orange  ";
+    } else {
+        pName = "Yellow  ";
+    }
+    string text = "Builder " + pName +
+    "has "+to_string(points)+" building points, "+to_string(resource.at(0))+
     " BRICK, "+to_string(resource.at(1))+" ENERGY, "+to_string(resource.at(2))+" GLASS, "+to_string(resource.at(3))+" HEAT, "+to_string(resource.at(4))+" WIFI.";
     cout<<text<<endl;
+    
 }
 
 void Builder::printRes() {
-    cout<<getPlayerColour(static_cast<int> (colour))<<" has built: "<<endl;
+    string pName;
+    if ( colour == Colour::Blue) {
+        pName = "Blue";
+    } else if ( colour == Colour::Red ) {
+        pName = "Red";
+    } else if ( colour == Colour::Orange ) {
+        pName = "Orange";
+    } else {
+        pName = "Yellow";
+    }
+
+    cout << pName << " has built: " << endl;
+    sort(housing.begin(), housing.end());
     for (auto i: housing) {
-        cout<< i.first <<" "<< i.second;
+        cout<< i.first <<" "<< i.second << endl;
     }
 }
 

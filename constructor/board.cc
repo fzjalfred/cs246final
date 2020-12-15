@@ -9,7 +9,7 @@ using namespace std;
 
 void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, int> >& board, int geese ) {
     // init td
-    td = make_shared<TextDisplay>(board);
+    td = make_shared<TextDisplay>(board, geese);
     // init edges
     for ( int i = 0; i <= 71; i++) {
         edges.emplace_back(new Edge(i, -1)); // -1 represent no owner
@@ -23,6 +23,7 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
         make_shared<vector<shared_ptr<Edge>>> (edges), td);
     }
 
+    
     // init builders
     for ( int i = 0; i < 4; i++) {
         if (builderData.empty()) 
@@ -54,7 +55,7 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
         tiles.at(i)->attachB(make_shared<vector<shared_ptr<Builder>>> (builders));
     }
 
-    cout << "init f2" << endl;
+   
     // set owner for edge and vetice
     for ( int i = 0; i < 4; i++) {
         vector<int> & temRoad = builders.at(i)->getRoads();
@@ -67,12 +68,13 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
         }
     }
 
-    cout << "init f3" << endl;
     // init geese
     this->geese = geese;
-    tiles.at(geese)->initGeese();
+    if ( 0 <= geese && geese <= 18) {
+        tiles.at(geese)->initGeese();
+    }
 
-    cout << "init f4" << endl;
+
     // init dice
     this->dice = make_shared<LoadedDice> ();
 
@@ -86,8 +88,8 @@ void Board::setFair() {
     this->dice = make_shared<FairDice>();
 }
 
-void Board::roll() {
-    this->dice->roll();
+void Board::roll(bool & b) {
+    this->dice->roll(b);
 }
 
 int Board::getDiceNum() {

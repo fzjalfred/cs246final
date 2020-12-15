@@ -114,13 +114,12 @@ void layoutInit(string& out, vector<pair<int, int>>& layout, string& file) {
         int currFirst;
         int currSecond;
         while ( iss >> currFirst && iss >> currSecond) {
-            tmp.emplace_back(currFirst, currSecond);
+            layout.emplace_back(currFirst, currSecond);
             counter ++;
         } 
         if ( counter < 19) {
             throw exception();
         }
-        layout = tmp;
     } catch (exception &e) {
         throw InvalidFormat(file);
     }
@@ -197,7 +196,40 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
                 if (++i == len){
                     throw MissingArg(s, "seed");
                 }
-                seed = stoi(args[i]);
+                try {
+                    s = args[i];
+                    cout << s << endl;
+                    istringstream iss{s};
+                    if ( iss >> seed) {
+                        cout << seed << endl;
+                        default_random_engine rng{seed};
+                        vector<int> resources;
+                        vector<int> tiles;
+                        for ( int i=0; i<=18; i++) {
+                            resources.emplace_back(rand() % 5);
+                        }
+                        for ( int i=0; i<=18; i++) {
+                            tiles.emplace_back(2 + rand() % 11);
+                        }
+                        // test
+                        cout << "Res: ";
+                        for ( auto i: resources) {
+                            cout << i << " ";
+                        }
+                        cout << endl;
+                        cout << "Tile: ";
+                        for ( auto i: tiles) {
+                            cout << i << " ";
+                        }
+                        cout << endl;
+                        
+                        for(int i=0; i<=18; i++) {
+                            layout.emplace_back(resources.at(i), tiles.at(i));
+                        }  
+                    }
+                } catch (...){
+                    cout << "ERROR: invalid seed" << endl;
+                }
             }
             else if (s == "-load")
             {   
@@ -205,7 +237,6 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
                 if (preCmd == "") {
                     preCmd = s;
                 } else throw MultiArg(preCmd, s);
-                cout<<"run -board3"<<endl;
                 if (++i == len){
                     throw MissingArg(s, "filename");
                 }

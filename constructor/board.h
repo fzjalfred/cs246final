@@ -32,7 +32,7 @@ class Board {
     void improve(int pos, int player);
     void setLoad();
     void setFair();
-    void roll();
+    void roll(bool &);
     int getDiceNum();
     bool checkWinner(int &winner);
     void geeseSteal();

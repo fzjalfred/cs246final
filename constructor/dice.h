@@ -6,7 +6,7 @@ class Dice {
     protected:
     int num = -1;
     public:
-    virtual void roll() = 0;
+    virtual void roll(bool&) = 0;
     int getNum();
 };
 
@@ -14,12 +14,12 @@ class INVALID_ROLL {};
 
 class LoadedDice: public Dice {
     public:
-    void roll() override;
+    void roll( bool &) override;
 };
 
 class FairDice: public Dice {
     public:
-    void roll() override;
+    void roll(bool &) override;
 };
 
 #endif

@@ -31,19 +31,18 @@ int main(int argc, char* argv[]) {
     try {
         argsInitial(argc, argv, layout, curTurn, curData, geese, file, isload);
     } catch (exception& e) {
+        
         cout << e.what() <<endl;
         return 1;
-    }
-    
+    } 
     //initialize board by mutating the blank board.
+    
     cin.exceptions(ios::eofbit|ios::failbit);
     string cmd;
     Board board;
     try {
         board.init(curTurn, curData, layout, geese);
-        cout << "main init: " << geese << endl; 
         cout<<board.getTD();
-        cout << "td: " << geese << endl;
     } catch (exception& e) {
         InvalidFormat a(file);
         cout<<a.what()<<endl;
@@ -52,7 +51,7 @@ int main(int argc, char* argv[]) {
     
     
     for( int i = 0; i < NUM_PLAYER && isload == 0;) {
-        string prompt = "Builder <"+getPlayerColour(i)+">, where do you want to build a basement?";
+        string prompt = "Builder "+getPlayerColour(i)+" where do you want to build a basement?";
         cout<<prompt<<endl;
         try {
             cin.exceptions(ios::eofbit|ios::failbit);
@@ -80,23 +79,29 @@ int main(int argc, char* argv[]) {
     }
 
     for( int i = NUM_PLAYER - 1; i >= 0 && isload == 0;) {
-        string prompt = "Builder <"+getPlayerColour(i)+">, where do you want to build a basement?";
+        string prompt = "Builder "+getPlayerColour(i)+" where do you want to build a basement?";
         cout<<prompt<<endl;
         try {
+            cin.exceptions(ios::eofbit|ios::failbit);
             int pos;
             cin>>pos;
             if (pos<0||pos>NUM_VERTEX) throw out_of_range("pos");
             board.buildRes(pos, i, true);
             i--;
-        } catch (exception& e) {
+        } catch (invalid_build& e) {
+            cout<<e.what()<<endl;
+            board.printCurbuilt();
+        }
+        catch (exception& e) {
             cin.clear();
             if (cin.eof()) {
                 cout<<"End of file reached."<<endl;
                 return 1;
-            } else if (cin.fail()) {
+            } else {
                 string a;
                 getline(cin,a);
-                cout<<"Error: "<< prompt << " isn't a valid integer." <<endl;
+                cout<<"You cannot build here." <<endl;
+                board.printCurbuilt();
             }
         }
     }
@@ -138,12 +143,23 @@ int main(int argc, char* argv[]) {
                     }
                     else if (cmd == "roll")
                     {
-                        board.roll();
+                        bool valid = false;
+                        while ( !valid ) {
+                            board.roll(valid);
+                        }
+                        
                         break;
+                    }
+                    else if (cmd == "status")
+                    {
+                         board.printStatus();
+                         cout << "> ";
                     }
                     else
                     {
                         std::cout << "Invalid command." << std::endl;
+                        std::cout << "Please enter 'help' for a list of valid commands." << std::endl;
+                        std::cout << "> ";
                     }
                 }
 
@@ -164,6 +180,7 @@ int main(int argc, char* argv[]) {
                 {
                     cin.exceptions(ios::failbit|ios::eofbit);
                     cout<<"Enter a command"<<endl;
+                    cout<<"> ";
                     std::cin >> cmd;
                     if (cmd == "help" )
                     {

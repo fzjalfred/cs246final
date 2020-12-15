@@ -14,7 +14,7 @@ int Dice::getNum() {
 }
 
 
-void LoadedDice::roll()
+void LoadedDice::roll( bool & valid )
 {
     int dice;
     std::cout << "Input a roll between "+std::to_string(DICE_MIN)+" and "+std::to_string(DICE_MAX)+":" << std::endl;
@@ -28,17 +28,18 @@ void LoadedDice::roll()
             if (dice < DICE_MIN || dice > DICE_MAX || std::cin.fail() == true)
                 throw INVALID_ROLL{};
             this->num = dice;
+            valid = true;
             return;
         }
         catch (INVALID_ROLL)
         {
-            std::cout << "Invalid roll."<< dice << std::endl;
+            std::cout << "Invalid roll "<< dice << "."<< std::endl;
             return;
         }
     }
 }
 
-void FairDice::roll() {
+void FairDice::roll(bool & valid) {
     std::vector<int> v;
     for (int i = DICE_MIN; i <= DICE_MAX; i++) v.emplace_back(i);
     // use a time-based seed for the default seed value

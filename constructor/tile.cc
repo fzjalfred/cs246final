@@ -115,7 +115,6 @@ void Tile::giveResource(vector<pair<bool, vector<int>>>& sum, bool& nogain) {
     
     for (auto &i: vertices) {
         int owner = i->getOwner();
-        cout << "check owner: " << owner << endl; 
         if (owner == -1) continue;
         else nogain = 0;
         char type = i->getResType();
@@ -134,24 +133,6 @@ void Tile::giveResource(vector<pair<bool, vector<int>>>& sum, bool& nogain) {
             break;
         }
     }
-<<<<<<< HEAD
-    if (nogain == 0) {
-        cout<<"No builders gained resources."<<endl;
-    } else {
-        for (int i = 0; i < NUM_PLAYER; i++) {
-            if (sum.at(i).first == true) {
-                cout<<"Builder "<<getPlayerColour(i)<<" gained:"<<endl;
-                for (int c = 0; c < NUM_RESOURCE; c++) {
-                    int num = sum.at(i).second.at(c);
-                    string type = getResource(c);
-                    builders->at(i)->gain(c, num);
-                    cout<< num << type << endl;
-                }
-            }
-        }
-    }
-=======
->>>>>>> c8240bae710fa816df118339d533475020b74030
 }
 
 int Tile::checkVertex(int p) {
