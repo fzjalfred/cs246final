@@ -36,8 +36,9 @@ class Builder : public Observer, public Subject {
     const vector<int> resourcelist();
     void losehalf();
     void steal(shared_ptr<Builder>);
-    bool checkResource(int type);
+    bool checkResource(int type, int num = 1);
     void trade(shared_ptr<Builder>& who, int give, int take);
+    void obtain(int give, int take);
     
     void printStatus();
     void printRes();

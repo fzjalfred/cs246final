@@ -358,6 +358,10 @@ void Builder::trade(shared_ptr<Builder>& who, int give, int take) {
     cout<<colour2<<" gains one "<<resource1<<" and loses one "<<resource2<<"."<<endl;
 }
 
+void Builder::obtain(int give, int take) {
+    this->resource.at(give) -= 4;
+    this->resource.at(take) += 1;
+}
 
 int Builder::getPlayerNum() {
     return static_cast<int> (colour);
@@ -440,6 +444,6 @@ vector<pair<int,char>> & Builder::getHousing(){
     return this->housing;
 }
 
-bool Builder::checkResource(int type){
-    return this->resource.at(type) > 0; 
+bool Builder::checkResource(int type, int num){
+    return this->resource.at(type) >= num; 
 }

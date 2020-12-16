@@ -265,6 +265,14 @@ int main(int argc, char* argv[]) {
                         readResource(take);
                         board.trade(i,pos,give,take);
                     }
+                    else if (cmd == "market")
+                    {
+                        int give;
+                        int take;
+                        readResource(give);
+                        readResource(take);
+                        board.market(give, take, i);
+                    }
                     else if (cmd == "next")
                     {
                      cout<<board.getTD();

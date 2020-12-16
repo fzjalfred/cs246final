@@ -37,6 +37,7 @@ class Board {
     bool checkWinner(int &winner);
     void geeseSteal();
     void setGeese(int n, int p);
+    void market(int r1, int r2, int p);
     
     TextDisplay& getTD() {return *td;};
     void resourceProduce(int dice);

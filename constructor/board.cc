@@ -276,9 +276,9 @@ void Board::resourceProduce(int dice) {
 void Board::trade(int i, int who, int give, int take) {
     cin.exceptions(ios::eofbit|ios::failbit);
     if(builders.at(i)->checkResource(give) == false) {
-
+        cout<<"You don't have enough "<<getResource(give)<<"."<<endl;
     } else if (builders.at(who)->checkResource(take) == false) {
-
+        cout<<getPlayerColour(who)<< "don't have enough "<<getResource(give)<<"."<<endl;
     } else {
         string colour1 = getPlayerColour(i);
         string colour2 = getPlayerColour(who);
@@ -298,6 +298,17 @@ void Board::trade(int i, int who, int give, int take) {
     }
     
 }
+
+void Board::market(int give, int take, int i) {
+    if(builders.at(i)->checkResource(give, 4) == false) {
+        cout<<"You don't have enough "<<getResource(give)<<". "<<"You need 4"<<endl;
+    }
+    else {
+        builders.at(i)->obtain(give, take);
+        cout<<getPlayerColour(i)<<"gains one "<<getResource(take)<<" and loses four "<<getResource(give)<<"."<<endl;
+    }
+}
+
 
 void Board::printBoard() {
     cout<<*td<<endl;
