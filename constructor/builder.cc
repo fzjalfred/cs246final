@@ -121,7 +121,7 @@ void Builder::losehalf() {
         }
         
     }
-
+    cout<<"flag 1" <<endl;
 }
 
 const vector<int> Builder::resourcelist() {
@@ -190,19 +190,19 @@ void Builder::buyRes(int n, int p, bool init) {
     });
         this->points += 1;
         string player;
-        char t;
+        //char t;
         if ( p == 0) {
             player = "B";
-            t = 'B';
+            //t = 'B';
         } else if ( p == 1) {
             player = "R";
-            t = 'R';
+            //t = 'R';
         } else if ( p == 2) {
             player = "O";
-            t = 'O';
+            //t = 'O';
         } else {
             player = "Y";
-            t = 'Y';
+            //t = 'Y';
         }
         td->update("v", n, player, "B");
 

@@ -208,6 +208,7 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
                     InvalidOpen e(err);
                     throw e;
                 }
+                fin.close();
             }
             else if (s == "-board")
             {   
@@ -229,6 +230,7 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
                     InvalidOpen e(err);
                     throw e;
                 }
+                fin.close();
             }
             else if (s == "-random-board")
             {   
@@ -263,6 +265,7 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
             {
                 getline(fin, out);
                 file = "layout.txt";
+                fin.close();
                 layoutInit(out, layout, file); //transfer string of layout into numbers we use for next board intialization.
             }
             else
@@ -274,14 +277,13 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
 
     }
     catch (invalid_argument &e) {
-        cout<<"FLAG 3"<<endl;
+        //cout<<"FLAG 3"<<endl;
         InvalidFormat a(file);
         throw a;
     }
     catch (exception &e)
     {   
-        cout<<"FLAG 4"<<endl;
-        cout<<e.what()<<endl;
+        //cout<<"FLAG 4"<<endl;
         throw;
     }
 } 

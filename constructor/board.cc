@@ -44,7 +44,11 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
                                     {28,34,42,45,41,33}, {35,39,48,52,47,38}, {36,41,50,53,49,40}, {43,47,55,60,54,46}, {44,49,57,61,56,48}, 
                                     {45,51,59,62,58,50}, {52,56,64,67,63,55}, {53,58,66,68,65,57}, {61,65,70,71,69,64}};
     
+    int park = -1;
     for ( int i = 0; i <= 18; i++) {
+        if (board.at(i).second == 7) {
+            park = i;
+        }
         tiles.emplace_back(new Tile(i, board.at(i).second, board.at(i).first));
         for ( auto v: tileV.at(i) ) {
             tiles.at(i)->attachV(vertices.at(v));
@@ -69,9 +73,15 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
     }
 
     // init geese
+    if (geese == -1) {
+        geese = park;
+        this -> geese = geese;
+    } else
     this->geese = geese;
     if ( 0 <= geese && geese <= 18) {
         tiles.at(geese)->initGeese();
+    } else {
+        throw exception();
     }
 
 
