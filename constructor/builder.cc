@@ -354,8 +354,8 @@ void Builder::trade(shared_ptr<Builder>& who, int give, int take) {
     this->resource.at(take) += 1;
     who->resource.at(give) += 1;
     who->resource.at(take) -=1;
-    cout<<colour1<<"gains one "<<resource2<<" and loses one "<<resource1<<","<<endl;
-    cout<<colour2<<"gains one "<<resource1<<" and loses one "<<resource2<<""<<endl;
+    cout<<colour1<<" gains one "<<resource2<<" and loses one "<<resource1<<","<<endl;
+    cout<<colour2<<" gains one "<<resource1<<" and loses one "<<resource2<<"."<<endl;
 }
 
 
