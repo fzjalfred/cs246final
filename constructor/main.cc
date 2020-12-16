@@ -227,9 +227,11 @@ int main(int argc, char* argv[]) {
                     }
                     else if (cmd == "build-res")
                     {
+                        cout << "main: 230 build-res: "  << endl;
                         while (true) {
                             try {
                                 int pos = readInt(0, NUM_VERTEX);
+                                cout << "pos: " << pos << endl;
                                 board.buildRes(pos, i);
                             } catch (exception& e) {
                                 cout<<e.what()<<endl;

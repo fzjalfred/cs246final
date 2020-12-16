@@ -227,22 +227,16 @@ void Builder::buyRoad(int n, int p) {
 
         this->points += 1;
         string player;
-        string playerFull;
         if ( p == 0) {
             player = "B";
-            playerFull = "Blue";
         } else if ( p == 1) {
             player = "R";
-            playerFull = "Red";
         } else if ( p == 2) {
-            player = "O";
-            playerFull = "Orange";
+            player = "O";;
         } else {
             player = "Y";
-            playerFull = "Yellow";
         }
         td->update("e", n, player, "R");
-        cout << "Builder " << playerFull << " successfully built a Road at " << n << "." << endl;
         sort(roads.begin(), roads.end());
     } else {
         cout<<"> You do not have enough resources."<<endl;
@@ -283,7 +277,7 @@ void Builder::buyImprove(int n, int p) {
         cout<<"Invalid residence."<<endl;
     } else if (cur == 'T') {
         cout<< "You can't improve that building."<<endl;
-    } else if (cur == 'H') {
+    } else if (cur == 'B') {
         if (glass>=2 && heat >= 3) {
             try {
                 this->notifyImprove(n, p);
@@ -294,25 +288,30 @@ void Builder::buyImprove(int n, int p) {
             glass-=2;
             heat-=3;
             this->points += 2;
-            this->points += 1;
             string player;
+            string pprintname;
             if ( p == 0) {
                 player = "B";
+                pprintname = "Blue";
             } else if ( p == 1) {
                 player = "R";
+                pprintname = "Red";
             } else if ( p == 2) {
                 player = "O";
+                pprintname = "Orange";
             } else {
                 player = "Y";
+                pprintname = "Yellow";
             }
-            td->update("v", n, player, "T");
+            td->update("v", n, player, "H");
+            cout << "Builder " << pprintname << " successfully built a House at " << n << "." << endl;
         } else {
             cout<<"You do not have enough resources."<<endl;
             cout<<endl<<"The cost to improve a Basement to a House is two GLASS and three HEAT resource."<<endl;
             cout<<"The cost to improve a House to a Tower is three BRICK, two ENERGY, two GLASS, one WIFI, and two HEAT."<<endl;
         }
         
-    } else if (cur == 'B') {
+    } else if (cur == 'H') {
         if (brick >= 3 && energy >=2 && glass >= 2 && wifi>=1 && heat >=2) {
             this->notifyImprove(n, 2);
             brick -=3;
@@ -336,8 +335,8 @@ void Builder::buyImprove(int n, int p) {
                 player = "Y";
                 pprintname = "Yellow";
             }
-            td->update("v", n, player, "H");
-            cout << "Builder " << pprintname << " successfully built a House at " << n << "." << endl;
+            td->update("v", n, player, "T");
+            cout << "Builder " << pprintname << " successfully built a Tower at " << n << "." << endl;
         } else {
             cout<<"You do not have enough resources."<<endl;
             cout<<endl<<"The cost to improve a Basement to a House is two GLASS and three HEAT resource."<<endl;

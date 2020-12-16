@@ -131,25 +131,49 @@ void Board::buildRes(int pos, int player, bool init) {
 
 void Board::buildRoad(int pos, int player, bool init) {
     auto builder = builders.at(player);
-    try {
-        builder -> buyRoad(pos, player);
+    bool invalidBuild = false;
+    // check do not have owner
+    if (edges.at(pos)->getOwner() == player){
+        cout<<invalid_build().what()<<endl;
+        cout<<endl;
+        return;
     }
-    catch (exception& e) {
-        cout<< e.what() <<endl;
-    }   
     for (auto i: tiles) {
         int v = i->checkEdge(pos);
         if (v == -1) continue;
         if (i->checkAdjRes_road(v, player) == false) {
+            invalidBuild = true;
             cout<<invalid_build().what()<<endl;
+            cout<<endl;
             return;
         } else if (i->checkAdjRoad_road(v, player) == false) {
             cout <<invalid_build().what()<<endl;
+            cout <<endl;
+            invalidBuild = true;
             return;
         }
     }
-
+    try {
+        if ( ! invalidBuild ) {
+            string playerFull;
+            builder -> buyRoad(pos, player);
+            if ( player == 0) {
+                playerFull = "Blue";
+            } else if ( player == 1) {
+                playerFull = "Red";
+            } else if ( player == 2) {
+                playerFull = "Orange";
+            } else {
+                playerFull = "Yellow";
+            }
+            cout << "Builder " << playerFull << " successfully built a Road at " << pos << "." << endl; 
+        }
+    }
+    catch (exception& e) {
+        cout<< e.what() <<endl;
+    }  
     
+
 }
 
 void Board::improve(int pos, int player) {
