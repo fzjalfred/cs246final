@@ -126,6 +126,7 @@ void layoutInit(string& out, vector<pair<int, int>>& layout, string& file) {
 }
 
 void cmdLoadInit(std::ifstream& fin,  vector<pair<int, int>>& layout, int& curTurn, vector<string>& curData, int& geese, string& file) {
+    
     while (!fin.eof()) {
         string s;
         string out;
@@ -156,7 +157,6 @@ void cmdLoadInit(std::ifstream& fin,  vector<pair<int, int>>& layout, int& curTu
             }
             geese = tmp2;
         } catch (exception& any) {
-            cout << "here?" << endl;
             throw InvalidFormat(file);
         }
         break;
@@ -196,10 +196,11 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
                 if (++i == len){
                     throw MissingArg(s, "filename");
                 }
-                
+               
                 ifstream fin(args[i], ios::in); // open file
                 if (fin.is_open()) {
                     file = args[i];
+                    isload = 1;
                     cmdLoadInit(fin, layout, curTurn, curData, geese, file); // intiliaze everything with cmd -load
                 } else 
                 {

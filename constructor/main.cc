@@ -49,7 +49,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    
     for( int i = 0; i < NUM_PLAYER && isload == 0;) {
         string prompt = "Builder "+getPlayerColour(i)+" where do you want to build a basement? ";
         cout<<prompt<<endl;
@@ -76,7 +75,6 @@ int main(int argc, char* argv[]) {
                 cout<<"Error: "<< prompt << " isn't a valid integer." <<endl;
             }
         }
-
     }
 
     for( int i = NUM_PLAYER - 1; i >= 0 && isload == 0;) {
@@ -172,7 +170,8 @@ int main(int argc, char* argv[]) {
                 cout<<"Now you have : "<<dice<<endl;
                 if (dice == 7) {
                     board.geeseSteal();
-                    cout<<"Choose where to place the GEESE."<<endl;
+                    cout <<"Choose where to place the GEESE."<<endl;
+                    cout << "> ";
                     int n = readInt(0, 18);
                     board.setGeese(n, i);
                 } else {
@@ -264,8 +263,8 @@ int main(int argc, char* argv[]) {
                     }
                     else if (cmd == "next")
                     {
-                        cout<<board.getTD();
-                        break;
+                     cout<<board.getTD();
+                     break;
                     }
                     else if (cmd == "save")
                     {   

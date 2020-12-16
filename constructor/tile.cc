@@ -32,7 +32,7 @@ void Tile::geeseSteal() {
         }
         if (total >= 10)
         {
-            cout<<"Builder "<<getPlayerColour(i->getPlayerNum())<<" loses "<<total<<" resources to the geese. They lose:"<<endl;
+            cout<<"Builder "<<getPlayerColour(i->getPlayerNum())<<" loses "<<total/2<<" resources to the geese. They lose:"<<endl;
             i->losehalf();
         }
     });
@@ -64,7 +64,7 @@ void Tile::geeseMove(int p) {
         }
         if (stealist.empty())
         {
-            cout << "Builder <" << getPlayerColour(p) << "> has no builders to steal from."<<endl;
+            cout << "Builder " << getPlayerColour(p) << " has no builders to steal from."<<endl;
         }
         else
         {

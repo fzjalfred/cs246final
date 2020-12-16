@@ -249,6 +249,7 @@ void Board::geeseSteal() {
 }
 
 void Board::setGeese(int n, int p) {
+    td->setGeese(geese,n);
     tiles.at(geese)->geeseMove(p);
     tiles.at(n)->geeseMove(p);
     geese = n;

@@ -116,7 +116,10 @@ void Builder::losehalf() {
     }
     for (int i = 0; i < 5; i++) {
         this->resource.at(i) -= lost.at(i);
-        cout<<lost.at(i)<<" "<<getResource(i)<<endl;
+        if (lost.at(i) > 0 ) {
+            cout<< lost.at(i) <<" "<<getResource(i)<<endl;
+        }
+        
     }
 
 }
@@ -202,8 +205,10 @@ void Builder::buyRes(int n, int p, bool init) {
             t = 'Y';
         }
         td->update("v", n, player, "B");
+
         housing.emplace_back(n,'B');
     } else {
+        cout << endl;
         cout<<"You do not have enough resources."<<endl;
     }
 }
@@ -219,18 +224,25 @@ void Builder::buyRoad(int n, int p) {
             return;
         }
         roads.emplace_back(n);
+
         this->points += 1;
         string player;
+        string playerFull;
         if ( p == 0) {
             player = "B";
+            playerFull = "Blue";
         } else if ( p == 1) {
             player = "R";
+            playerFull = "Red";
         } else if ( p == 2) {
             player = "O";
+            playerFull = "Orange";
         } else {
             player = "Y";
+            playerFull = "Yellow";
         }
         td->update("e", n, player, "R");
+        cout << "Builder " << playerFull << " successfully built a Road at " << n << "." << endl;
         sort(roads.begin(), roads.end());
     } else {
         cout<<"> You do not have enough resources."<<endl;
