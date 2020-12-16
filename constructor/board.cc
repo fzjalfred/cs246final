@@ -122,8 +122,6 @@ void Board::buildRes(int pos, int player, bool init) {
     for (auto i: tiles) {
         int v = i->checkVertex(pos);
         if (v == -1) continue;
-        cout<<"pos: "<<pos<<endl;
-        cout<<"v: "<<v<<endl;
         if (i->checkAdjRes(v) == true) {
             invalid = 1;
         } else if (i->checkAdjRoad(v, player) == false && init == 0) {

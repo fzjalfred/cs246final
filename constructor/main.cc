@@ -17,7 +17,7 @@ extern const int NUM_EDGE;
 
 extern const int NUM_PLAYER;
 
-int main(int argc, char* argv[]) {
+void game(int argc, char* argv[], bool& playAgain) {
     vector< pair<int, int> > layout(0);
     int curTurn = -1;
     vector<string> curData(0);
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
     } catch (exception& e) {
         
         cout << e.what() <<endl;
-        return 1;
+        return;
     } 
     //initialize board by mutating the blank board.
     
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
     } catch (exception& e) {
         InvalidFormat a(file);
         cout<<a.what()<<endl;
-        return 1;
+        return;
     }
     
     for( int i = 0; i < NUM_PLAYER && isload == 0;) {
@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
             cin.clear();
             if (cin.eof()) {
                 cout<<"End of file reached."<<endl;
-                return 1;
+                return;
             } else {
                 string a;
                 getline(cin,a);
@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
             cin.clear();
             if (cin.eof()) {
                 cout<<"End of file reached."<<endl;
-                return 1;
+                return;
             } else {
                 string a;
                 getline(cin,a);
@@ -214,6 +214,7 @@ int main(int argc, char* argv[]) {
                     else if (cmd == "residences")
                     {
                         board.printRes(i);
+
                     }
                     else if (cmd == "build-road")
                     {
@@ -229,16 +230,36 @@ int main(int argc, char* argv[]) {
                     }
                     else if (cmd == "build-res")
                     {
-                        cout << "main: 230 build-res: "  << endl;
                         while (true) {
                             try {
                                 int pos = readInt(0, NUM_VERTEX);
-                                cout << "pos: " << pos << endl;
                                 board.buildRes(pos, i);
                             } catch (exception& e) {
                                 cout<<e.what()<<endl;
                             }
                             break;
+                        }
+                        if (board.checkWinner(winner)) {
+                            cout << endl;
+                            cout << "Builder " << getPlayerColour(i) << " reach 10 BUILDING POINTS!" << endl;
+                            cout << "============Builder " << getPlayerColour(i) << " Win!===============" << endl;
+                            cout << "Would you like to play again?" << endl;
+                            string reply;
+                            cin>>reply;
+                            to_lowercase(reply);
+                            if (reply == "yes") {
+                                playAgain = true;
+                            } else if (reply == "no") {
+                                cout << "Bye Bye! " << endl;
+                                cout << endl;
+                                std::ifstream f("goodbye.txt");
+                                if (f.is_open())
+                                std::cout << f.rdbuf();
+                                playAgain = false;
+                            } else {
+                                cout << "Please replay yes or no" << endl;
+                            }
+                            return;
                         }
                         
                     }
@@ -265,14 +286,6 @@ int main(int argc, char* argv[]) {
                         readResource(take);
                         board.trade(i,pos,give,take);
                     }
-                    else if (cmd == "market")
-                    {
-                        int give;
-                        int take;
-                        readResource(give);
-                        readResource(take);
-                        board.market(give, take, i);
-                    }
                     else if (cmd == "next")
                     {
                      cout<<board.getTD();
@@ -295,11 +308,18 @@ int main(int argc, char* argv[]) {
                 if (cin.eof()) {
                     cout<<"End of file reached."<<endl;
                     board.save(i, "backup.sv");
-                    return 1;
+                    return;
                 }
                 cout<<e.what()<<endl;
 
             }
         }
     }
+}
+
+int main(int argc, char* argv[]) {
+    bool playAgain = true;
+    while ( playAgain ){
+        game(argc, argv, playAgain);
+    }       
 }
