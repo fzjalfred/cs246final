@@ -118,25 +118,55 @@ void Board::printCurbuilt() {
 
 
 void Board::buildRes(int pos, int player, bool init) {
+    bool invalid = 0;
     for (auto i: tiles) {
         int v = i->checkVertex(pos);
         if (v == -1) continue;
+        cout<<"pos: "<<pos<<endl;
+        cout<<"v: "<<v<<endl;
         if (i->checkAdjRes(v) == true) {
-            if (init == 1) {
-                throw invalid_build();
-            }
-            cout<<invalid_build().what()<<endl;
-            return;
+            invalid = 1;
         } else if (i->checkAdjRoad(v, player) == false && init == 0) {
-            cout <<invalid_build().what()<<endl;
-            return;
+            invalid = 1;
+        } else {
+            invalid = 0;
+            break;
         }
+    }
+
+    if (invalid == 1 && init == 1) {
+        cout <<invalid_build().what()<<endl;
+        throw;
+    }
+
+    if (invalid == 1) {
+        cout <<invalid_build().what()<<endl;
+        return;
     }
     auto builder = builders.at(player);
     builder -> buyRes(pos, player, init);
     if (vertices.at(pos)->getOwner() != -1 && init == 1) {
         curbuilt.emplace_back(pos);
     }
+
+    string playerFull;
+    if (player == 0)
+    {
+        playerFull = "Blue";
+    }
+    else if (player == 1)
+    {
+        playerFull = "Red";
+    }
+    else if (player == 2)
+    {
+        playerFull = "Orange";
+    }
+    else
+    {
+        playerFull = "Yellow";
+    }
+    cout << "Builder " << playerFull << " successfully built a Basement at " << pos << "." << endl;
 }
 
 void Board::buildRoad(int pos, int player, bool init) {
@@ -148,21 +178,25 @@ void Board::buildRoad(int pos, int player, bool init) {
         cout<<endl;
         return;
     }
+
     for (auto i: tiles) {
         int v = i->checkEdge(pos);
         if (v == -1) continue;
         if (i->checkAdjRes_road(v, player) == false) {
             invalidBuild = true;
-            cout<<invalid_build().what()<<endl;
-            cout<<endl;
-            return;
         } else if (i->checkAdjRoad_road(v, player) == false) {
-            cout <<invalid_build().what()<<endl;
-            cout <<endl;
             invalidBuild = true;
-            return;
+        } else {
+            invalidBuild = false;
         }
     }
+
+    if (invalidBuild == true) {
+        cout <<invalid_build().what()<<endl;
+        cout <<endl;
+        return;
+    }
+
     try {
         if ( ! invalidBuild ) {
             string playerFull;

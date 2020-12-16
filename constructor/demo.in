@@ -1,0 +1,21 @@
+help
+load
+roll
+7
+10
+board
+status
+residences
+improve 25
+improve 30
+status
+board
+build-road 38
+build-road 37
+board
+build-res 38
+build-res 48
+build-road 29
+board
+status
+build-res 18
