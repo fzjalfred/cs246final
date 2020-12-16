@@ -1,1 +1,0 @@
-tool.o: tool.cc

@@ -121,7 +121,6 @@ void Builder::losehalf() {
         }
         
     }
-    cout<<"flag 1" <<endl;
 }
 
 const vector<int> Builder::resourcelist() {
@@ -287,7 +286,7 @@ void Builder::buyImprove(int n, int p) {
             }
             glass-=2;
             heat-=3;
-            this->points += 2;
+            this->points += 1;
             string player;
             string pprintname;
             if ( p == 0) {
@@ -319,7 +318,7 @@ void Builder::buyImprove(int n, int p) {
             glass -=2;
             wifi -=1;
             heat -=2;
-            this->points += 3;
+            this->points += 1;
             string player;
             string pprintname;
             if ( p == 0) {
