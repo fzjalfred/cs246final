@@ -124,7 +124,6 @@ void Board::buildRes(int pos, int player, bool init) {
     }
     auto builder = builders.at(player);
     builder -> buyRes(pos, player, init);
-
     if (vertices.at(pos)->getOwner() != -1 && init == 1) {
         curbuilt.emplace_back(pos);
     }

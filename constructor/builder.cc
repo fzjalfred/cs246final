@@ -163,6 +163,7 @@ void Builder::buyRes(int n, int p, bool init) {
         }
             
         td->update("v",n,b,"B");
+        housing.emplace_back(n,'B');
         return;
     } //initialization
     int& brick = this->resource[static_cast<int>(Resource::BRICK)];
@@ -186,16 +187,22 @@ void Builder::buyRes(int n, int p, bool init) {
     });
         this->points += 1;
         string player;
+        char t;
         if ( p == 0) {
             player = "B";
+            t = 'B';
         } else if ( p == 1) {
             player = "R";
+            t = 'R';
         } else if ( p == 2) {
             player = "O";
+            t = 'O';
         } else {
             player = "Y";
+            t = 'Y';
         }
         td->update("v", n, player, "B");
+        housing.emplace_back(n,'B');
     } else {
         cout<<"You do not have enough resources."<<endl;
     }

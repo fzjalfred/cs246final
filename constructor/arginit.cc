@@ -167,25 +167,14 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
     int i;
     unsigned seed = 0;
     string out;
+
+    int isLoad = 0;
+    int isRandom = 0;
+    int isBoard = 0;
+
     try
     {
         string preCmd = ""; // used in MultiArg exception
-
-        // default cmd
-        if ( len == 1) {
-            ifstream fin("layout.txt", ios::in); // open file
-            if (fin.is_open())
-            {
-                getline(fin, out);
-                file = "layout.txt";
-                layoutInit(out, layout, file); //transfer string of layout into numbers we use for next board intialization.
-            }
-            else
-            {
-                InvalidOpenDefault e;
-                throw e;
-            }
-        }
 
         // user give arguments
         for (i = 1; i < len; i++)
@@ -196,44 +185,11 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
                 if (++i == len){
                     throw MissingArg(s, "seed");
                 }
-                try {
-                    s = args[i];
-                    cout << s << endl;
-                    istringstream iss{s};
-                    if ( iss >> seed) {
-                        cout << seed << endl;
-                        default_random_engine rng{seed};
-                        vector<int> resources;
-                        vector<int> tiles;
-                        for ( int i=0; i<=18; i++) {
-                            resources.emplace_back(rand() % 5);
-                        }
-                        for ( int i=0; i<=18; i++) {
-                            tiles.emplace_back(2 + rand() % 11);
-                        }
-                        // test
-                        cout << "Res: ";
-                        for ( auto i: resources) {
-                            cout << i << " ";
-                        }
-                        cout << endl;
-                        cout << "Tile: ";
-                        for ( auto i: tiles) {
-                            cout << i << " ";
-                        }
-                        cout << endl;
-                        
-                        for(int i=0; i<=18; i++) {
-                            layout.emplace_back(resources.at(i), tiles.at(i));
-                        }  
-                    }
-                } catch (...){
-                    cout << "ERROR: invalid seed" << endl;
-                }
+                seed = stoi(args[i]);
             }
             else if (s == "-load")
             {   
-                
+                isLoad = 1;
                 if (preCmd == "") {
                     preCmd = s;
                 } else throw MultiArg(preCmd, s);
@@ -251,10 +207,10 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
                     InvalidOpen e(err);
                     throw e;
                 }
-                isload = 1;
             }
             else if (s == "-board")
             {   
+                isBoard = 1;
                 if (preCmd == "") {
                     preCmd = s;
                 } else throw MultiArg(preCmd, s);
@@ -275,6 +231,7 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
             }
             else if (s == "-random-board")
             {   
+                isRandom = 1;
                 if (preCmd == "") {
                     preCmd = s;
                 } else throw MultiArg(preCmd, s);
@@ -296,6 +253,24 @@ void argsInitial(int len, char**& args,  vector<pair<int, int>>& layout, int& cu
                 throw e;
             }
         }
+
+        // default cmd
+        int seed_used = isRandom+ isBoard + isLoad; 
+        if ( len == 1 || seed_used == 0) {
+            ifstream fin("layout.txt", ios::in); // open file
+            if (fin.is_open())
+            {
+                getline(fin, out);
+                file = "layout.txt";
+                layoutInit(out, layout, file); //transfer string of layout into numbers we use for next board intialization.
+            }
+            else
+            {
+                InvalidOpenDefault e;
+                throw e;
+            }
+        }
+
     }
     catch (invalid_argument &e) {
         cout<<"FLAG 3"<<endl;
