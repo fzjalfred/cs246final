@@ -129,7 +129,14 @@ void Board::buildRes(int pos, int player, bool init) {
     }
 }
 
-void Board::buildRoad(int pos, int player) {
+void Board::buildRoad(int pos, int player, bool init) {
+    auto builder = builders.at(player);
+    try {
+        builder -> buyRoad(pos, player);
+    }
+    catch (exception& e) {
+        cout<< e.what() <<endl;
+    }   
     for (auto i: tiles) {
         int v = i->checkEdge(pos);
         if (v == -1) continue;
@@ -142,13 +149,7 @@ void Board::buildRoad(int pos, int player) {
         }
     }
 
-    auto builder = builders.at(player);
-    try {
-        builder -> buyRoad(pos, player);
-    }
-    catch (exception& e) {
-        cout<< e.what() <<endl;
-    }   
+    
 }
 
 void Board::improve(int pos, int player) {

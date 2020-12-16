@@ -264,6 +264,7 @@ int main(int argc, char* argv[]) {
                     }
                     else if (cmd == "next")
                     {
+                        cout<<board.getTD();
                         break;
                     }
                     else if (cmd == "save")

@@ -233,7 +233,9 @@ void Builder::buyRoad(int n, int p) {
         td->update("e", n, player, "R");
         sort(roads.begin(), roads.end());
     } else {
-        cout<<"You do not have enough resources."<<endl;
+        cout<<"> You do not have enough resources."<<endl;
+        cout << endl;
+        cout <<"The cost of a Road is one HEAT and one WIFI resource." <<endl;
     }
 }
 void Builder::notifyImprove( int n, int type) {

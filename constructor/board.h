@@ -27,7 +27,7 @@ class Board {
 
     public:
     void init(int, vector<string>&, vector< pair<int, int> >&, int);
-    void buildRoad(int pos, int player);
+    void buildRoad(int pos, int player, bool init = false);
     void buildRes(int pos, int player, bool init = 0);
     void improve(int pos, int player);
     void setLoad();
