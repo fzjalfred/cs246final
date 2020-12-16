@@ -165,6 +165,7 @@ void Builder::buyRes(int n, int p, bool init) {
         }
             
         td->update("v",n,b,"B");
+        this->points += 1;
         housing.emplace_back(n,'B');
         return;
     } //initialization

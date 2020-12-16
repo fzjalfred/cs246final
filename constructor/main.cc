@@ -106,7 +106,11 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // Game startcons
+    // Game start
+
+    if ( ! isload) {
+        cout<<board.getTD();
+    }
 
     while (!board.checkWinner(winner))
     {
