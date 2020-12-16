@@ -250,8 +250,9 @@ void Board::trade(int i, int who, int give, int take) {
         string colour2 = getPlayerColour(who);
         string resource1 = getResource(give);
         string resource2 = getResource(take);
-        cout<<colour1<< "offers "<<colour2<<" one "<<resource1<<" for one "<<resource2
-        <<".Does "<<colour2<<" accept this offer?"<<endl;
+        cout<< "> > > "<<colour1<< " offers "<<colour2<<" one "<<resource1<<" for one "<<resource2<<"." << endl;
+        cout << "Does "<<colour2<<" accept this offer?"<<endl;
+        cout << "> ";
         string reply;
         cin>>reply;
         to_lowercase(reply);
