@@ -17,7 +17,8 @@ extern const int NUM_EDGE;
 
 extern const int NUM_PLAYER;
 
-void game(int argc, char* argv[], bool& playAgain) {
+
+int main(int argc, char* argv[]) {
     vector< pair<int, int> > layout(0);
     int curTurn = -1;
     vector<string> curData(0);
@@ -26,17 +27,19 @@ void game(int argc, char* argv[], bool& playAgain) {
     string file = "";
     int winner = -1;
 
+    bool playAgain = 0;
     bool isload = 0;
-    // argument passing
+    
+        // argument passing
     try {
         argsInitial(argc, argv, layout, curTurn, curData, geese, file, isload);
     } catch (exception& e) {
         
         cout << e.what() <<endl;
-        return;
+        return 1;
     } 
     //initialize board by mutating the blank board.
-    
+    while (playAgain == 1) {
     cin.exceptions(ios::eofbit|ios::failbit);
     string cmd;
     Board board;
@@ -46,11 +49,11 @@ void game(int argc, char* argv[], bool& playAgain) {
     } catch (exception& e) {
         InvalidFormat a(file);
         cout<<a.what()<<endl;
-        return;
+        return 1;
     }
     
     for( int i = 0; i < NUM_PLAYER && isload == 0;) {
-        string prompt = "Builder "+getPlayerColour(i)+" where do you want to build a basement? ";
+        string prompt = "Builder "+ getPlayerColour(i)+" where do you want to build a basement? ";
         cout<<prompt<<endl;
         cout << "> ";
         try {
@@ -68,7 +71,7 @@ void game(int argc, char* argv[], bool& playAgain) {
             cin.clear();
             if (cin.eof()) {
                 cout<<"End of file reached."<<endl;
-                return;
+                return 1;
             } else {
                 string a;
                 getline(cin,a);
@@ -96,7 +99,7 @@ void game(int argc, char* argv[], bool& playAgain) {
             cin.clear();
             if (cin.eof()) {
                 cout<<"End of file reached."<<endl;
-                return;
+                return 1;
             } else {
                 string a;
                 getline(cin,a);
@@ -238,29 +241,6 @@ void game(int argc, char* argv[], bool& playAgain) {
                             }
                             break;
                         }
-                        if (board.checkWinner(winner)) {
-                            cout << endl;
-                            cout << "Builder " << getPlayerColour(i) << " reach 10 BUILDING POINTS!" << endl;
-                            cout << "============Builder " << getPlayerColour(i) << " Win!===============" << endl;
-                            cout << "Would you like to play again?" << endl;
-                            string reply;
-                            cin>>reply;
-                            to_lowercase(reply);
-                            if (reply == "yes") {
-                                playAgain = true;
-                            } else if (reply == "no") {
-                                cout << "Bye Bye! " << endl;
-                                cout << endl;
-                                std::ifstream f("goodbye.txt");
-                                if (f.is_open())
-                                std::cout << f.rdbuf();
-                                playAgain = false;
-                            } else {
-                                cout << "Please replay yes or no" << endl;
-                            }
-                            return;
-                        }
-                        
                     }
                     else if (cmd == "improve")
                     {
@@ -314,19 +294,45 @@ void game(int argc, char* argv[], bool& playAgain) {
                 if (cin.eof()) {
                     cout<<"End of file reached."<<endl;
                     board.save(i, "backup.sv");
-                    return;
+                    return 1;
                 }
                 cout<<e.what()<<endl;
 
             }
         }
     }
-}
-
-int main(int argc, char* argv[]) {
-    bool playAgain = true;
-    while ( playAgain ){
-        game(argc, argv, playAgain);
-    }       
+    if (board.checkWinner(winner)) {
+        cout << endl;
+        cout << "Builder " << getPlayerColour(winner) << " reach 10 BUILDING POINTS!" << endl;
+        cout << "============Builder " << getPlayerColour(winner) << " Win!===============" << endl;
+        cout << "Would you like to play again?" << endl;
+        string reply;
+        while (cin >> reply)
+        {
+            to_lowercase(reply);
+            if (reply == "yes")
+            {
+                playAgain = true;
+                break;
+            }
+            else if (reply == "no")
+            {
+                cout << "Bye Bye! " << endl;
+                cout << endl;
+                std::ifstream f("goodbye.txt");
+                if (f.is_open())
+                    std::cout << f.rdbuf();
+                playAgain = false;
+                break;
+            }
+            else
+            {
+                cout << "Please replay yes or no" << endl;
+            }
+        }
+        return 1;
+    }
+    }
+        
 }
 

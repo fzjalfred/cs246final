@@ -119,12 +119,12 @@ void Board::printCurbuilt() {
 
 void Board::buildRes(int pos, int player, bool init) {
     bool invalid = 0;
-    int tileN = 0;
     for (auto i: tiles) {
         int v = i->checkVertex(pos);
         if (v == -1) continue;
         if (i->checkAdjRes(v) == true) {
             invalid = 1;
+            break;
         } else if ( init == 0 && i->checkAdjRoad(v, player) == false ) {
             invalid = 1;
         } else {
@@ -134,8 +134,7 @@ void Board::buildRes(int pos, int player, bool init) {
     }
 
     if (invalid == 1 && init == 1) {
-        cout <<invalid_build().what()<<endl;
-        throw;
+        throw invalid_build();
     }
 
     if (invalid == 1) {
