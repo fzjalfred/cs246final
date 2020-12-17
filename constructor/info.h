@@ -21,3 +21,4 @@ const int DICE_MAX = 12;
 const int SCORE_TO_WIN = 10;
 
 #endif
+

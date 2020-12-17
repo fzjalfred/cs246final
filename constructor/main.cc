@@ -120,7 +120,6 @@ void game(int argc, char* argv[], bool& playAgain) {
             cout << "> ";
             try
             {
-
                 // roll the dice
                 while (true)
                 {   std::cin >> cmd;
@@ -286,6 +285,13 @@ void game(int argc, char* argv[], bool& playAgain) {
                         readResource(take);
                         board.trade(i,pos,give,take);
                     }
+                    else if (cmd == "market") {
+                        int give;
+                        int take;
+                        readResource(give);
+                        readResource(take);
+                        board.market(give,take,i);
+                    }
                     else if (cmd == "next")
                     {
                      cout<<board.getTD();
@@ -323,3 +329,4 @@ int main(int argc, char* argv[]) {
         game(argc, argv, playAgain);
     }       
 }
+

@@ -119,12 +119,13 @@ void Board::printCurbuilt() {
 
 void Board::buildRes(int pos, int player, bool init) {
     bool invalid = 0;
+    int tileN = 0;
     for (auto i: tiles) {
         int v = i->checkVertex(pos);
         if (v == -1) continue;
         if (i->checkAdjRes(v) == true) {
             invalid = 1;
-        } else if (i->checkAdjRoad(v, player) == false && init == 0) {
+        } else if ( init == 0 && i->checkAdjRoad(v, player) == false ) {
             invalid = 1;
         } else {
             invalid = 0;
@@ -147,6 +148,7 @@ void Board::buildRes(int pos, int player, bool init) {
         curbuilt.emplace_back(pos);
     }
 
+    if ( !init ) {
     string playerFull;
     if (player == 0)
     {
@@ -165,6 +167,7 @@ void Board::buildRes(int pos, int player, bool init) {
         playerFull = "Yellow";
     }
     cout << "Builder " << playerFull << " successfully built a Basement at " << pos << "." << endl;
+    }
 }
 
 void Board::buildRoad(int pos, int player, bool init) {
@@ -208,7 +211,7 @@ void Board::buildRoad(int pos, int player, bool init) {
             } else {
                 playerFull = "Yellow";
             }
-            cout << "Builder " << playerFull << " successfully built a Road at " << pos << "." << endl; 
+            //cout << "Builder " << playerFull << " successfully built a Road at " << pos << "." << endl; 
         }
     }
     catch (exception& e) {
@@ -303,7 +306,7 @@ void Board::market(int give, int take, int i) {
     }
     else {
         builders.at(i)->obtain(give, take);
-        cout<<getPlayerColour(i)<<"gains one "<<getResource(take)<<" and loses four "<<getResource(give)<<"."<<endl;
+        cout<<getPlayerColour(i)<<" gains one "<<getResource(take)<<" and loses four "<<getResource(give)<<"."<<endl;
     }
 }
 

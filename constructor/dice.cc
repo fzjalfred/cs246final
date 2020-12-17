@@ -51,3 +51,4 @@ void FairDice::roll(bool & valid) {
     return;
 }
 
+
