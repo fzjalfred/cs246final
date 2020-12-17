@@ -70,11 +70,11 @@ int main(int argc, char* argv[]) {
             board.printCurbuilt();
         }
         catch (exception& e) {
-            cin.clear();
             if (cin.eof()) {
                 cout<<"End of file reached."<<endl;
                 return 1;
             } else {
+                cin.clear();
                 string a;
                 getline(cin,a);
                 cout<<"Error: "<< prompt << " isn't a valid integer." <<endl;
@@ -98,11 +98,11 @@ int main(int argc, char* argv[]) {
             board.printCurbuilt();
         }
         catch (exception& e) {
-            cin.clear();
             if (cin.eof()) {
                 cout<<"End of file reached."<<endl;
                 return 1;
             } else {
+                cin.clear();
                 string a;
                 getline(cin,a);
                 cout<<"You cannot build here." <<endl;

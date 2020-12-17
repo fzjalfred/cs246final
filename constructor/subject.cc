@@ -9,9 +9,9 @@
 void Subject::attach (shared_ptr< vector<shared_ptr<Vertex>> > vertices,
     shared_ptr< vector<shared_ptr<Edge>> > edges,
     shared_ptr<Observer> td) {
-        this->vertices = vertices;
-        this->edges = edges;
-        this->td = td;
+        this->vertices = vertices.get();
+        this->edges = edges.get();
+        this->td = td.get();
     }
 
 void Subject::notifyRes(int n, int p) {

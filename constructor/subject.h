@@ -13,9 +13,9 @@ using namespace std;
 class TextDisplay;
 
 class Subject {
-    shared_ptr< vector<shared_ptr<Vertex>> > vertices = nullptr;
-    shared_ptr< vector<shared_ptr<Edge>> > edges = nullptr;
-    shared_ptr<Observer> td = nullptr;
+    vector<shared_ptr<Vertex>>* vertices = nullptr;
+    vector<shared_ptr<Edge>>* edges = nullptr;
+    Observer* td = nullptr;
 
     public:
     void attach(shared_ptr< vector<shared_ptr<Vertex>> > vertices,
