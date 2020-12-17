@@ -28,6 +28,7 @@ int main(int argc, char* argv[]) {
     int winner = -1;
 
     bool playAgain = 0;
+    bool first = 1;
     bool isload = 0;
     
         // argument passing
@@ -39,7 +40,8 @@ int main(int argc, char* argv[]) {
         return 1;
     } 
     //initialize board by mutating the blank board.
-    while (playAgain == 1) {
+    while (playAgain == 1 || first == 1) {
+        first = 0;
     cin.exceptions(ios::eofbit|ios::failbit);
     string cmd;
     Board board;
