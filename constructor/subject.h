@@ -18,9 +18,12 @@ class Subject {
     Observer* td = nullptr;
 
     public:
-    void attach(shared_ptr< vector<shared_ptr<Vertex>> > vertices,
-    shared_ptr< vector<shared_ptr<Edge>> > edges,
-    shared_ptr<Observer> td);
+    //void attach(shared_ptr< vector<shared_ptr<Vertex>> > vertices,
+    //shared_ptr< vector<shared_ptr<Edge>> > edges,
+    //shared_ptr<Observer> td);
+    void attach(vector<shared_ptr<Vertex>>*  vertices,
+    vector<shared_ptr<Edge>>* edges,
+     Observer* td);
     void notifyRoad(int n, int p);
     void notifyRes(int n, int p);
     void notifyImprove( int n, int p);

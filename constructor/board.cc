@@ -13,14 +13,14 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
     // init edges
     for ( int i = 0; i <= 71; i++) {
         edges.emplace_back(new Edge(i, -1)); // -1 represent no owner
-        edges.at(i)->attach(make_shared<vector<shared_ptr<Vertex>>> (vertices),
-        make_shared<vector<shared_ptr<Edge>>> (edges), td);
+        edges.at(i)->attach(&vertices,
+        &edges, td.get());
     }
     // init vertices
     for ( int i = 0; i <=53; i++) {
         vertices.emplace_back(new Vertex(i, 'N', -1)); // 'N' represent no residence, -1 represent no owner
-        edges.at(i)->attach(make_shared<vector<shared_ptr<Vertex>>> (vertices),
-        make_shared<vector<shared_ptr<Edge>>> (edges), td);
+        edges.at(i)->attach(&vertices,
+        &edges, td.get());
     }
 
     
@@ -30,8 +30,8 @@ void Board::init( int curTurn, vector<string>& builderData, vector< pair<int, in
         builders.emplace_back(new Builder( static_cast<Colour>(i), td));
         else
         builders.emplace_back(new Builder( static_cast<Colour>(i), td, builderData.at(i)));
-        builders.back()->attach(make_shared<vector<shared_ptr<Vertex>>> (vertices),
-        make_shared<vector<shared_ptr<Edge>>> (edges), td);
+        builders.back()->attach(&vertices,
+        &edges, td.get());
     }
 
     // init tiles
@@ -118,26 +118,23 @@ void Board::printCurbuilt() {
 
 
 void Board::buildRes(int pos, int player, bool init) {
-    bool invalid = 0;
+    bool isAdjRes = 0;
+    //bool invalid = 0;
+    bool canBuild = 0;
     for (auto i: tiles) {
         int v = i->checkVertex(pos);
         if (v == -1) continue;
         if (i->checkAdjRes(v) == true) {
-            invalid = 1;
-            break;
-        } else if ( init == 0 && i->checkAdjRoad(v, player) == false ) {
-            invalid = 1;
-        } else {
-            invalid = 0;
-            break;
+            isAdjRes = 1;
+        } else if ( init == 1 || i->checkAdjRoad(v, player) == true ) {
+            canBuild = 1;
         }
     }
-
-    if (invalid == 1 && init == 1) {
+    if (isAdjRes == 1 && init == 1) {
         throw invalid_build();
     }
 
-    if (invalid == 1) {
+    if ((canBuild == 0 || isAdjRes == 1)&&init == 0) {
         cout <<invalid_build().what()<<endl;
         return;
     }
@@ -188,6 +185,7 @@ void Board::buildRoad(int pos, int player, bool init) {
             invalidBuild = true;
         } else {
             invalidBuild = false;
+            break;
         }
     }
 
