@@ -301,9 +301,10 @@ int main(int argc, char* argv[]) {
                 cout<<e.what()<<endl;
 
             }
+            if (board.checkWinner(winner)) break;
         }
     }
-    if (board.checkWinner(winner)) {
+    
         cout << endl;
         cout << "Builder " << getPlayerColour(winner) << " reach 10 BUILDING POINTS!" << endl;
         cout << "============Builder " << getPlayerColour(winner) << " Win!===============" << endl;
@@ -333,7 +334,7 @@ int main(int argc, char* argv[]) {
             }
         }
         return 1;
-    }
+
     }
         
 }

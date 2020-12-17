@@ -179,13 +179,12 @@ void Board::buildRoad(int pos, int player, bool init) {
     for (auto i: tiles) {
         int v = i->checkEdge(pos);
         if (v == -1) continue;
-        if (i->checkAdjRes_road(v, player) == false) {
-            invalidBuild = true;
-        } else if (i->checkAdjRoad_road(v, player) == false) {
-            invalidBuild = true;
-        } else {
+        if (i->checkAdjRes_road(v, player) == true||i->checkAdjRoad_road(v, player) == true) {
             invalidBuild = false;
             break;
+        } 
+        else {
+            invalidBuild = true;
         }
     }
 
@@ -208,7 +207,7 @@ void Board::buildRoad(int pos, int player, bool init) {
             } else {
                 playerFull = "Yellow";
             }
-            //cout << "Builder " << playerFull << " successfully built a Road at " << pos << "." << endl; 
+            cout << "Builder " << playerFull << " successfully built a Road at " << pos << "." << endl; 
         }
     }
     catch (exception& e) {
