@@ -1,29 +1,31 @@
 # cs246final
-
+  
 
 完结撒花
 
 游戏介绍 design.pdf
 
-demo测试 demo.pdf
+demo测试 demo.pdf  
 
+<br>
+    
+    
+**感谢大家的共同的努力。**
 
-感谢大家的共同的努力。
+  Berny Han
 
-Berny Han
+  Alfred Feng
 
-Alfred Feng
+  Infinite Han
+  
+<br>
 
-Infinite Han
-
-
-
-
-
+<br>
 
 git clone git@github.com:fzjalfred\cs246final.git
 
 ###注意事项###
+==============
 
 写的时候独立开出分支（branch）
 不要在主分区（master）上操作
