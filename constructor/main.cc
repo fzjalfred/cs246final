@@ -333,9 +333,8 @@ int main(int argc, char* argv[]) {
                 cout << "Please replay yes or no" << endl;
             }
         }
-        return 1;
 
     }
-        
+    return 1;   
 }
 

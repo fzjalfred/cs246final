@@ -1,1 +1,0 @@
-std::vector< std::pair<std::string, std::string> > layout;
