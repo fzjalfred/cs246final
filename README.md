@@ -2,13 +2,24 @@
 
 
 完结撒花
+
 游戏介绍 design.pdf
+
 demo测试 demo.pdf
 
+
 感谢大家的共同的努力。
+
 Berny Han
+
 Alfred Feng
+
 Infinite Han
+
+
+
+
+
 
 git clone git@github.com:fzjalfred\cs246final.git
 
